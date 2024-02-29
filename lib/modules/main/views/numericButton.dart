@@ -19,7 +19,8 @@ class NumericButton extends StatelessWidget {
             },
             child: Text(
               title,
-              style: TextStyle(fontSize: 30),
+              style: const TextStyle(fontSize: 30),
+              textAlign: TextAlign.center,
             )));
   }
 }

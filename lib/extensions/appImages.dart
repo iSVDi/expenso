@@ -6,13 +6,13 @@ extension AssetsImage on AppImages {
   String get _getPath {
     switch (this) {
       case AppImages.barChartIcon:
-        return "assets/barChartIcon.png";
+        return "barChartIcon.png";
       case AppImages.settingsIcon:
-        return "assets/settingsIcon.png";
+        return "settingsIcon.png";
     }
   }
 
   Image get assetsImage {
-    return Image.asset(_getPath);
+    return Image.asset("assets/$_getPath");
   }
 }
