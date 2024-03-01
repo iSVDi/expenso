@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import "numericButton.dart";
+import 'package:expenso/modules/main/amountStringUpdater.dart';
 
-enum ButtonType {
+enum NumericKeyboardButtonType {
   point("."),
   zero("0"),
   one("1"),
@@ -18,23 +19,31 @@ enum ButtonType {
   done("d");
 
   final String value;
-  const ButtonType(this.value);
+  const NumericKeyboardButtonType(this.value);
 }
 
-class OnScreenNumericKeyboard extends StatelessWidget {
+class OnScreenNumericKeyboard extends StatefulWidget {
   final Size size;
 
-  const OnScreenNumericKeyboard({
+  OnScreenNumericKeyboard({
     Key? key,
     required this.size,
   }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _OnScreenNumericKeyboard();
+}
+
+class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
+  late Text amountLabel = _getAmountLabel("0");
+  final AmountStringUpdater amountStringUpdator = AmountStringUpdater();
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: _getKeyboard(),
-      height: size.height,
-      width: size.width,
+      height: widget.size.height,
+      width: widget.size.width,
     );
   }
 
@@ -54,42 +63,55 @@ class OnScreenNumericKeyboard extends StatelessWidget {
       "15.06.2022\n12:56",
       style: TextStyle(color: Colors.greenAccent[400], fontSize: 18),
     );
-    return Row(children: [dateLabel]);
+
+    var space = const SizedBox(width: 27);
+
+    var header = Row(children: [dateLabel, space, amountLabel]);
+    return Container(
+        padding: const EdgeInsets.only(left: 32, right: 32), child: header);
   }
 
   Column _getNumericKeyboard() {
     var numerics = Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       _getNumericButtonRows([
-        ButtonType.seven,
-        ButtonType.eight,
-        ButtonType.nine,
-        ButtonType.delete
+        NumericKeyboardButtonType.seven,
+        NumericKeyboardButtonType.eight,
+        NumericKeyboardButtonType.nine,
+        NumericKeyboardButtonType.delete
       ]),
-      _getNumericButtonRows(
-          [ButtonType.four, ButtonType.five, ButtonType.six, ButtonType.empty]),
-      _getNumericButtonRows(
-          [ButtonType.one, ButtonType.two, ButtonType.three, ButtonType.empty]),
       _getNumericButtonRows([
-        ButtonType.empty,
-        ButtonType.zero,
-        ButtonType.point,
-        ButtonType.done
+        NumericKeyboardButtonType.four,
+        NumericKeyboardButtonType.five,
+        NumericKeyboardButtonType.six,
+        NumericKeyboardButtonType.empty
+      ]),
+      _getNumericButtonRows([
+        NumericKeyboardButtonType.one,
+        NumericKeyboardButtonType.two,
+        NumericKeyboardButtonType.three,
+        NumericKeyboardButtonType.empty
+      ]),
+      _getNumericButtonRows([
+        NumericKeyboardButtonType.empty,
+        NumericKeyboardButtonType.zero,
+        NumericKeyboardButtonType.point,
+        NumericKeyboardButtonType.done
       ])
     ]);
     return numerics;
   }
 
-  Row _getNumericButtonRows(List<ButtonType> titles) {
+  Row _getNumericButtonRows(List<NumericKeyboardButtonType> titles) {
     var buttons = titles.map((type) {
       switch (type) {
-        case ButtonType.empty:
+        case NumericKeyboardButtonType.empty:
           return Expanded(child: _getEmptyButton());
-        case ButtonType.done:
+        case NumericKeyboardButtonType.done:
           return Expanded(child: _getDoneButton());
-        case ButtonType.delete:
+        case NumericKeyboardButtonType.delete:
           return Expanded(child: _getDeleteButton());
         default:
-          return Expanded(child: _getNumericButton(type.value));
+          return Expanded(child: _getNumericButton(type));
       }
     }).toList();
 
@@ -99,11 +121,11 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     );
   }
 
-  Widget _getNumericButton(String title) {
+  Widget _getNumericButton(NumericKeyboardButtonType type) {
     var button = NumericButton(
-        title: title,
+        title: type.value,
         callback: () {
-          _buttonHandler(title);
+          _buttonHandler(type);
         });
     return button;
   }
@@ -111,7 +133,7 @@ class OnScreenNumericKeyboard extends StatelessWidget {
   IconButton _getDeleteButton() {
     return IconButton(
         onPressed: () {
-          print("delete button pressed");
+          _buttonHandler(NumericKeyboardButtonType.delete);
         },
         icon: Icon(Icons.arrow_back));
   }
@@ -119,7 +141,7 @@ class OnScreenNumericKeyboard extends StatelessWidget {
   IconButton _getDoneButton() {
     return IconButton(
         onPressed: () {
-          print("done button pressed");
+          _buttonHandler(NumericKeyboardButtonType.done);
         },
         icon: Icon(Icons.done),
         style: ButtonStyle(
@@ -131,8 +153,19 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     return const TextButton(onPressed: null, child: Text(""));
   }
 
-//TODO: implement
-  void _buttonHandler(String title) {
-    print(title);
+  void _buttonHandler(NumericKeyboardButtonType type) {
+    setState(() {
+      var newAmount = amountStringUpdator.update(amountLabel.data, type);
+      var newLabel = _getAmountLabel(newAmount);
+      amountLabel = newLabel;
+    });
+  }
+
+  Text _getAmountLabel(String title) {
+    var a = "57,";
+    return Text(
+      title,
+      style: TextStyle(fontSize: 50),
+    );
   }
 }

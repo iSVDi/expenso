@@ -38,4 +38,3 @@ class MainView extends StatelessWidget {
     );
   }
 }
-
