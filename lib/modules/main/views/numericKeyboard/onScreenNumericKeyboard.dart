@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import "numericButton.dart";
-import 'package:expenso/modules/main/amountStringUpdater.dart';
+import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
 
 enum NumericKeyboardButtonType {
   point("."),

@@ -1,4 +1,4 @@
-import "views/onScreenNumericKeyboard.dart";
+import '../views/numericKeyboard/onScreenNumericKeyboard.dart';
 
 class AmountStringUpdater {
   final int _partWhole = 3; // count of numeric with point

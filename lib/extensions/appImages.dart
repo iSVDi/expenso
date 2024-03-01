@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 
-enum AppImages { barChartIcon, settingsIcon }
+enum AppImages { 
+  barChartIcon, settingsIcon }
 
 extension AssetsImage on AppImages {
   String get _getPath {
