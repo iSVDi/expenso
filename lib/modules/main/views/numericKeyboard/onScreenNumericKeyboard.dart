@@ -41,6 +41,7 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.green[100],
       child: _getKeyboard(),
       height: widget.size.height,
       width: widget.size.width,
@@ -64,9 +65,9 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
       style: TextStyle(color: Colors.greenAccent[400], fontSize: 18),
     );
 
-    var space = const SizedBox(width: 27);
-
-    var header = Row(children: [dateLabel, space, amountLabel]);
+    var header = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [dateLabel, amountLabel]);
     return Container(
         padding: const EdgeInsets.only(left: 32, right: 32), child: header);
   }
