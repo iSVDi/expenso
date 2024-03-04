@@ -1,5 +1,7 @@
+import 'package:expenso/extensions/dateTime.dart';
 import 'package:flutter/material.dart';
 import "numericButton.dart";
+import 'dateTimePicker.dart';
 import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
 
 enum NumericKeyboardButtonType {
@@ -25,7 +27,7 @@ enum NumericKeyboardButtonType {
 class OnScreenNumericKeyboard extends StatefulWidget {
   final Size size;
 
-  OnScreenNumericKeyboard({
+  const OnScreenNumericKeyboard({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -37,14 +39,15 @@ class OnScreenNumericKeyboard extends StatefulWidget {
 class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
   late Text amountLabel = _getAmountLabel("0");
   final AmountStringUpdater amountStringUpdator = AmountStringUpdater();
+  DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.green[100],
-      child: _getKeyboard(),
       height: widget.size.height,
       width: widget.size.width,
+      child: _getKeyboard(),
     );
   }
 
@@ -59,15 +62,33 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
     ]);
   }
 
+  Future _handleNewDateTime() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => DateTimePicker(
+              selectedDate: date,
+              callback: (date) {
+                if (date != null) {
+                  setState(() {
+                    this.date = date;
+                  });
+                }
+                Navigator.pop(context);
+              },
+            ));
+  }
+
   Widget _getKeyboardHeader() {
-    var dateLabel = Text(
-      "15.06.2022\n12:56",
-      style: TextStyle(color: Colors.greenAccent[400], fontSize: 18),
-    );
+    var datePickerButton = TextButton(
+        onPressed: () {
+          _handleNewDateTime();
+        },
+        child: Text("${date.formattedDate}\n${date.formattedTime}",
+            style: TextStyle(color: Colors.greenAccent[400], fontSize: 18)));
 
     var header = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [dateLabel, amountLabel]);
+        children: [datePickerButton, amountLabel]);
     return Container(
         padding: const EdgeInsets.only(left: 32, right: 32), child: header);
   }
@@ -136,7 +157,7 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
         onPressed: () {
           _buttonHandler(NumericKeyboardButtonType.delete);
         },
-        icon: Icon(Icons.arrow_back));
+        icon: const Icon(Icons.arrow_back));
   }
 
   IconButton _getDoneButton() {
@@ -144,7 +165,7 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
         onPressed: () {
           _buttonHandler(NumericKeyboardButtonType.done);
         },
-        icon: Icon(Icons.done),
+        icon: const Icon(Icons.done),
         style: ButtonStyle(
             backgroundColor:
                 MaterialStateProperty.all(Colors.greenAccent[400])));
@@ -163,10 +184,9 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
   }
 
   Text _getAmountLabel(String title) {
-    var a = "57,";
     return Text(
       title,
-      style: TextStyle(fontSize: 50),
+      style: const TextStyle(fontSize: 50),
     );
   }
 }

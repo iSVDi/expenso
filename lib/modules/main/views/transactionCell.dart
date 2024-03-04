@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:expenso/extensions/appColors.dart';
 
-//? Need add id?
+// TODO implement ID
 class Category {
   final Icon icon;
   final String title;
@@ -15,10 +15,12 @@ class Category {
 
 // TODO remove
   static Category getStamp() {
-    return Category(icon: Icon(Icons.medication_outlined), title: "medicine");
+    return Category(
+        icon: const Icon(Icons.medication_outlined), title: "medicine");
   }
 }
 
+// TODO implement ID
 class Transaction {
   final DateTime date;
   final String comment;
@@ -50,6 +52,7 @@ class Transaction {
 
 class TransactionCell extends StatelessWidget {
   final Transaction transaction;
+
   const TransactionCell({Key? key, required this.transaction})
       : super(key: key);
 
@@ -61,17 +64,18 @@ class TransactionCell extends StatelessWidget {
   Row _getCell() {
     var priceLabel = _getLabel(transaction.amount.toString(), Colors.black, 24);
     var transactionContainer = Container(
-        padding: EdgeInsets.only(left: 20),
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Row(children: [
-            transaction.category.icon,
-            _getLabel(transaction.category.title, AppColors.appGreen, 18)
-          ]),
-          _getLabel(transaction.comment, AppColors.appGreen, 12)
-        ]));
-
+      padding: const EdgeInsets.only(left: 20),
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Row(children: [
+         transaction.category.icon,
+         _getLabel(transaction.category.title, AppColors.appGreen, 18)
+        ]),
+        _getLabel(transaction.comment, AppColors.appGreen, 12)
+      ]),
+    );
     return Row(children: [priceLabel, transactionContainer]);
   }
+
 
   Text _getLabel(String title, Color titleColor, double fontSize) {
     return Text(title, style: TextStyle(fontSize: fontSize, color: titleColor));
