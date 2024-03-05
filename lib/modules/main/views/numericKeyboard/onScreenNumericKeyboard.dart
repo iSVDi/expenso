@@ -1,6 +1,6 @@
 import 'package:expenso/extensions/dateTime.dart';
+import 'package:expenso/modules/main/models/category.dart';
 import 'package:expenso/modules/main/views/cells/categoryCell.dart';
-import 'package:expenso/modules/main/views/cells/transactionCell.dart';
 import 'package:flutter/material.dart';
 import "numericButton.dart";
 import 'dateTimePicker.dart';

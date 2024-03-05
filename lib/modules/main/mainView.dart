@@ -1,3 +1,4 @@
+import "package:expenso/modules/main/models/transaction.dart";
 import "package:expenso/modules/main/views/cells/transactionCell.dart";
 import "package:expenso/modules/settings/settingsView.dart";
 import "package:flutter/material.dart";

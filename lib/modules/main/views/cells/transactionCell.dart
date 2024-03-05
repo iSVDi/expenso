@@ -1,62 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:expenso/modules/main/models/transaction.dart';
 import 'package:flutter/material.dart';
-
 import 'package:expenso/extensions/appColors.dart';
-
-// TODO implement ID
-class Category {
-  final Icon icon;
-  final String title;
-
-  Category({
-    required this.icon,
-    required this.title,
-  });
-
-// TODO remove
-  static Category getStamp() {
-    return Category(
-        icon: const Icon(Icons.medication_outlined), title: "medicine");
-  }
-
-  static List<Category> getStampList() {
-    List<Category> list = [];
-    for (var i = 0; i < 20; i++) {
-      list.add(Category.getStamp());
-    }
-    return list;
-  }
-}
-
-// TODO implement ID
-class Transaction {
-  final DateTime date;
-  final String comment;
-  final Category category;
-  final double amount;
-
-  Transaction({
-    required this.date,
-    required this.comment,
-    required this.category,
-    required this.amount,
-  });
-
-// TODO remove
-  static List<Transaction> getStampList() {
-    List<Transaction> list = [];
-
-    for (var i = 0; i < 10; i++) {
-      list.add(Transaction(
-          date: DateTime.now(),
-          comment: "cardio pills",
-          category: Category.getStamp(),
-          amount: 250));
-    }
-
-    return list;
-  }
-}
 
 class TransactionCell extends StatelessWidget {
   final Transaction transaction;

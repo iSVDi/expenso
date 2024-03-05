@@ -1,4 +1,4 @@
-import "package:expenso/modules/main/views/cells/transactionCell.dart";
+import "package:expenso/modules/main/models/category.dart";
 import "package:flutter/material.dart";
 
 class CategoryCell extends StatelessWidget {
