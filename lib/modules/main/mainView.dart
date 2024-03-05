@@ -1,9 +1,11 @@
+import "package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart";
 import "package:expenso/modules/main/models/transaction.dart";
 import "package:expenso/modules/main/views/cells/transactionCell.dart";
 import "package:expenso/modules/settings/settingsView.dart";
 import "package:flutter/material.dart";
 import 'package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart';
 import "package:expenso/extensions/appImages.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class MainView extends StatelessWidget {
   final _MainViewConstants constants = _MainViewConstants();
@@ -57,13 +59,15 @@ class MainView extends StatelessWidget {
     return Expanded(child: container);
   }
 
-  OnScreenNumericKeyboard _getKeyboard(BuildContext context) {
+  Widget _getKeyboard(BuildContext context) {
     var height = MediaQuery.of(context).size.height *
         _MainViewConstants.keyboardHeightRatio;
     var width = MediaQuery.of(context).size.width;
-    return OnScreenNumericKeyboard(
-      size: Size(width, height),
-    );
+    return BlocProvider(
+        create: (context) => KeyboardCubit(),
+        child: OnScreenNumericKeyboard(
+          size: Size(width, height),
+        ));
   }
 }
 

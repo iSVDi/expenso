@@ -2,58 +2,49 @@ import '../views/numericKeyboard/onScreenNumericKeyboard.dart';
 
 class AmountStringUpdater {
   final int _partWhole = 3; // count of numeric with point
-  String currentAmount = "";
 
-  String update(String? oldAmount, NumericKeyboardButtonType tappedButtonType) {
-    String safetyOldAmount = oldAmount ?? "";
-
-    if (safetyOldAmount.isEmpty) {
-      return safetyOldAmount;
-    }
-
-    currentAmount = safetyOldAmount;
-
+  String update(String oldValue, NumericKeyboardButtonType tappedButtonType) {
     switch (tappedButtonType) {
       case NumericKeyboardButtonType.delete:
-        _deleteSymbol();
+       oldValue = _deleteSymbol(oldValue);
       case NumericKeyboardButtonType.empty:
         break;
       case NumericKeyboardButtonType.point:
-        _addPoint();
+        oldValue = _addPoint(oldValue);
       default:
-        _addNumeric(tappedButtonType.value);
+        oldValue = _addNumeric(oldValue, tappedButtonType.value);
     }
-
-    return currentAmount;
+    return oldValue;
   }
 
-  void _addPoint() {
-    if ((!currentAmount.contains(NumericKeyboardButtonType.point.value))) {
-      currentAmount += NumericKeyboardButtonType.point.value;
+  String _addPoint(String oldValue) {
+    if ((!oldValue.contains(NumericKeyboardButtonType.point.value))) {
+      oldValue += NumericKeyboardButtonType.point.value;
     }
+    return oldValue;
   }
 
-  void _deleteSymbol() {
-    if (currentAmount.length > 1) {
-      currentAmount = currentAmount.substring(0, currentAmount.length - 1);
+  String _deleteSymbol(String oldValue) {
+    if (oldValue.length > 1) {
+      oldValue = oldValue.substring(0, oldValue.length - 1);
     } else {
-      currentAmount = NumericKeyboardButtonType.zero.value;
+      oldValue = NumericKeyboardButtonType.zero.value;
     }
+    return oldValue;
   }
 
-  void _addNumeric(String newNumeric) {
-    if (currentAmount.contains(NumericKeyboardButtonType.point.value)) {
-      var pointID =
-          currentAmount.indexOf(NumericKeyboardButtonType.point.value);
-      var partWholeLength =
-          currentAmount.substring(pointID, currentAmount.length).length;
+  String _addNumeric(String oldValue, String newNumeric) {
+    if (oldValue.contains(NumericKeyboardButtonType.point.value)) {
+      var pointID = oldValue.indexOf(NumericKeyboardButtonType.point.value);
+      var partWholeLength = oldValue.substring(pointID, oldValue.length).length;
       if (partWholeLength < _partWhole) {
-        currentAmount += newNumeric;
+        oldValue += newNumeric;
       }
-    } else if (currentAmount == NumericKeyboardButtonType.zero.value) {
-      currentAmount = newNumeric;
+    } else if (oldValue == NumericKeyboardButtonType.zero.value) {
+      oldValue = newNumeric;
     } else {
-      currentAmount += newNumeric;
+      oldValue += newNumeric;
     }
+    return oldValue;
   }
 }
