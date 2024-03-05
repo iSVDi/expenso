@@ -1,4 +1,6 @@
 import 'package:expenso/extensions/dateTime.dart';
+import 'package:expenso/modules/main/views/cells/categoryCell.dart';
+import 'package:expenso/modules/main/views/cells/transactionCell.dart';
 import 'package:flutter/material.dart';
 import "numericButton.dart";
 import 'dateTimePicker.dart';
@@ -17,8 +19,7 @@ enum NumericKeyboardButtonType {
   eight("8"),
   nine("9"),
   empty(""),
-  delete("x"),
-  done("d");
+  delete("x");
 
   final String value;
   const NumericKeyboardButtonType(this.value);
@@ -39,7 +40,9 @@ class OnScreenNumericKeyboard extends StatefulWidget {
 class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
   late Text amountLabel = _getAmountLabel("0");
   final AmountStringUpdater amountStringUpdator = AmountStringUpdater();
+  bool isEnteringAmount = true;
   DateTime date = DateTime.now();
+  List<Category> categories = Category.getStampList();
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +55,16 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
   }
 
   Widget _getKeyboard() {
-    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-      _getKeyboardHeader(),
-      const Divider(
-        thickness: 2,
-        color: Colors.black,
-      ),
-      _getNumericKeyboard()
+    return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
+      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        _getKeyboardHeader(),
+        const Divider(
+          thickness: 2,
+          color: Colors.black,
+        ),
+        _getNumericKeyboard()
+      ]),
+      _getDoneButton()
     ]);
   }
 
@@ -79,21 +85,51 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
   }
 
   Widget _getKeyboardHeader() {
-    var datePickerButton = TextButton(
-        onPressed: () {
-          _handleNewDateTime();
-        },
-        child: Text("${date.formattedDate}\n${date.formattedTime}",
-            style: TextStyle(color: Colors.greenAccent[400], fontSize: 18)));
+    Row header;
+    EdgeInsets padding;
+    if (isEnteringAmount) {
+      var datePickerButton = TextButton(
+          onPressed: () {
+            _handleNewDateTime();
+          },
+          child: Text("${date.formattedDate}\n${date.formattedTime}",
+              //TODO set color via appColors class
+              style: TextStyle(color: Colors.greenAccent[400], fontSize: 18)));
 
-    var header = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [datePickerButton, amountLabel]);
-    return Container(
-        padding: const EdgeInsets.only(left: 32, right: 32), child: header);
+      header = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [datePickerButton, amountLabel]);
+      padding = const EdgeInsets.only(left: 32, right: 32);
+    } else {
+      header = const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("+ add category",
+                style: TextStyle(color: Colors.black, fontSize: 18)),
+            Icon(Icons.arrow_back_ios_new)
+          ]);
+      padding = const EdgeInsets.only(left: 32, right: 32, top: 25, bottom: 25);
+    }
+
+    return Container(padding: padding, child: header);
   }
 
-  Column _getNumericKeyboard() {
+  Widget _getNumericKeyboard() {
+    if (!isEnteringAmount) {
+      var listView = ListView.builder(
+          itemCount: categories.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: CategoryCell(category: categories[index]),
+              onTap: () {
+                print(index);
+              },
+            );
+          });
+      var container = Container(
+          child: listView, padding: EdgeInsets.only(left: 32, right: 32));
+      return Expanded(child: container);
+    }
     var numerics = Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       _getNumericButtonRows([
         NumericKeyboardButtonType.seven,
@@ -117,7 +153,7 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
         NumericKeyboardButtonType.empty,
         NumericKeyboardButtonType.zero,
         NumericKeyboardButtonType.point,
-        NumericKeyboardButtonType.done
+        NumericKeyboardButtonType.empty,
       ])
     ]);
     return numerics;
@@ -128,8 +164,6 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
       switch (type) {
         case NumericKeyboardButtonType.empty:
           return Expanded(child: _getEmptyButton());
-        case NumericKeyboardButtonType.done:
-          return Expanded(child: _getDoneButton());
         case NumericKeyboardButtonType.delete:
           return Expanded(child: _getDeleteButton());
         default:
@@ -160,15 +194,20 @@ class _OnScreenNumericKeyboard extends State<OnScreenNumericKeyboard> {
         icon: const Icon(Icons.arrow_back));
   }
 
-  IconButton _getDoneButton() {
-    return IconButton(
-        onPressed: () {
-          _buttonHandler(NumericKeyboardButtonType.done);
-        },
-        icon: const Icon(Icons.done),
-        style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all(Colors.greenAccent[400])));
+  Container _getDoneButton() {
+    return Container(
+        padding: EdgeInsets.only(right: 5, bottom: 5),
+        child: IconButton(
+            onPressed: () {
+              setState(() {
+                isEnteringAmount = !isEnteringAmount;
+              });
+            },
+            icon: const Icon(Icons.done),
+            style: ButtonStyle(
+                minimumSize: const MaterialStatePropertyAll(Size(88, 88)),
+                backgroundColor:
+                    MaterialStateProperty.all(Colors.greenAccent[400]))));
   }
 
   TextButton _getEmptyButton() {

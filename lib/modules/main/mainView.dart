@@ -1,9 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import "package:expenso/modules/main/views/cells/transactionCell.dart";
 import "package:expenso/modules/settings/settingsView.dart";
 import "package:flutter/material.dart";
 import 'package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart';
 import "package:expenso/extensions/appImages.dart";
-import "views/transactionCell.dart";
 
 class MainView extends StatelessWidget {
   final _MainViewConstants constants = _MainViewConstants();
@@ -44,19 +43,17 @@ class MainView extends StatelessWidget {
   Widget _getBody(BuildContext context) {
     return Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: [_getTransactionListView(context), _getKeyboard(context)]);
+        children: [_getTransactionListView(), _getKeyboard(context)]);
   }
 
-  Widget _getTransactionListView(BuildContext context) {
-    var height = MediaQuery.of(context).size.height *
-        _MainViewConstants.transactionListHeightRatio;
-    return Container(
-        height: height,
-        padding: EdgeInsets.only(left: 32, right: 32),
-        child: ListView(
-            children: Transaction.getStampList()
-                .map((data) => TransactionCell(transaction: data))
-                .toList()));
+  Widget _getTransactionListView() {
+    var listView = ListView(
+        children: Transaction.getStampList()
+            .map((data) => TransactionCell(transaction: data))
+            .toList());
+    var container = Container(
+        child: listView, padding: EdgeInsets.only(left: 32, right: 32));
+    return Expanded(child: container);
   }
 
   OnScreenNumericKeyboard _getKeyboard(BuildContext context) {
@@ -70,6 +67,5 @@ class MainView extends StatelessWidget {
 }
 
 class _MainViewConstants {
-  static var keyboardHeightRatio = 0.479;
-  static var transactionListHeightRatio = 0.4;
+  static var keyboardHeightRatio = 0.43;
 }

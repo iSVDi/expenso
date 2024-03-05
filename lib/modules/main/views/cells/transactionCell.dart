@@ -18,6 +18,14 @@ class Category {
     return Category(
         icon: const Icon(Icons.medication_outlined), title: "medicine");
   }
+
+  static List<Category> getStampList() {
+    List<Category> list = [];
+    for (var i = 0; i < 20; i++) {
+      list.add(Category.getStamp());
+    }
+    return list;
+  }
 }
 
 // TODO implement ID
@@ -67,15 +75,14 @@ class TransactionCell extends StatelessWidget {
       padding: const EdgeInsets.only(left: 20),
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         Row(children: [
-         transaction.category.icon,
-         _getLabel(transaction.category.title, AppColors.appGreen, 18)
+          transaction.category.icon,
+          _getLabel(transaction.category.title, AppColors.appGreen, 18)
         ]),
         _getLabel(transaction.comment, AppColors.appGreen, 12)
       ]),
     );
     return Row(children: [priceLabel, transactionContainer]);
   }
-
 
   Text _getLabel(String title, Color titleColor, double fontSize) {
     return Text(title, style: TextStyle(fontSize: fontSize, color: titleColor));

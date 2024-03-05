@@ -18,8 +18,6 @@ class AmountStringUpdater {
         _deleteSymbol();
       case NumericKeyboardButtonType.empty:
         break;
-      case NumericKeyboardButtonType.done:
-        break;
       case NumericKeyboardButtonType.point:
         _addPoint();
       default:
