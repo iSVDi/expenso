@@ -1,4 +1,5 @@
 import "package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart";
+import "package:expenso/modules/main/cubits/keyboard/keyboardRepository.dart";
 import "package:expenso/modules/main/models/transaction.dart";
 import "package:expenso/modules/main/views/cells/transactionCell.dart";
 import "package:expenso/modules/settings/settingsView.dart";
@@ -55,8 +56,7 @@ class MainView extends StatelessWidget {
             .map((data) => TransactionCell(transaction: data))
             .toList());
     var container = Container(
-        padding: const EdgeInsets.only(left: 32, right: 32),
-        child: listView);
+        padding: const EdgeInsets.only(left: 32, right: 32), child: listView);
     return Expanded(child: container);
   }
 
@@ -64,11 +64,14 @@ class MainView extends StatelessWidget {
     var height = MediaQuery.of(context).size.height *
         _MainViewConstants.keyboardHeightRatio;
     var width = MediaQuery.of(context).size.width;
-    return BlocProvider(
+    var bloc = BlocProvider(
         create: (context) => KeyboardCubit(),
         child: OnScreenNumericKeyboard(
           size: Size(width, height),
         ));
+    var repositoryProvider = RepositoryProvider(
+        create: (context) => KeyboardRepository(), child: bloc);
+    return repositoryProvider;
   }
 }
 

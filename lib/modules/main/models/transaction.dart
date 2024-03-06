@@ -23,7 +23,7 @@ class Transaction {
       list.add(Transaction(
           date: DateTime.now(),
           comment: "cardio pills",
-          category: Category.getStamp(),
+          category: Category.getStamp(i),
           amount: 250));
     }
 

@@ -18,10 +18,7 @@ class TransactionCell extends StatelessWidget {
     var transactionContainer = Container(
       padding: const EdgeInsets.only(left: 20),
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        Row(children: [
-          transaction.category.icon,
-          _getLabel(transaction.category.title, AppColors.appGreen, 18)
-        ]),
+        _getLabel(transaction.category.title, AppColors.appGreen, 18),
         _getLabel(transaction.comment, AppColors.appGreen, 12)
       ]),
     );

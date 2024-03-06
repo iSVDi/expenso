@@ -10,6 +10,6 @@ class CategoryCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [category.icon, Text(category.title)]);
+    return Row(children: [Text(category.title)]);
   }
 }

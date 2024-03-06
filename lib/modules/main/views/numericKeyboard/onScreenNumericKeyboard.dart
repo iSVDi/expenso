@@ -1,3 +1,4 @@
+import 'package:expenso/modules/main/cubits/keyboard/keyboardRepository.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardStates.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart';
 import 'package:expenso/modules/main/models/category.dart';
@@ -42,10 +43,12 @@ class OnScreenNumericKeyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<KeyboardCubit, KeyboardState>(builder: (context, state) {
+    var bloc =
+        BlocBuilder<KeyboardCubit, KeyboardState>(builder: (context, state) {
       return SizedBox(
           height: size.height, width: size.width, child: _getKeyboard(context));
     });
+    return bloc;
   }
 
   Widget _getKeyboard(BuildContext context) {
