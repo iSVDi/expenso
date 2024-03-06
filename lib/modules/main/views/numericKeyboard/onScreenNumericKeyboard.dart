@@ -1,8 +1,10 @@
 import 'package:expenso/modules/main/cubits/keyboard/keyboardStates.dart';
+import 'package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart';
+import 'package:expenso/modules/main/views/numericKeyboard/dateTimePicker.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
-import 'package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart';
 import "numericButton.dart";
+import 'package:expenso/extensions/dateTime.dart';
 
 enum NumericKeyboardButtonType {
   point("."),
@@ -52,24 +54,39 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     ]);
   }
 
-  //TODO implement
-  Future _handleNewDateTime() async {}
+  Future _handleNewDateTime(BuildContext context) async {
+    KeyboardCubit cubit = context.read<KeyboardCubit>();
 
-//TODO implement
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => DateTimePicker(
+              selectedDate: cubit.getDate,
+              callback: (date) {
+                if (date != null) {
+                  cubit.updateDate(date);
+                }
+                Navigator.pop(context);
+              },
+            ));
+  }
+
   Widget _getKeyboardHeader(BuildContext context) {
     Row header;
     EdgeInsets padding;
-    // var datePickerButton = TextButton(
-    //     onPressed: () {
-    //       _handleNewDateTime();
-    //     },
-    //     child: Text("${date.formattedDate}\n${date.formattedTime}",
-    //         //TODO set color via appColors class
-    //         style: TextStyle(color: Colors.greenAccent[400], fontSize: 18)));
 
-    header = Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [_getAmountLabel(context.read<KeyboardCubit>().getAmount())]);
+    DateTime date = context.read<KeyboardCubit>().getDate;
+    var datePickerButton = TextButton(
+        onPressed: () {
+          _handleNewDateTime(context);
+        },
+        child: Text("${date.formattedDate}\n${date.formattedTime}",
+            //TODO set color via appColors class
+            style: TextStyle(color: Colors.greenAccent[400], fontSize: 18)));
+
+    header = Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      datePickerButton,
+      _getAmountLabel(context.read<KeyboardCubit>().getAmount)
+    ]);
     padding = const EdgeInsets.only(left: 32, right: 32);
     return Container(padding: padding, child: header);
   }

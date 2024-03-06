@@ -21,12 +21,11 @@ class _DateTimePickerState extends State<DateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: move text to special class
     var cancelButton = TextButton(
         onPressed: () {
           widget.callback(null);
         },
-        child: Text("Cancel"));
+        child: Text("Cancel")); //TODO: move text to special class
     var applyButton = TextButton(
         onPressed: () {
           widget.callback(widget._selectedDate);
@@ -37,8 +36,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
       content: SizedBox(
           height: MediaQuery.of(context).size.height * _screenHeightRatio,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _getDatePicker(),
-            _getTimePicker(),
+            _getDatePickerButton(),
+            _getTimePickerButton(),
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [cancelButton, applyButton])
@@ -46,7 +45,6 @@ class _DateTimePickerState extends State<DateTimePicker> {
     );
   }
 
-//? why non-void func work without any return in body?
   Future _handleSelectedDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
         context: context,
@@ -72,7 +70,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     }
   }
 
-  Widget _getDatePicker() {
+  Widget _getDatePickerButton() {
     return TextButton(
         onPressed: () {
           _handleSelectedDate(context);
@@ -80,7 +78,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
         child: Text(widget._selectedDate.formattedDate));
   }
 
-  Widget _getTimePicker() {
+  Widget _getTimePickerButton() {
     return TextButton(
         onPressed: () {
           _handleSelectedTime(context);
