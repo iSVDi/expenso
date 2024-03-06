@@ -1,5 +1,7 @@
 import 'package:expenso/modules/main/cubits/keyboard/keyboardStates.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart';
+import 'package:expenso/modules/main/models/category.dart';
+import 'package:expenso/modules/main/views/cells/categoryCell.dart';
 import 'package:expenso/modules/main/views/numericKeyboard/dateTimePicker.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
@@ -27,16 +29,22 @@ enum NumericKeyboardButtonType {
 
 class OnScreenNumericKeyboard extends StatelessWidget {
   final Size size;
+  List<Category> categories = Category.getStampList();
 
-  const OnScreenNumericKeyboard({
+  OnScreenNumericKeyboard({
     Key? key,
     required this.size,
   }) : super(key: key);
 
+  KeyboardCubit _getCubit(BuildContext context) {
+    return context.read<KeyboardCubit>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<KeyboardCubit, KeyboardState>(builder: (context, state) {
-      return _getKeyboard(context);
+      return SizedBox(
+          height: size.height, width: size.width, child: _getKeyboard(context));
     });
   }
 
@@ -50,13 +58,12 @@ class OnScreenNumericKeyboard extends StatelessWidget {
         ),
         _getNumericKeyboard(context)
       ]),
-      _getDoneButton()
+      _getDoneButton(context)
     ]);
   }
 
   Future _handleNewDateTime(BuildContext context) async {
-    KeyboardCubit cubit = context.read<KeyboardCubit>();
-
+    KeyboardCubit cubit = _getCubit(context);
     showDialog(
         context: context,
         builder: (BuildContext context) => DateTimePicker(
@@ -73,52 +80,90 @@ class OnScreenNumericKeyboard extends StatelessWidget {
   Widget _getKeyboardHeader(BuildContext context) {
     Row header;
     EdgeInsets padding;
+    var cubit = _getCubit(context);
 
-    DateTime date = context.read<KeyboardCubit>().getDate;
-    var datePickerButton = TextButton(
-        onPressed: () {
-          _handleNewDateTime(context);
-        },
-        child: Text("${date.formattedDate}\n${date.formattedTime}",
-            //TODO set color via appColors class
-            style: TextStyle(color: Colors.greenAccent[400], fontSize: 18)));
+    if (cubit.state is EnteringBasicDataState) {
+      DateTime date = cubit.getDate;
+      var datePickerButton = TextButton(
+          onPressed: () {
+            _handleNewDateTime(context);
+          },
+          child: Text("${date.formattedDate}\n${date.formattedTime}",
+              //TODO set color via appColors class
+              style: TextStyle(color: Colors.greenAccent[400], fontSize: 18)));
 
-    header = Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      datePickerButton,
-      _getAmountLabel(context.read<KeyboardCubit>().getAmount)
-    ]);
+      header = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [datePickerButton, _getAmountLabel(cubit.getAmount)]);
+    } else {
+      var button = IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            _getCubit(context).backCategoriesButtonHandler();
+          });
+      header =
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        const Text("+ add category",
+            style: TextStyle(color: Colors.black, fontSize: 18)),
+        IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new),
+            onPressed: () {
+              _getCubit(context).backCategoriesButtonHandler();
+            })
+      ]);
+      padding = const EdgeInsets.only(left: 32, right: 32, top: 25, bottom: 25);
+    }
+
     padding = const EdgeInsets.only(left: 32, right: 32);
     return Container(padding: padding, child: header);
   }
 
   Widget _getNumericKeyboard(BuildContext context) {
-    var numerics = Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-      _getNumericButtonRows([
-        NumericKeyboardButtonType.seven,
-        NumericKeyboardButtonType.eight,
-        NumericKeyboardButtonType.nine,
-        NumericKeyboardButtonType.delete
-      ], context),
-      _getNumericButtonRows([
-        NumericKeyboardButtonType.four,
-        NumericKeyboardButtonType.five,
-        NumericKeyboardButtonType.six,
-        NumericKeyboardButtonType.empty
-      ], context),
-      _getNumericButtonRows([
-        NumericKeyboardButtonType.one,
-        NumericKeyboardButtonType.two,
-        NumericKeyboardButtonType.three,
-        NumericKeyboardButtonType.empty
-      ], context),
-      _getNumericButtonRows([
-        NumericKeyboardButtonType.empty,
-        NumericKeyboardButtonType.zero,
-        NumericKeyboardButtonType.point,
-        NumericKeyboardButtonType.empty,
-      ], context)
-    ]);
-    return numerics;
+    var cubit = _getCubit(context);
+    if (cubit.state is SelectingCategoriesState) {
+      var listView = ListView.builder(
+          itemCount: categories.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: CategoryCell(category: categories[index]),
+              onTap: () {
+                print(index);
+              },
+            );
+          });
+      var container = Container(
+          padding: const EdgeInsets.only(left: 32, right: 32), child: listView);
+      return Expanded(child: container);
+    } else {
+      var numerics =
+          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        _getNumericButtonRows([
+          NumericKeyboardButtonType.seven,
+          NumericKeyboardButtonType.eight,
+          NumericKeyboardButtonType.nine,
+          NumericKeyboardButtonType.delete
+        ], context),
+        _getNumericButtonRows([
+          NumericKeyboardButtonType.four,
+          NumericKeyboardButtonType.five,
+          NumericKeyboardButtonType.six,
+          NumericKeyboardButtonType.empty
+        ], context),
+        _getNumericButtonRows([
+          NumericKeyboardButtonType.one,
+          NumericKeyboardButtonType.two,
+          NumericKeyboardButtonType.three,
+          NumericKeyboardButtonType.empty
+        ], context),
+        _getNumericButtonRows([
+          NumericKeyboardButtonType.empty,
+          NumericKeyboardButtonType.zero,
+          NumericKeyboardButtonType.point,
+          NumericKeyboardButtonType.empty,
+        ], context)
+      ]);
+      return numerics;
+    }
   }
 
   Row _getNumericButtonRows(
@@ -158,15 +203,12 @@ class OnScreenNumericKeyboard extends StatelessWidget {
         icon: const Icon(Icons.arrow_back));
   }
 
-  Container _getDoneButton() {
+  Container _getDoneButton(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(right: 5, bottom: 5),
         child: IconButton(
             onPressed: () {
-              //TODO update state
-              // setState(() {
-              // isEnteringAmount = !isEnteringAmount;
-              // });
+              _getCubit(context).saveAmount();
             },
             icon: const Icon(Icons.done),
             style: ButtonStyle(
@@ -180,7 +222,7 @@ class OnScreenNumericKeyboard extends StatelessWidget {
   }
 
   void _buttonHandler(NumericKeyboardButtonType type, BuildContext context) {
-    context.read<KeyboardCubit>().updateAmount(type);
+    _getCubit(context).updateAmount(type);
   }
 
   Text _getAmountLabel(String title) {

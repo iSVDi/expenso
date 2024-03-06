@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import "package:flutter_bloc/flutter_bloc.dart";
 
 import "package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart";
@@ -9,7 +8,7 @@ import "keyboardStates.dart";
 class KeyboardCubit extends Cubit<KeyboardState> {
   final AmountStringUpdater _amountUpdater = AmountStringUpdater();
 
-  // This values using only for keeping data 
+  // This values using only for keeping data
   double _amount = double.parse(NumericKeyboardButtonType.zero.value);
   DateTime _date = DateTime.now();
 
@@ -33,7 +32,7 @@ class KeyboardCubit extends Cubit<KeyboardState> {
       var currentState = (state as EnteringBasicDataState).data;
       _amount = double.parse(currentState.$1);
       _date = currentState.$2;
-      //TODO emit new state
+      emit(SelectingCategoriesState(data: null));
     }
   }
 
@@ -43,5 +42,17 @@ class KeyboardCubit extends Cubit<KeyboardState> {
       var newState = EnteringBasicDataState(data: (currentState.$1, date));
       emit(newState);
     }
+  }
+
+  void backCategoriesButtonHandler() {
+    var stringAmount = "";
+    if (_amount % 1 == 0) {
+      // stringAmount
+      stringAmount = "${_amount.toInt()}";
+    } else {
+      stringAmount = "$_amount";
+    }
+
+    emit(EnteringBasicDataState(data: (stringAmount, _date)));
   }
 }

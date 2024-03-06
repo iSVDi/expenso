@@ -55,7 +55,8 @@ class MainView extends StatelessWidget {
             .map((data) => TransactionCell(transaction: data))
             .toList());
     var container = Container(
-        child: listView, padding: EdgeInsets.only(left: 32, right: 32));
+        padding: const EdgeInsets.only(left: 32, right: 32),
+        child: listView);
     return Expanded(child: container);
   }
 
