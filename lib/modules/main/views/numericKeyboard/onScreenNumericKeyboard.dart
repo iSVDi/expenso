@@ -28,6 +28,7 @@ enum NumericKeyboardButtonType {
   const NumericKeyboardButtonType(this.value);
 }
 
+//TODO too big class. Need do less via add a few classes for create keyboard and header
 class OnScreenNumericKeyboard extends StatelessWidget {
   final Size size;
   List<Category> categories = Category.getStampList();
@@ -99,21 +100,22 @@ class OnScreenNumericKeyboard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [datePickerButton, _getAmountLabel(cubit.getAmount)]);
     } else {
-      var button = IconButton(
+      var addCategoryButton = TextButton(
+        child: const Text("+ add Category",
+            style: TextStyle(color: Colors.black, fontSize: 18)),
+        onPressed: () {
+          //TODO implement
+          print("add category tapped");
+        },
+      );
+      var backButton = IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             _getCubit(context).backCategoriesButtonHandler();
           });
-      header =
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        const Text("+ add category",
-            style: TextStyle(color: Colors.black, fontSize: 18)),
-        IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () {
-              _getCubit(context).backCategoriesButtonHandler();
-            })
-      ]);
+      header = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [addCategoryButton, backButton]);
       padding = const EdgeInsets.only(left: 32, right: 32, top: 25, bottom: 25);
     }
 
@@ -121,22 +123,41 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     return Container(padding: padding, child: header);
   }
 
+  Widget _getCategoriesList(BuildContext context) {
+    var categories = context.read<KeyboardRepository>().getCategories();
+    return FutureBuilder(
+        future: categories,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            var categories = snapshot.requireData;
+            var listView = ListView.builder(
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  var needSetBold = _getCubit(context)
+                      .isNeedSetBoldCategoryTitle(categories[index]);
+                  var tile = ListTile(
+                    title: CategoryCell(
+                        needSetBold: needSetBold, category: categories[index]),
+                    onTap: () {
+                      _getCubit(context).selectCategory(categories[index]);
+                    },
+                  );
+                  return tile;
+                });
+            var container = Container(
+                padding: const EdgeInsets.only(left: 32, right: 32),
+                child: listView);
+            return Expanded(child: container);
+          }
+          return const Expanded(child: Text(""));
+        });
+  }
+
+// TODO divide on 2 or more func
   Widget _getNumericKeyboard(BuildContext context) {
     var cubit = _getCubit(context);
     if (cubit.state is SelectingCategoriesState) {
-      var listView = ListView.builder(
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: CategoryCell(category: categories[index]),
-              onTap: () {
-                print(index);
-              },
-            );
-          });
-      var container = Container(
-          padding: const EdgeInsets.only(left: 32, right: 32), child: listView);
-      return Expanded(child: container);
+      return _getCategoriesList(context);
     } else {
       var numerics =
           Column(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -211,7 +232,8 @@ class OnScreenNumericKeyboard extends StatelessWidget {
         padding: EdgeInsets.only(right: 5, bottom: 5),
         child: IconButton(
             onPressed: () {
-              _getCubit(context).saveAmount();
+              _getCubit(context).doneButtonHandler();
+testInsertCategory(context);
             },
             icon: const Icon(Icons.done),
             style: ButtonStyle(
@@ -233,5 +255,16 @@ class OnScreenNumericKeyboard extends StatelessWidget {
       title,
       style: const TextStyle(fontSize: 50),
     );
+  }
+
+//TODO remove after test
+  void testInsertCategory(BuildContext context) async {
+    var rep = context.read<KeyboardRepository>();
+    // for (var i = 3; i <= 10; i++) {
+    //   var category = await rep.insert(Category(id: i, title: "$i. Category"));
+    //   await rep.insert(category);
+    // }
+    var categories = await rep.getCategories();
+    print(categories);
   }
 }

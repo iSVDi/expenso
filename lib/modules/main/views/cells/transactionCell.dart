@@ -18,7 +18,8 @@ class TransactionCell extends StatelessWidget {
     var transactionContainer = Container(
       padding: const EdgeInsets.only(left: 20),
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        _getLabel(transaction.category.title, AppColors.appGreen, 18),
+        // TODO set another value for default category title
+        _getLabel(transaction.category?.title ?? "", AppColors.appGreen, 18),
         _getLabel(transaction.comment, AppColors.appGreen, 12)
       ]),
     );

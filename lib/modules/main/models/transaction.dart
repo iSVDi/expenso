@@ -5,7 +5,7 @@ import "category.dart";
 class Transaction {
   final DateTime date;
   final String comment;
-  final Category category;
+  final Category? category;
   final double amount;
 
   Transaction({

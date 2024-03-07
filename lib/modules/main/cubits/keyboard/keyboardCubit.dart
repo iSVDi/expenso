@@ -1,16 +1,17 @@
+import "package:expenso/modules/main/models/category.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-
 import "package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart";
 import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
-
 import "keyboardStates.dart";
 
 class KeyboardCubit extends Cubit<KeyboardState> {
   final AmountStringUpdater _amountUpdater = AmountStringUpdater();
 
-  // This values using only for keeping data
-  double _amount = double.parse(NumericKeyboardButtonType.zero.value);
-  DateTime _date = DateTime.now();
+  // This values used only for keep data
+  late double _amount;
+  late DateTime _date;
+  Category? _selectedCategory;
+  String? comment;
 
   String get getAmount => (state as EnteringBasicDataState).data.$1;
   DateTime get getDate => (state as EnteringBasicDataState).data.$2;
@@ -20,19 +21,12 @@ class KeyboardCubit extends Cubit<KeyboardState> {
             data: (NumericKeyboardButtonType.zero.value, DateTime.now())));
 
 // *  Interface
-  void updateAmount(NumericKeyboardButtonType buttonType) {
-    var currentState = (state as EnteringBasicDataState);
-    var oldValue = currentState.data.$1;
-    var newValue = _amountUpdater.update(oldValue, buttonType);
-    emit(EnteringBasicDataState(data: (newValue, currentState.data.$2)));
-  }
 
-  void saveAmount() {
+ void doneButtonHandler() {
     if (state is EnteringBasicDataState) {
-      var currentState = (state as EnteringBasicDataState).data;
-      _amount = double.parse(currentState.$1);
-      _date = currentState.$2;
-      emit(SelectingCategoriesState(data: null));
+      _saveAmount();
+    } else {
+      _saveCategory();
     }
   }
 
@@ -42,6 +36,35 @@ class KeyboardCubit extends Cubit<KeyboardState> {
       var newState = EnteringBasicDataState(data: (currentState.$1, date));
       emit(newState);
     }
+  }
+
+  void updateAmount(NumericKeyboardButtonType buttonType) {
+    var currentState = (state as EnteringBasicDataState);
+    var oldValue = currentState.data.$1;
+    var newValue = _amountUpdater.update(oldValue, buttonType);
+    emit(EnteringBasicDataState(data: (newValue, currentState.data.$2)));
+  }
+
+  bool isNeedSetBoldCategoryTitle(Category category) {
+    var currentState = (state as SelectingCategoriesState).data;
+    if (currentState != null) {
+      var res = category.id == currentState.id;
+      return res;
+    }
+    return false;
+  }
+
+  void selectCategory(Category category) {
+    Category? currentCategory = (state as SelectingCategoriesState).data;
+    Category? newCategory = category;
+    bool areCategoriesSame =
+        currentCategory != null && currentCategory!.id == category.id;
+
+    if (areCategoriesSame) {
+      newCategory = null;
+    }
+
+    emit(SelectingCategoriesState(data: newCategory));
   }
 
   void backCategoriesButtonHandler() {
@@ -54,5 +77,17 @@ class KeyboardCubit extends Cubit<KeyboardState> {
     }
 
     emit(EnteringBasicDataState(data: (stringAmount, _date)));
+  }
+
+  void _saveAmount() {
+    var currentState = (state as EnteringBasicDataState).data;
+    _amount = double.parse(currentState.$1);
+    _date = currentState.$2;
+    emit(SelectingCategoriesState(data: null));
+  }
+
+  void _saveCategory() {
+    _selectedCategory = (state as SelectingCategoriesState).data;
+    // TODO emit new state
   }
 }
