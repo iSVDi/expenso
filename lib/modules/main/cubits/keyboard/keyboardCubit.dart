@@ -1,3 +1,4 @@
+import "package:expenso/modules/main/cubits/keyboard/keyboardRepository.dart";
 import "package:expenso/modules/main/models/category.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart";
@@ -5,7 +6,8 @@ import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
 import "keyboardStates.dart";
 
 class KeyboardCubit extends Cubit<KeyboardState> {
-  final AmountStringUpdater _amountUpdater = AmountStringUpdater();
+  final _amountUpdater = AmountStringUpdater();
+  final _repository = KeyboardRepository();
 
   // This values used only for keep data
   late double _amount;
@@ -21,7 +23,6 @@ class KeyboardCubit extends Cubit<KeyboardState> {
             data: (NumericKeyboardButtonType.zero.value, DateTime.now())));
 
 // *  Interface
-
   void doneButtonHandler() {
     if (state is EnteringBasicDataState) {
       _saveAmount();
@@ -84,6 +85,22 @@ class KeyboardCubit extends Cubit<KeyboardState> {
     }
 
     emit(EnteringBasicDataState(data: (stringAmount, _date)));
+  }
+
+  void addNewCategory(String title) async {
+    Category category = Category(id: 0, title: title);
+    try {
+      var res = await _repository.insert(category);
+      print("category is added");
+      selectCategory(res);
+    } catch (e) {
+      //TODO handle error
+      print(e.toString());
+    }
+  }
+
+  Future<List<Category>> getCategories() {
+    return _repository.getCategories();
   }
 
   void _saveAmount() {

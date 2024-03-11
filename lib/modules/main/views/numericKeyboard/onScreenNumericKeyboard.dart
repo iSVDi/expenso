@@ -1,5 +1,3 @@
-import 'package:expenso/extensions/appImages.dart';
-import 'package:expenso/modules/main/cubits/keyboard/keyboardRepository.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardStates.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart';
 import 'package:expenso/modules/main/models/category.dart';
@@ -31,6 +29,7 @@ enum NumericKeyboardButtonType {
 }
 
 //TODO too big class. Need do less via add a few classes for create keyboard and header
+//? maybe should create private property of context?
 class OnScreenNumericKeyboard extends StatelessWidget {
   final Size size;
   List<Category> categories = Category.getStampList();
@@ -110,23 +109,22 @@ class OnScreenNumericKeyboard extends StatelessWidget {
             ));
   }
 
-  void _addCategoryButtonHandler(BuildContext context) {
+  void _addCategoryButtonHandler(BuildContext mainContext) {
     var builder;
     showModalBottomSheet(
-        context: context,
+        context: mainContext,
         builder: ((context) {
-          return _getEnterNewCategory();
+          return _getEnterNewCategory(mainContext);
         }));
   }
 
-  Widget _getEnterNewCategory() {
+  Widget _getEnterNewCategory(BuildContext context) {
     return Container(
         height: 100,
         margin: EdgeInsets.only(left: 32, right: 32),
         child: EnterCategoryTextField(
           callback: (categoryName) {
-            // todo save new category
-            print("new category - $categoryName");
+            _getCubit(context).addNewCategory(categoryName);
           },
         ));
   }
@@ -183,8 +181,7 @@ class OnScreenNumericKeyboard extends StatelessWidget {
   }
 
   Widget _getCategoriesList(BuildContext context) {
-    // Todo: view doesn't have to know anything about repository
-    var categories = context.read<KeyboardRepository>().getCategories();
+    var categories = _getCubit(context).getCategories();
     return FutureBuilder(
         future: categories,
         builder: (context, snapshot) {
@@ -209,6 +206,7 @@ class OnScreenNumericKeyboard extends StatelessWidget {
                 child: listView);
             return Expanded(child: container);
           }
+          //? need set another widget?
           return const Expanded(child: Text(""));
         });
   }

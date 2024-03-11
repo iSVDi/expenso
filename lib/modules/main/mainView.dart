@@ -69,9 +69,7 @@ class MainView extends StatelessWidget {
         child: OnScreenNumericKeyboard(
           size: Size(width, height),
         ));
-    var repositoryProvider = RepositoryProvider(
-        create: (context) => KeyboardRepository(), child: bloc);
-    return repositoryProvider;
+    return bloc;
   }
 }
 

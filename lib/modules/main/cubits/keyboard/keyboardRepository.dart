@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -13,6 +12,7 @@ class _KeyboardRepositoryNames {
   static const String _titleColumnName = "title";
 }
 
+//TODO add defalut categories
 class KeyboardRepository {
   late Database _database;
   bool _isDatabaseOpened = false;
@@ -32,15 +32,28 @@ class KeyboardRepository {
 
   Future<Category> insert(Category category) async {
     await _openIfNeed();
-    category.id =
+    var codeResult =
         await _database.insert(dbNames._categoriesTableName, category.toMap());
-    return category;
+    if (codeResult == 0) {
+      throw Error();
+    }
+    var newMapCategory = await _database.query(dbNames._categoriesTableName,
+        orderBy: "${dbNames._idColumnName} DESC", limit: 1);
+    var categories = [
+      for (final {
+            dbNames._idColumnName: id as int,
+            dbNames._titleColumnName: title as String
+          } in newMapCategory)
+        Category(id: id, title: title)
+    ];
+    return categories.first;
   }
 
   Future<List<Category>> getCategories() async {
     await _openIfNeed();
-    final List<Map<String, Object?>> categoriesMap =
-        await _database.query(dbNames._categoriesTableName);
+    final List<Map<String, Object?>> categoriesMap = await _database.query(
+        dbNames._categoriesTableName,
+        orderBy: "${dbNames._idColumnName} DESC");
     var categories = [
       for (final {
             dbNames._idColumnName: id as int,

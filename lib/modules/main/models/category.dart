@@ -10,7 +10,7 @@ class Category {
   });
 
   Map<String, Object?> toMap() {
-    return {"id": id, "title": title};
+    return {"id": null, "title": title};
   }
 
   @override
