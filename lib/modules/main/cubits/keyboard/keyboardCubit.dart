@@ -11,7 +11,7 @@ class KeyboardCubit extends Cubit<KeyboardState> {
   late double _amount;
   late DateTime _date;
   Category? _selectedCategory;
-  String? comment;
+  String _enteredComment = "";
 
   String get getAmount => (state as EnteringBasicDataState).data.$1;
   DateTime get getDate => (state as EnteringBasicDataState).data.$2;
@@ -22,12 +22,12 @@ class KeyboardCubit extends Cubit<KeyboardState> {
 
 // *  Interface
 
- void doneButtonHandler() {
+  void doneButtonHandler() {
     if (state is EnteringBasicDataState) {
       _saveAmount();
-    } else {
+    } else if (state is SelectingCategoriesState) {
       _saveCategory();
-    }
+    } else {}
   }
 
   void updateDate(DateTime date) {
@@ -67,6 +67,13 @@ class KeyboardCubit extends Cubit<KeyboardState> {
     emit(SelectingCategoriesState(data: newCategory));
   }
 
+  void saveComment(String comment) {
+    _enteredComment = comment;
+    // todo save transaction
+    emit(EnteringBasicDataState(
+        data: (NumericKeyboardButtonType.zero.value, DateTime.now())));
+  }
+
   void backCategoriesButtonHandler() {
     var stringAmount = "";
     if (_amount % 1 == 0) {
@@ -88,6 +95,6 @@ class KeyboardCubit extends Cubit<KeyboardState> {
 
   void _saveCategory() {
     _selectedCategory = (state as SelectingCategoriesState).data;
-    // TODO emit new state
+    emit(EnteringComments(data: ""));
   }
 }

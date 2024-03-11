@@ -15,3 +15,7 @@ class EnteringBasicDataState extends KeyboardState<(String, DateTime)> {
 class SelectingCategoriesState extends KeyboardState<Category?> {
   SelectingCategoriesState({required super.data});
 }
+
+class EnteringComments extends KeyboardState<String> {
+  EnteringComments({required super.data});
+}

@@ -1,9 +1,11 @@
+import 'package:expenso/extensions/appImages.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardRepository.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardStates.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart';
 import 'package:expenso/modules/main/models/category.dart';
 import 'package:expenso/modules/main/views/cells/categoryCell.dart';
 import 'package:expenso/modules/main/views/numericKeyboard/dateTimePicker.dart';
+import 'package:expenso/modules/main/views/numericKeyboard/enterCategoryTextField.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 import "numericButton.dart";
@@ -52,35 +54,6 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     return bloc;
   }
 
-  Widget _getKeyboard(BuildContext context) {
-    return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
-      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        _getKeyboardHeader(context),
-        const Divider(
-          thickness: 2,
-          color: Colors.black,
-        ),
-        _getNumericKeyboard(context)
-      ]),
-      _getDoneButton(context)
-    ]);
-  }
-
-  Future _handleNewDateTime(BuildContext context) async {
-    KeyboardCubit cubit = _getCubit(context);
-    showDialog(
-        context: context,
-        builder: (BuildContext context) => DateTimePicker(
-              selectedDate: cubit.getDate,
-              callback: (date) {
-                if (date != null) {
-                  cubit.updateDate(date);
-                }
-                Navigator.pop(context);
-              },
-            ));
-  }
-
   Widget _getKeyboardHeader(BuildContext context) {
     Row header;
     EdgeInsets padding;
@@ -104,8 +77,7 @@ class OnScreenNumericKeyboard extends StatelessWidget {
         child: const Text("+ add Category",
             style: TextStyle(color: Colors.black, fontSize: 18)),
         onPressed: () {
-          //TODO implement
-          print("add category tapped");
+          _addCategoryButtonHandler(context);
         },
       );
       var backButton = IconButton(
@@ -123,34 +95,54 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     return Container(padding: padding, child: header);
   }
 
-  Widget _getCategoriesList(BuildContext context) {
-    var categories = context.read<KeyboardRepository>().getCategories();
-    return FutureBuilder(
-        future: categories,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            var categories = snapshot.requireData;
-            var listView = ListView.builder(
-                itemCount: categories.length,
-                itemBuilder: (context, index) {
-                  var needSetBold = _getCubit(context)
-                      .isNeedSetBoldCategoryTitle(categories[index]);
-                  var tile = ListTile(
-                    title: CategoryCell(
-                        needSetBold: needSetBold, category: categories[index]),
-                    onTap: () {
-                      _getCubit(context).selectCategory(categories[index]);
-                    },
-                  );
-                  return tile;
-                });
-            var container = Container(
-                padding: const EdgeInsets.only(left: 32, right: 32),
-                child: listView);
-            return Expanded(child: container);
-          }
-          return const Expanded(child: Text(""));
-        });
+  Future _handleNewDateTime(BuildContext context) async {
+    KeyboardCubit cubit = _getCubit(context);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => DateTimePicker(
+              selectedDate: cubit.getDate,
+              callback: (date) {
+                if (date != null) {
+                  cubit.updateDate(date);
+                }
+                Navigator.pop(context);
+              },
+            ));
+  }
+
+  void _addCategoryButtonHandler(BuildContext context) {
+    var builder;
+    showModalBottomSheet(
+        context: context,
+        builder: ((context) {
+          return _getEnterNewCategory();
+        }));
+  }
+
+  Widget _getEnterNewCategory() {
+    return Container(
+        height: 100,
+        margin: EdgeInsets.only(left: 32, right: 32),
+        child: EnterCategoryTextField(
+          callback: (categoryName) {
+            // todo save new category
+            print("new category - $categoryName");
+          },
+        ));
+  }
+
+  Widget _getKeyboard(BuildContext context) {
+    return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
+      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        _getKeyboardHeader(context),
+        const Divider(
+          thickness: 2,
+          color: Colors.black,
+        ),
+        _getNumericKeyboard(context)
+      ]),
+      _getDoneButton(context)
+    ]);
   }
 
 // TODO divide on 2 or more func
@@ -190,6 +182,37 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     }
   }
 
+  Widget _getCategoriesList(BuildContext context) {
+    // Todo: view doesn't have to know anything about repository
+    var categories = context.read<KeyboardRepository>().getCategories();
+    return FutureBuilder(
+        future: categories,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            var categories = snapshot.requireData;
+            var listView = ListView.builder(
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  var needSetBold = _getCubit(context)
+                      .isNeedSetBoldCategoryTitle(categories[index]);
+                  var tile = ListTile(
+                    title: CategoryCell(
+                        needSetBold: needSetBold, category: categories[index]),
+                    onTap: () {
+                      _getCubit(context).selectCategory(categories[index]);
+                    },
+                  );
+                  return tile;
+                });
+            var container = Container(
+                padding: const EdgeInsets.only(left: 32, right: 32),
+                child: listView);
+            return Expanded(child: container);
+          }
+          return const Expanded(child: Text(""));
+        });
+  }
+
   Row _getNumericButtonRows(
       List<NumericKeyboardButtonType> titles, BuildContext context) {
     var buttons = titles.map((type) {
@@ -209,14 +232,8 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     );
   }
 
-  Widget _getNumericButton(
-      NumericKeyboardButtonType type, BuildContext context) {
-    var button = NumericButton(
-        title: type.value,
-        callback: () {
-          _buttonHandler(type, context);
-        });
-    return button;
+  TextButton _getEmptyButton() {
+    return const TextButton(onPressed: null, child: Text(""));
   }
 
   IconButton _getDeleteButton(BuildContext context) {
@@ -227,23 +244,28 @@ class OnScreenNumericKeyboard extends StatelessWidget {
         icon: const Icon(Icons.arrow_back));
   }
 
+  Widget _getNumericButton(
+      NumericKeyboardButtonType type, BuildContext context) {
+    var button = NumericButton(
+        title: type.value,
+        callback: () {
+          _buttonHandler(type, context);
+        });
+    return button;
+  }
+
   Container _getDoneButton(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(right: 5, bottom: 5),
         child: IconButton(
             onPressed: () {
               _getCubit(context).doneButtonHandler();
-testInsertCategory(context);
             },
             icon: const Icon(Icons.done),
             style: ButtonStyle(
                 minimumSize: const MaterialStatePropertyAll(Size(88, 88)),
                 backgroundColor:
                     MaterialStateProperty.all(Colors.greenAccent[400]))));
-  }
-
-  TextButton _getEmptyButton() {
-    return const TextButton(onPressed: null, child: Text(""));
   }
 
   void _buttonHandler(NumericKeyboardButtonType type, BuildContext context) {
@@ -255,16 +277,5 @@ testInsertCategory(context);
       title,
       style: const TextStyle(fontSize: 50),
     );
-  }
-
-//TODO remove after test
-  void testInsertCategory(BuildContext context) async {
-    var rep = context.read<KeyboardRepository>();
-    // for (var i = 3; i <= 10; i++) {
-    //   var category = await rep.insert(Category(id: i, title: "$i. Category"));
-    //   await rep.insert(category);
-    // }
-    var categories = await rep.getCategories();
-    print(categories);
   }
 }
