@@ -28,7 +28,7 @@ class KeyboardCubit extends Cubit<KeyboardState> {
       _saveAmount();
     } else if (state is SelectingCategoriesState) {
       _saveCategory();
-    } else {}
+    }
   }
 
   void updateDate(DateTime date) {
@@ -71,8 +71,6 @@ class KeyboardCubit extends Cubit<KeyboardState> {
   void saveComment(String comment) {
     _enteredComment = comment;
     // todo save transaction
-    emit(EnteringBasicDataState(
-        data: (NumericKeyboardButtonType.zero.value, DateTime.now())));
   }
 
   void backCategoriesButtonHandler() {
@@ -112,6 +110,7 @@ class KeyboardCubit extends Cubit<KeyboardState> {
 
   void _saveCategory() {
     _selectedCategory = (state as SelectingCategoriesState).data;
-    emit(EnteringComments(data: ""));
+    emit(EnteringBasicDataState(
+        data: (NumericKeyboardButtonType.zero.value, DateTime.now())));
   }
 }

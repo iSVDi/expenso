@@ -2,8 +2,9 @@ import 'package:expenso/modules/main/cubits/keyboard/keyboardStates.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart';
 import 'package:expenso/modules/main/models/category.dart';
 import 'package:expenso/modules/main/views/cells/categoryCell.dart';
+import 'package:expenso/modules/main/views/numericKeyboard/commentSheet.dart';
 import 'package:expenso/modules/main/views/numericKeyboard/dateTimePicker.dart';
-import 'package:expenso/modules/main/views/numericKeyboard/enterCategoryTextField.dart';
+import 'package:expenso/modules/main/views/numericKeyboard/enterTextBottomSheet.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 import "numericButton.dart";
@@ -29,7 +30,6 @@ enum NumericKeyboardButtonType {
 }
 
 //TODO too big class. Need do less via add a few classes for create keyboard and header
-//? maybe should create private property of context?
 class OnScreenNumericKeyboard extends StatelessWidget {
   final Size size;
   List<Category> categories = Category.getStampList();
@@ -109,24 +109,15 @@ class OnScreenNumericKeyboard extends StatelessWidget {
             ));
   }
 
-  void _addCategoryButtonHandler(BuildContext mainContext) {
-    var builder;
-    showModalBottomSheet(
-        context: mainContext,
-        builder: ((context) {
-          return _getEnterNewCategory(mainContext);
-        }));
-  }
-
-  Widget _getEnterNewCategory(BuildContext context) {
-    return Container(
-        height: 100,
-        margin: EdgeInsets.only(left: 32, right: 32),
-        child: EnterCategoryTextField(
-          callback: (categoryName) {
-            _getCubit(context).addNewCategory(categoryName);
-          },
-        ));
+  void _addCategoryButtonHandler(BuildContext context) {
+    var sheet = EnterTextBottomSheet(
+      //todo get text from special class
+      hintText: "enter category name",
+      callback: (categoryName) {
+        _getCubit(context).addNewCategory(categoryName);
+      },
+    );
+    _showSheet(context, sheet);
   }
 
   Widget _getKeyboard(BuildContext context) {
@@ -237,7 +228,7 @@ class OnScreenNumericKeyboard extends StatelessWidget {
   IconButton _getDeleteButton(BuildContext context) {
     return IconButton(
         onPressed: () {
-          _buttonHandler(NumericKeyboardButtonType.delete, context);
+          _numericButtonHandler(NumericKeyboardButtonType.delete, context);
         },
         icon: const Icon(Icons.arrow_back));
   }
@@ -247,17 +238,22 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     var button = NumericButton(
         title: type.value,
         callback: () {
-          _buttonHandler(type, context);
+          _numericButtonHandler(type, context);
         });
     return button;
   }
 
+  void _numericButtonHandler(
+      NumericKeyboardButtonType type, BuildContext context) {
+    _getCubit(context).updateAmount(type);
+  }
+
   Container _getDoneButton(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(right: 5, bottom: 5),
+        padding: const EdgeInsets.only(right: 5, bottom: 5),
         child: IconButton(
             onPressed: () {
-              _getCubit(context).doneButtonHandler();
+              doneButtonHandler(context);
             },
             icon: const Icon(Icons.done),
             style: ButtonStyle(
@@ -266,14 +262,49 @@ class OnScreenNumericKeyboard extends StatelessWidget {
                     MaterialStateProperty.all(Colors.greenAccent[400]))));
   }
 
-  void _buttonHandler(NumericKeyboardButtonType type, BuildContext context) {
-    _getCubit(context).updateAmount(type);
+  void doneButtonHandler(BuildContext context) {
+    var cubit = _getCubit(context);
+    if (cubit.state is SelectingCategoriesState) {
+      _showCommentSheet(context);
+    }
+    cubit.doneButtonHandler();
   }
+
+  void _showCommentSheet(BuildContext context) {
+    enterTextCallback(String comment) {
+      _getCubit(context).saveComment(comment);
+    }
+
+    var enterText = EnterTextBottomSheet(
+        hintText: "добавить комментарий", callback: enterTextCallback);
+
+    sheetCallback(bool needEnterComment, BuildContext sheetsContext) {
+      Navigator.pop(sheetsContext);
+      if (needEnterComment) {
+        _showSheet(context, enterText);
+      } else {
+        _getCubit(context).saveComment("");
+      }
+    }
+
+    var commentSheet = CommentSheet(callback: sheetCallback);
+    _showSheet(context, commentSheet);
+  }
+
+  void commentEnteredHandler(BuildContext context, String comment) {}
 
   Text _getAmountLabel(String title) {
     return Text(
       title,
       style: const TextStyle(fontSize: 50),
     );
+  }
+
+  Future _showSheet(BuildContext context, Widget child) async {
+    var container = Container(
+        height: 100,
+        margin: const EdgeInsets.only(left: 32, right: 32),
+        child: child);
+    showModalBottomSheet(context: context, builder: (context) => container);
   }
 }

@@ -1,18 +1,20 @@
 import "package:flutter/material.dart";
 
 //TODO! fix keyboard is over text field
-class EnterCategoryTextField extends StatefulWidget {
+class EnterTextBottomSheet extends StatefulWidget {
+  String hintText;
   Function(String) callback;
-  EnterCategoryTextField({
+  EnterTextBottomSheet({
     Key? key,
+    required this.hintText,
     required this.callback,
   }) : super(key: key);
 
   @override
-  State<EnterCategoryTextField> createState() => _EnterCategoryTextFieldState();
+  State<EnterTextBottomSheet> createState() => _EnterTextBottomSheetState();
 }
 
-class _EnterCategoryTextFieldState extends State<EnterCategoryTextField> {
+class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
   late TextEditingController _controller;
 
   @override
@@ -35,8 +37,7 @@ class _EnterCategoryTextFieldState extends State<EnterCategoryTextField> {
         },
         icon: Icon(Icons.done));
     var textField = TextField(
-      //todo get text from special class
-      decoration: InputDecoration(hintText: "enter category name"),
+      decoration: InputDecoration(hintText: widget.hintText),
       controller: _controller,
       onSubmitted: (String value) async {
         _doneButtonHandler();
@@ -47,9 +48,6 @@ class _EnterCategoryTextFieldState extends State<EnterCategoryTextField> {
   }
 
   void _doneButtonHandler() {
-    if (_controller.text.isEmpty) {
-      return;
-    }
     widget.callback(_controller.text);
     Navigator.pop(context);
   }
