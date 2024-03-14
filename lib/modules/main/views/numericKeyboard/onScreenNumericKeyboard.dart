@@ -1,6 +1,5 @@
-import 'package:expenso/modules/main/cubits/keyboard/keyboardStates.dart';
-import 'package:expenso/modules/main/cubits/keyboard/keyboardCubit.dart';
-import 'package:expenso/modules/main/models/category.dart';
+import 'package:expenso/modules/main/cubits/keyboardStates.dart';
+import 'package:expenso/modules/main/cubits/keyboardCubit.dart';
 import 'package:expenso/modules/main/views/cells/categoryCell.dart';
 import 'package:expenso/modules/main/views/numericKeyboard/commentSheet.dart';
 import 'package:expenso/modules/main/views/numericKeyboard/dateTimePicker.dart';
@@ -32,9 +31,8 @@ enum NumericKeyboardButtonType {
 //TODO too big class. Need do less via add a few classes for create keyboard and header
 class OnScreenNumericKeyboard extends StatelessWidget {
   final Size size;
-  List<Category> categories = Category.getStampList();
 
-  OnScreenNumericKeyboard({
+  const OnScreenNumericKeyboard({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -171,35 +169,25 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     }
   }
 
-  Widget _getCategoriesList(BuildContext context) {
+  Widget _getCategoriesList (BuildContext context) {
     var categories = _getCubit(context).getCategories();
-    return FutureBuilder(
-        future: categories,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            var categories = snapshot.requireData;
-            var listView = ListView.builder(
-                itemCount: categories.length,
-                itemBuilder: (context, index) {
-                  var needSetBold = _getCubit(context)
-                      .isNeedSetBoldCategoryTitle(categories[index]);
-                  var tile = ListTile(
-                    title: CategoryCell(
-                        needSetBold: needSetBold, category: categories[index]),
-                    onTap: () {
-                      _getCubit(context).selectCategory(categories[index]);
-                    },
-                  );
-                  return tile;
-                });
-            var container = Container(
-                padding: const EdgeInsets.only(left: 32, right: 32),
-                child: listView);
-            return Expanded(child: container);
-          }
-          //? need set another widget?
-          return const Expanded(child: Text(""));
+    var listView = ListView.builder(
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          var needSetBold =
+              _getCubit(context).isNeedSetBoldCategoryTitle(categories[index]);
+          var tile = ListTile(
+            title: CategoryCell(
+                needSetBold: needSetBold, category: categories[index]),
+            onTap: () {
+              _getCubit(context).selectCategory(categories[index]);
+            },
+          );
+          return tile;
         });
+    var container = Container(
+        padding: const EdgeInsets.only(left: 32, right: 32), child: listView);
+    return Expanded(child: container);
   }
 
   Row _getNumericButtonRows(

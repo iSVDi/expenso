@@ -4,9 +4,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CommentSheet extends StatefulWidget {
-  Function(bool, BuildContext) callback;
+  final Function(bool, BuildContext) callback;
 
-  CommentSheet({
+  const CommentSheet({
     Key? key,
     required this.callback,
   }) : super(key: key);
@@ -26,7 +26,7 @@ class CommentSheetState extends State<CommentSheet> {
         onPressed: () {
           prepareForClose(true);
         },
-        child: Text("добавить комментарий")); // todo get text from class
+        child: const Text("добавить комментарий")); // todo get text from class
     return Row(children: [button, _getTimer()]);
   }
 

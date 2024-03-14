@@ -1,4 +1,4 @@
-import 'package:expenso/modules/main/models/transaction.dart';
+import '../../dataLayer/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:expenso/extensions/appColors.dart';
 
@@ -19,7 +19,7 @@ class TransactionCell extends StatelessWidget {
       padding: const EdgeInsets.only(left: 20),
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         // TODO set another value for default category title
-        _getLabel(transaction.category?.title ?? "", AppColors.appGreen, 18),
+        _getLabel(transaction.category.target?.title ?? "", AppColors.appGreen, 18),
         _getLabel(transaction.comment, AppColors.appGreen, 12)
       ]),
     );
