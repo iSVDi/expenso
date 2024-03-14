@@ -1,9 +1,10 @@
-import "package:expenso/main.dart";
 import "package:expenso/modules/main/dataLayer/models/transaction.dart";
+import 'package:expenso/modules/main/dataLayer/repositories/transactionsRepository.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart";
 import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
 import '../dataLayer/models/category.dart';
+import "../dataLayer/repositories/categoriesRepository.dart";
 import "keyboardStates.dart";
 
 class KeyboardCubit extends Cubit<KeyboardState> {
@@ -17,6 +18,9 @@ class KeyboardCubit extends Cubit<KeyboardState> {
 
   String get getAmount => (state as EnteringBasicDataState).data.$1;
   DateTime get getDate => (state as EnteringBasicDataState).data.$2;
+
+  var transactionRepository = TransactionRepository();
+  var categoriesRepository = CategoriesRepository();
 
   KeyboardCubit()
       : super(EnteringBasicDataState(
@@ -87,12 +91,12 @@ class KeyboardCubit extends Cubit<KeyboardState> {
 
   void addNewCategory(String title) async {
     Category category = Category(title: title);
-    objectBox.insertCategory(category);
+    categoriesRepository.insertCategory(category);
     emit(SelectingCategoriesState(data: category));
   }
 
   List<Category> getCategories() {
-    return objectBox.readAllCategories();
+    return categoriesRepository.readAllCategories();
   }
 
   void _saveAmount() {
@@ -112,6 +116,6 @@ class KeyboardCubit extends Cubit<KeyboardState> {
     var transaction =
         Transaction(date: _date, comment: _enteredComment, amount: _amount);
     transaction.category.target = _selectedCategory;
-    objectBox.insertTransaction(transaction);
+    transactionRepository.insertTransaction(transaction);
   }
 }

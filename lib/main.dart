@@ -1,14 +1,15 @@
-import 'package:expenso/modules/main/dataLayer/repository.dart';
+import 'package:expenso/modules/main/dataLayer/repositories/storageCreator.dart';
 import 'package:expenso/modules/main/mainView.dart';
 import 'package:flutter/material.dart';
+import 'objectbox.g.dart';
 
-late Repository objectBox;
+late Store objectBoxStore;
 
 Future<void> main() async {
   // This is required so ObjectBox can get the application directory
   // to store the database in.
   WidgetsFlutterBinding.ensureInitialized();
-  objectBox = await Repository.create();
+  objectBoxStore = await StorageCreator.createStore();
   runApp(MyApp());
 }
 
