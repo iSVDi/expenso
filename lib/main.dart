@@ -1,5 +1,5 @@
 import 'package:expenso/modules/main/dataLayer/repositories/storageCreator.dart';
-import 'package:expenso/modules/main/mainView.dart';
+import 'package:expenso/modules/main/views/mainView.dart';
 import 'package:flutter/material.dart';
 import 'objectbox.g.dart';
 

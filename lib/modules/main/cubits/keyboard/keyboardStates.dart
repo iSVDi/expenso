@@ -1,4 +1,4 @@
-import '../dataLayer/models/category.dart';
+import '../../dataLayer/models/category.dart';
 
 abstract class KeyboardState<T> {
   T data;

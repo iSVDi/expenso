@@ -1,9 +1,12 @@
-import "package:expenso/modules/main/cubits/keyboardCubit.dart";
+import "package:expenso/modules/main/cubits/transactions/transactionsCubit.dart";
+import "package:expenso/modules/main/views/transactions.dart";
 import "package:expenso/modules/settings/settingsView.dart";
 import "package:flutter/material.dart";
 import 'package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart';
 import "package:expenso/extensions/appImages.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+
+import "../cubits/keyboard/keyboardCubit.dart";
 
 class MainView extends StatelessWidget {
   final constants = _MainViewConstants();
@@ -51,10 +54,13 @@ class MainView extends StatelessWidget {
 
   Widget _getTransactionListView() {
     // TODO implement list
-    var listView = Text("List View");
-    var container = Container(
-        padding: const EdgeInsets.only(left: 32, right: 32), child: listView);
-    return Expanded(child: container);
+    var listView = TransactionList();
+    var bloc = BlocProvider(
+      create: (context) => TransactionsCubit(),
+      child: listView,
+    );
+
+    return bloc;
   }
 
   Widget _getKeyboard(BuildContext context) {
