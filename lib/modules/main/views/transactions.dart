@@ -1,4 +1,5 @@
 import 'package:expenso/modules/main/cubits/transactions/transactionsCubit.dart';
+import 'package:expenso/modules/main/cubits/transactions/transactionsStates.dart';
 import 'package:expenso/modules/main/views/cells/transactionCell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,11 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _getBody(context);
+    var bloc = BlocBuilder<TransactionsCubit, TransactionsState>(
+        builder: (context, state) {
+      return _getBody(context);
+    });
+    return bloc;
   }
 
   Widget _getBody(BuildContext context) {

@@ -16,14 +16,16 @@ abstract class RepositorySubject {
 }
 
 class TransactionRepository implements RepositorySubject {
-  final Box<Transaction> _transactions = objectBoxStore.box<Transaction>();
-  late StreamSubscription<Query<Transaction>> subscription;
+    final Box<Transaction> _transactions = objectBoxStore.box<Transaction>();
+  late StreamSubscription<Query<Transaction>> _subscription;
+  @override
+  List<RepositoryObserver> _observers = [];
 
   TransactionRepository() {
-    subscription =
-        _transactions.query().watch(triggerImmediately: true).listen((event) {
-      _notifyObservers();
-    });
+    _subscription = _transactions
+        .query()
+        .watch(triggerImmediately: true)
+        .listen(subscriptionListener);
   }
 
   void subscriptionListener(Query<Transaction> event) {
@@ -31,8 +33,8 @@ class TransactionRepository implements RepositorySubject {
   }
 
   void insertTransaction(Transaction transaction) {
-    var res = _transactions.put(transaction);
-    print(res);
+    //? need check id?
+    _transactions.put(transaction);
   }
 
   List<Transaction> readAllTransactions() {
@@ -43,9 +45,6 @@ class TransactionRepository implements RepositorySubject {
     var res = query.find();
     return res;
   }
-
-  @override
-  List<RepositoryObserver> _observers = [];
 
   @override
   void _notifyObservers() {

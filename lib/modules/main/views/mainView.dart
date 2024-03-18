@@ -54,7 +54,7 @@ class MainView extends StatelessWidget {
 
   Widget _getTransactionListView() {
     // TODO implement list
-    var listView = TransactionList();
+    var listView = const TransactionList();
     var bloc = BlocProvider(
       create: (context) => TransactionsCubit(),
       child: listView,
