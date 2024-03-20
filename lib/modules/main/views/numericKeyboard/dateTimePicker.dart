@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import "package:flutter/material.dart";
 
 import "package:expenso/extensions/dateTime.dart";
@@ -49,9 +50,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
   Future _handleSelectedDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
         context: context,
-        //TODO which range of date?
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2050),
+        firstDate: DateTime(DateTime.now().year),
+        lastDate: widget._selectedDate,
         initialDate: widget._selectedDate);
 
     if (selected != null) {

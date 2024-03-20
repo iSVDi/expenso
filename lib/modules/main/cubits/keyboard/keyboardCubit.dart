@@ -1,8 +1,7 @@
-import "package:expenso/main.dart";
 import "package:expenso/modules/main/dataLayer/models/transaction.dart";
 import "package:expenso/modules/main/dataLayer/repositories/transactionsRepository.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart";
+import 'package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart';
 import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
 import "../../dataLayer/models/category.dart";
 import "../../dataLayer/repositories/categoriesRepository.dart";

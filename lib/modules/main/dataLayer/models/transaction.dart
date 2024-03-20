@@ -6,10 +6,15 @@ import "category.dart";
 class Transaction {
   @Id()
   int id = 0;
-  final DateTime date;
-  final String comment;
-  final category = ToOne<Category>();
-  final double amount;
+  DateTime date;
+  String comment;
+  ToOne<Category> category = ToOne<Category>();
+  double amount;
+
+  set updateDate(DateTime newDateTime) => date = newDateTime;
+  set updateComment(String newComment) => comment = newComment;
+  set updateCategory(Category newCategory) => category.target = newCategory;
+  set updateAmount(double newAmount) => amount = newAmount;
 
   Transaction({
     required this.date,

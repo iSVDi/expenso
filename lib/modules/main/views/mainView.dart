@@ -1,5 +1,5 @@
 import "package:expenso/modules/main/cubits/transactions/transactionsCubit.dart";
-import "package:expenso/modules/main/views/transactions.dart";
+import 'package:expenso/modules/main/views/transactionsList/transactionsList.dart';
 import "package:expenso/modules/settings/settingsView.dart";
 import "package:flutter/material.dart";
 import 'package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart';
@@ -54,7 +54,7 @@ class MainView extends StatelessWidget {
 
   Widget _getTransactionListView() {
     // TODO implement list
-    var listView = const TransactionList();
+    var listView = const TransactionsList();
     var bloc = BlocProvider(
       create: (context) => TransactionsCubit(),
       child: listView,
