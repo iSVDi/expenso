@@ -38,7 +38,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
       Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         _getKeyboardHeader(context),
-        Divider(thickness: 2, color: AppColors.appBlack),
+        Divider(thickness: 1, color: AppColors.appBlack),
         _getCategoriesList(context)
       ]),
       ViewFactory.getDoneButton(context, () {
@@ -47,29 +47,54 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     ]);
   }
 
+// todo move text to special class
   Widget _getKeyboardHeader(BuildContext context) {
+    var plustText = Text("+",
+        style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: AppColors.appGreen));
+    var addCategoryText = Text("Создать категорию",
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w300,
+            color: AppColors.appGreen));
+    var titlesRow = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          plustText,
+          const SizedBox(width: 8, height: 0),
+          addCategoryText
+        ]);
+
     var addCategoryButton = TextButton(
-      // todo move to special class
-      child: Text("+ add Category",
-          style: TextStyle(color: AppColors.appBlack, fontSize: 18)),
+      child: titlesRow,
       onPressed: () {
         _addCategoryButtonHandler(context);
-        // widget.addCategoryCallback();
       },
     );
+
     var backButton = IconButton(
-        icon: const Icon(Icons.arrow_back_ios_new),
+        icon: Icon(
+          Icons.arrow_back_ios_new,
+          size: 24,
+          color: AppColors.appBlack,
+        ),
         onPressed: () {
-          // _getCubit(context).backCategoriesButtonHandler();
           widget.backButtonCallback();
         });
+
     Row header = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [addCategoryButton, backButton]);
     EdgeInsets padding =
-        const EdgeInsets.only(left: 32, right: 32, top: 25, bottom: 25);
+        const EdgeInsets.only(left: 32, right: 32, top: 14, bottom: 4);
 
-    return Container(padding: padding, child: header);
+    return Container(
+      padding: padding,
+      height: 74,
+      child: header,
+    );
   }
 
   Widget _getCategoriesList(BuildContext context) {
@@ -97,7 +122,6 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
       //todo get text from special class
       hintText: "Enter category name",
       callback: (categoryName) {
-        // _getCubit(context).addNewCategory(categoryName);
         setState(() {
           widget.addCategoryCallback(categoryName);
         });

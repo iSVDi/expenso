@@ -14,20 +14,40 @@ class TransactionCell extends StatelessWidget {
   }
 
   Row _getCell() {
-    var priceLabel = _getLabel(transaction.amount.toString(), Colors.black, 24);
-    var transactionContainer = Container(
-      padding: const EdgeInsets.only(left: 20),
-      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        // TODO set another value for default category title
-        _getLabel(
-            transaction.category.target?.title ?? "", AppColors.appGreen, 18),
-        _getLabel(transaction.comment, AppColors.appGreen, 12)
-      ]),
-    );
-    return Row(children: [priceLabel, transactionContainer]);
+    var priceLabel = _getLabel(
+        transaction.amount.toString(), Colors.black, 24, FontWeight.w300);
+    var column = _getTransactionsColumn();
+    var crossAxisAlignment = transaction.comment.isEmpty
+        ? CrossAxisAlignment.center
+        : CrossAxisAlignment.start;
+    return Row(
+        crossAxisAlignment: crossAxisAlignment,
+        children: [priceLabel, SizedBox(width: 20, height: 0), column]);
   }
 
-  Text _getLabel(String title, Color titleColor, double fontSize) {
-    return Text(title, style: TextStyle(fontSize: fontSize, color: titleColor));
+  Text _getLabel(
+      String title, Color titleColor, double fontSize, FontWeight fontWeight) {
+    return Text(title,
+        style: TextStyle(
+            fontSize: fontSize, color: titleColor, fontWeight: fontWeight));
+  }
+
+// todo get text from special class
+  Widget _getTransactionsColumn() {
+    var categoryText = _getLabel(
+        transaction.category.target?.title ?? "no category",
+        AppColors.appGreen,
+        18,
+        FontWeight.w400);
+
+    if (transaction.comment.isNotEmpty) {
+      var commentText = _getLabel(
+          transaction.comment, AppColors.appGreen, 12, FontWeight.w300);
+      var column = Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [categoryText, commentText]);
+      return column;
+    }
+    return categoryText;
   }
 }

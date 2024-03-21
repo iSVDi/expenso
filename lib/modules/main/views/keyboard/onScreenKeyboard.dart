@@ -82,7 +82,8 @@ class OnScreenKeyboard extends StatelessWidget {
             doneButtonHandler(context);
           });
     }
-    return ColoredBox(color: AppColors.appNumericKeyboardColor, child: keyboard);
+    return ColoredBox(
+        color: AppColors.appNumericKeyboardColor, child: keyboard);
   }
 
   void doneButtonHandler(BuildContext context) {
@@ -93,7 +94,6 @@ class OnScreenKeyboard extends StatelessWidget {
     cubit.doneButtonHandler();
   }
 
-// todo need refactor
   void _showCommentSheet(BuildContext context) {
     var enterCommentSheet = EnterTextBottomSheet(
         // todo move to special class

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
+import 'package:expenso/extensions/appColors.dart';
 import 'package:flutter/material.dart';
 
 class CommentSheet extends StatefulWidget {
@@ -20,13 +21,20 @@ class CommentSheetState extends State<CommentSheet> {
   bool isTimerWorking = true;
 
   @override
+  // todo get text from class
   Widget build(BuildContext context) {
     _startTimer(context);
+    var buttonsText = Text("добавить комментарий",
+        style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+            color: AppColors.appBlack));
     var button = TextButton(
         onPressed: () {
           prepareForClose(true);
         },
-        child: const Text("добавить комментарий")); // todo get text from class
+        child: buttonsText);
+
     return Row(children: [button, _getTimer()]);
   }
 

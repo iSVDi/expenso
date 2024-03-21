@@ -98,7 +98,11 @@ class NumericKeyboardState extends State<NumericKeyboard> {
     Row header = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, children: children);
     EdgeInsets padding = const EdgeInsets.only(left: 32, right: 32);
-    return Container(padding: padding, child: header);
+    return Container(
+      padding: padding,
+      height: 74,
+      child: header,
+    );
   }
 
   Widget _getNumericKeyboard(BuildContext context) {
