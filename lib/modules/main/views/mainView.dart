@@ -2,7 +2,7 @@ import "package:expenso/modules/main/cubits/transactions/transactionsCubit.dart"
 import 'package:expenso/modules/main/views/transactionsList/transactionsList.dart';
 import "package:expenso/modules/settings/settingsView.dart";
 import "package:flutter/material.dart";
-import 'package:expenso/modules/main/views/numericKeyboard/onScreenNumericKeyboard.dart';
+import 'package:expenso/modules/main/views/keyboard/onScreenKeyboard.dart';
 import "package:expenso/extensions/appImages.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -69,7 +69,7 @@ class MainView extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     var bloc = BlocProvider(
         create: (context) => KeyboardCubit(),
-        child: OnScreenNumericKeyboard(
+        child: OnScreenKeyboard(
           size: Size(width, height),
         ));
     return bloc;

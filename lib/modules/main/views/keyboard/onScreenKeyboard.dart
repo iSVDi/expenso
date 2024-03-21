@@ -1,11 +1,11 @@
 // ignore_for_file: file_names
-import 'package:expenso/modules/main/views/numericKeyboard/numericKeyboard.dart';
-import 'package:expenso/modules/main/views/numericKeyboard/selectCategoriesList.dart';
+import 'package:expenso/common/views/numericKeyboard/numericKeyboard.dart';
+import 'package:expenso/common/views/selectCategoriesList.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 
-import 'package:expenso/modules/main/views/numericKeyboard/commentSheet.dart';
-import 'package:expenso/modules/main/views/numericKeyboard/enterTextBottomSheet.dart';
+import 'package:expenso/modules/main/views/keyboard/commentSheet.dart';
+import 'package:expenso/common/views/enterTextBottomSheet.dart';
 
 import '../../cubits/keyboard/keyboardCubit.dart';
 import '../../cubits/keyboard/keyboardStates.dart';
@@ -29,10 +29,10 @@ enum NumericKeyboardButtonType {
   const NumericKeyboardButtonType(this.value);
 }
 
-class OnScreenNumericKeyboard extends StatelessWidget {
+class OnScreenKeyboard extends StatelessWidget {
   final Size size;
 
-  const OnScreenNumericKeyboard({
+  const OnScreenKeyboard({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -57,6 +57,7 @@ class OnScreenNumericKeyboard extends StatelessWidget {
 
     if (cubit.state is EnteringBasicDataState) {
       keyboard = NumericKeyboard(
+          amount: cubit.getAmount,
           dateTime: cubit.getDate,
           doneButtonCallback: (amount, dateTime) {
             cubit.updateAmount(amount);
@@ -77,7 +78,6 @@ class OnScreenNumericKeyboard extends StatelessWidget {
           },
           doneButtonCallback: (category) {
             cubit.updateCategory(category);
-            // _showCommentSheet(context);
             doneButtonHandler(context);
           });
     }
@@ -92,27 +92,25 @@ class OnScreenNumericKeyboard extends StatelessWidget {
     cubit.doneButtonHandler();
   }
 
+// todo need refactor
   void _showCommentSheet(BuildContext context) {
-    enterTextCallback(String comment) {
-      _getCubit(context).saveComment(comment);
-    }
-
-    var enterText = EnterTextBottomSheet(
+    var enterCommentSheet = EnterTextBottomSheet(
         // todo move to special class
         hintText: "добавить комментарий",
-        callback: enterTextCallback);
+        callback: (String comment) {
+          _getCubit(context).updateComment(comment);
+        });
 
-    sheetCallback(bool needEnterComment, BuildContext sheetsContext) {
+    var askCommentSheet =
+        CommentSheet(callback: (needEnterComment, sheetsContext) {
       Navigator.pop(sheetsContext);
       if (needEnterComment) {
-        _showSheet(context, enterText);
+        _showSheet(context, enterCommentSheet);
       } else {
-        _getCubit(context).saveComment("");
+        _getCubit(context).updateComment("");
       }
-    }
-
-    var commentSheet = CommentSheet(callback: sheetCallback);
-    _showSheet(context, commentSheet);
+    });
+    _showSheet(context, askCommentSheet);
   }
 
   void commentEnteredHandler(BuildContext context, String comment) {}

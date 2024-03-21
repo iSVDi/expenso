@@ -11,14 +11,12 @@ class Transaction {
   ToOne<Category> category = ToOne<Category>();
   double amount;
 
-  set updateDate(DateTime newDateTime) => date = newDateTime;
-  set updateComment(String newComment) => comment = newComment;
-  set updateCategory(Category newCategory) => category.target = newCategory;
-  set updateAmount(double newAmount) => amount = newAmount;
-
   Transaction({
     required this.date,
     required this.comment,
     required this.amount,
   });
+
+  Transaction.empty({required this.date, this.comment = "", this.amount = 0})
+      : category = ToOne<Category>()..target = null;
 }

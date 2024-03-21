@@ -1,18 +1,5 @@
-import '../../dataLayer/models/category.dart';
+abstract class KeyboardState {}
 
-abstract class KeyboardState<T> {
-  T data;
-  KeyboardState({
-    required this.data,
-  });
-}
+class EnteringBasicDataState extends KeyboardState {}
 
-//* KeyboardState<(AmountString, Transaction DateTime)>
-class EnteringBasicDataState extends KeyboardState<(String, DateTime)> {
-  EnteringBasicDataState({required super.data});
-}
-
-class SelectingCategoriesState extends KeyboardState<Category?> {
-  SelectingCategoriesState({required super.data});
-}
-
+class SelectingCategoriesState extends KeyboardState {}

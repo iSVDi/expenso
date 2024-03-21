@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:expenso/modules/main/views/numericKeyboard/dateTimePicker.dart';
+import 'package:expenso/common/views/dateTimePicker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenso/modules/main/dataLayer/models/transaction.dart';
@@ -54,7 +54,7 @@ class TransactionViewState extends State<TransactionView> {
                     callback: (date) {
                       if (date != null) {
                         setState(() {
-                          transaction.updateDate = date;
+                          transaction.date = date;
                         });
                       }
                       Navigator.of(context).pop();

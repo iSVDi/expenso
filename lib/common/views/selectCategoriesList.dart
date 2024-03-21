@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import "package:expenso/modules/main/views/numericKeyboard/enterTextBottomSheet.dart";
+import 'package:expenso/common/views/enterTextBottomSheet.dart';
+import 'package:expenso/common/views/viewFactory.dart';
+
 import "package:flutter/material.dart";
 
 import "package:expenso/modules/main/dataLayer/models/category.dart";
@@ -41,12 +43,15 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         ),
         _getCategoriesList(context)
       ]),
-      _getDoneButton(context)
+      ViewFactory.getDoneButton(context, () {
+        widget.doneButtonCallback(widget.selectedCategory);
+      })
     ]);
   }
 
   Widget _getKeyboardHeader(BuildContext context) {
     var addCategoryButton = TextButton(
+      // todo move to special class
       child: const Text("+ add Category",
           style: TextStyle(color: Colors.black, fontSize: 18)),
       onPressed: () {
@@ -58,7 +63,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         icon: const Icon(Icons.arrow_back_ios_new),
         onPressed: () {
           // _getCubit(context).backCategoriesButtonHandler();
-          widget.backButtonCallback;
+          widget.backButtonCallback();
         });
     Row header = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,20 +132,6 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     });
   }
 
-  Container _getDoneButton(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(right: 5, bottom: 5),
-        child: IconButton(
-            onPressed: () {
-              widget.doneButtonCallback(widget.selectedCategory);
-            },
-            icon: const Icon(Icons.done),
-            style: ButtonStyle(
-                minimumSize: const MaterialStatePropertyAll(Size(88, 88)),
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.greenAccent[400]))));
-  }
-
   Future _showSheet(BuildContext context, Widget child) async {
     var container = Container(
         height: 100,
@@ -148,7 +139,4 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         child: child);
     showModalBottomSheet(context: context, builder: (context) => container);
   }
-
-  
-
 }

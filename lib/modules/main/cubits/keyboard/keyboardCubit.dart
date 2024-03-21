@@ -1,31 +1,27 @@
 import "package:expenso/modules/main/dataLayer/models/transaction.dart";
 import "package:expenso/modules/main/dataLayer/repositories/transactionsRepository.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import 'package:expenso/modules/main/views/numericKeyboard/numericKeyboard.dart';
-import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
 import "../../dataLayer/models/category.dart";
 import "../../dataLayer/repositories/categoriesRepository.dart";
 import "keyboardStates.dart";
 
 class KeyboardCubit extends Cubit<KeyboardState> {
-  final _amountUpdater = AmountStringUpdater();
+  Transaction _transaction = Transaction.empty(date: DateTime.now());
 
-  // This values used only for keep data
-  late double _amount;
-  late DateTime _date;
-  Category? _selectedCategory;
-  String _enteredComment = "";
+  String get getAmount {
+    if (_transaction.amount % 1 == 0) {
+      return "${_transaction.amount.toInt()}";
+    }
+    return "${_transaction.amount}";
+  }
 
-  String get getAmount => (state as EnteringBasicDataState).data.$1;
-  DateTime get getDate => (state as EnteringBasicDataState).data.$2;
-  Category? get getCategory => (_selectedCategory);
+  DateTime get getDate => _transaction.date;
+  Category? get getCategory => _transaction.category.target;
 
   final _categoriesRepository = CategoriesRepository();
   final _transactionRepository = TransactionRepository();
 
-  KeyboardCubit()
-      : super(EnteringBasicDataState(
-            data: (NumericKeyboardButtonType.zero.value, DateTime.now())));
+  KeyboardCubit() : super(EnteringBasicDataState());
 
 // *  Interface
   void doneButtonHandler() {
@@ -37,48 +33,31 @@ class KeyboardCubit extends Cubit<KeyboardState> {
   }
 
   void updateDate(DateTime newDate) {
-    _date = newDate;
+    _transaction.date = newDate;
   }
 
   void updateAmount(String newAmount) {
-    _amount = double.parse(newAmount);
+    _transaction.amount = double.parse(newAmount);
   }
 
   void updateCategory(Category? category) {
-    _selectedCategory = category;
+    _transaction.category.target = category;
   }
 
-  bool isNeedSetBoldCategoryTitle(Category category) {
-    var currentState = (state as SelectingCategoriesState).data;
-    if (currentState != null) {
-      var res = category.id == currentState.id;
-      return res;
-    }
-    return false;
-  }
-
-  void saveComment(String comment) {
-    _enteredComment = comment;
+  void updateComment(String comment) {
+    _transaction.comment = comment;
     _saveTransaction();
   }
 
   void backCategoriesButtonHandler() {
-    var stringAmount = "";
-    if (_amount % 1 == 0) {
-      // stringAmount
-      stringAmount = "${_amount.toInt()}";
-    } else {
-      stringAmount = "$_amount";
-    }
-
-    emit(EnteringBasicDataState(data: (stringAmount, _date)));
+    emit(EnteringBasicDataState());
   }
 
-  void addNewCategory(String title) async {
+  void addNewCategory(String title) {
     Category category = Category(title: title);
     _categoriesRepository.insertCategory(category);
     updateCategory(category);
-    emit(SelectingCategoriesState(data: category));
+    emit(SelectingCategoriesState());
   }
 
   List<Category> getCategories() {
@@ -86,18 +65,16 @@ class KeyboardCubit extends Cubit<KeyboardState> {
   }
 
   void _saveAmount() {
-    emit(SelectingCategoriesState(data: null));
+    emit(SelectingCategoriesState());
   }
 
   void _saveCategory() {
-    emit(EnteringBasicDataState(
-        data: (NumericKeyboardButtonType.zero.value, DateTime.now())));
+    emit(EnteringBasicDataState());
   }
 
   void _saveTransaction() {
-    var transaction =
-        Transaction(date: _date, comment: _enteredComment, amount: _amount);
-    transaction.category.target = _selectedCategory;
-    _transactionRepository.insertTransaction(transaction);
+    _transactionRepository.insertTransaction(_transaction);
+    _transaction = Transaction.empty(date: DateTime.now());
+    emit(EnteringBasicDataState());
   }
 }

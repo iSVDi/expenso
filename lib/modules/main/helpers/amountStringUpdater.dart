@@ -1,4 +1,4 @@
-import 'package:expenso/modules/main/views/numericKeyboard/numericKeyboard.dart';
+import 'package:expenso/common/views/numericKeyboard/numericKeyboard.dart';
 
 class AmountStringUpdater {
   final int _partWhole = 3; // count of numeric with point
