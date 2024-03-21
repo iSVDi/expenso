@@ -16,7 +16,7 @@ abstract class RepositorySubject {
 }
 
 class TransactionRepository implements RepositorySubject {
-    final Box<Transaction> _transactions = objectBoxStore.box<Transaction>();
+  final Box<Transaction> _transactions = objectBoxStore.box<Transaction>();
   late StreamSubscription<Query<Transaction>> _subscription;
   @override
   List<RepositoryObserver> _observers = [];
@@ -37,9 +37,12 @@ class TransactionRepository implements RepositorySubject {
     _transactions.put(transaction);
   }
 
-  List<Transaction> readAllTransactions() {
+  List<Transaction> readTodayTransactions() {
+    var now = DateTime.now();
+    var today = DateTime(now.year, now.month, now.day);
+    var tommorrow = today.add(const Duration(days: 1));
     var query = _transactions
-        .query()
+        .query(Transaction_.date.betweenDate(today, tommorrow))
         .order(Transaction_.id, flags: Order.descending)
         .build();
     var res = query.find();

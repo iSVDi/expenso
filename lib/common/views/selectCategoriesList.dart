@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:expenso/common/views/enterTextBottomSheet.dart';
 import 'package:expenso/common/views/viewFactory.dart';
+import "package:expenso/extensions/appColors.dart";
 
 import "package:flutter/material.dart";
 
@@ -37,10 +38,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
       Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         _getKeyboardHeader(context),
-        const Divider(
-          thickness: 2,
-          color: Colors.black,
-        ),
+        Divider(thickness: 2, color: AppColors.appBlack),
         _getCategoriesList(context)
       ]),
       ViewFactory.getDoneButton(context, () {
@@ -52,8 +50,8 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   Widget _getKeyboardHeader(BuildContext context) {
     var addCategoryButton = TextButton(
       // todo move to special class
-      child: const Text("+ add Category",
-          style: TextStyle(color: Colors.black, fontSize: 18)),
+      child: Text("+ add Category",
+          style: TextStyle(color: AppColors.appBlack, fontSize: 18)),
       onPressed: () {
         _addCategoryButtonHandler(context);
         // widget.addCategoryCallback();

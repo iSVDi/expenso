@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:expenso/common/views/numericKeyboard/numericKeyboard.dart';
 import 'package:expenso/common/views/selectCategoriesList.dart';
+import 'package:expenso/extensions/appColors.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 
@@ -81,7 +82,7 @@ class OnScreenKeyboard extends StatelessWidget {
             doneButtonHandler(context);
           });
     }
-    return keyboard;
+    return ColoredBox(color: AppColors.appNumericKeyboardColor, child: keyboard);
   }
 
   void doneButtonHandler(BuildContext context) {

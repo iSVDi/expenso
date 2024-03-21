@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:expenso/common/views/numericKeyboard/numericButton.dart';
+import 'package:expenso/extensions/appColors.dart';
 import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
 import 'package:expenso/common/views/dateTimePicker.dart';
 import 'package:expenso/common/views/viewFactory.dart';
@@ -67,17 +68,19 @@ class NumericKeyboardState extends State<NumericKeyboard> {
             widget.doneButtonCallback(widget.amount, widget.dateTime);
           };
     var doneButton = ViewFactory.getDoneButton(context, doneButtonHandler);
-    return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
-      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        _getKeyboardHeader(context),
-        const Divider(
-          thickness: 2,
-          color: Colors.black,
-        ),
-        _getNumericKeyboard(context)
-      ]),
-      doneButton
+    var keyboard = Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+      _getKeyboardHeader(context),
+      Divider(
+        thickness: 1,
+        color: AppColors.appBlack,
+      ),
+      _getNumericKeyboard(context)
     ]);
+    var keyboardStack = Stack(
+        alignment: AlignmentDirectional.bottomEnd,
+        children: [keyboard, doneButton]);
+
+    return keyboardStack;
   }
 
   Widget _getKeyboardHeader(BuildContext context) {
@@ -86,12 +89,9 @@ class NumericKeyboardState extends State<NumericKeyboard> {
     if (date != null) {
       var datePickerButton = TextButton(
           onPressed: () {
-            // widget.dateTimeButtonCallback!();
-            _handleNewDateTime(context);
+            _newDateTimeHandler(context);
           },
-          child: Text("${date.formattedDate}\n${date.formattedTime}",
-              //TODO set color via appColors class
-              style: TextStyle(color: Colors.greenAccent[400], fontSize: 18)));
+          child: _getDateTimeLabel(date));
       children.insert(0, datePickerButton);
     }
 
@@ -159,7 +159,11 @@ class NumericKeyboardState extends State<NumericKeyboard> {
         onPressed: () {
           _numericButtonHandler(NumericKeyboardButtonType.delete, context);
         },
-        icon: const Icon(Icons.arrow_back));
+        icon: Icon(
+          Icons.arrow_back,
+          size: 40,
+          color: AppColors.appBlack,
+        ));
   }
 
   Widget _getNumericButton(
@@ -175,11 +179,30 @@ class NumericKeyboardState extends State<NumericKeyboard> {
   Text _getAmountLabel(String title) {
     return Text(
       title,
-      style: const TextStyle(fontSize: 50),
+      style: const TextStyle(fontSize: 50, fontWeight: FontWeight.w300),
     );
   }
 
-  Future _handleNewDateTime(BuildContext context) async {
+  Widget _getDateTimeLabel(DateTime dateTime) {
+    var dateTitle = dateTime.formattedDate.toString();
+    var timeTitle = dateTime.formattedTime.toString();
+
+    var dateText = Text(dateTitle,
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: AppColors.appGreen));
+    var timeText = Text(timeTitle,
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+            color: AppColors.appDisabledGreen));
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [dateText, timeText]);
+  }
+
+  Future _newDateTimeHandler(BuildContext context) async {
     var date = widget.dateTime;
     if (date != null) {
       showDialog(
@@ -188,7 +211,6 @@ class NumericKeyboardState extends State<NumericKeyboard> {
                 selectedDate: date,
                 callback: (date) {
                   if (date != null) {
-                    // cubit.updateDate(date);
                     setState(() {
                       widget.dateTime = date;
                     });

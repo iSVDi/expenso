@@ -1,3 +1,4 @@
+import "package:expenso/common/constants.dart";
 import "package:expenso/modules/main/cubits/transactions/transactionsCubit.dart";
 import 'package:expenso/modules/main/views/transactionsList/transactionsList.dart';
 import "package:expenso/modules/settings/settingsView.dart";
@@ -64,9 +65,9 @@ class MainView extends StatelessWidget {
   }
 
   Widget _getKeyboard(BuildContext context) {
-    var height = MediaQuery.of(context).size.height *
+    var height = Constants.sizeFrom(context).height *
         _MainViewConstants.keyboardHeightRatio;
-    var width = MediaQuery.of(context).size.width;
+    var width = Constants.sizeFrom(context).width;
     var bloc = BlocProvider(
         create: (context) => KeyboardCubit(),
         child: OnScreenKeyboard(

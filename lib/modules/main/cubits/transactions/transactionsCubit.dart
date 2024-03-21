@@ -10,7 +10,7 @@ class TransactionsCubit extends Cubit<TransactionsState>
 
   TransactionsCubit()
       : super(TransactionsState(
-            transactions: TransactionRepository().readAllTransactions())) {
+            transactions: TransactionRepository().readTodayTransactions())) {
     _transactionRepository.registerObserver(this);
   }
 
@@ -20,7 +20,7 @@ class TransactionsCubit extends Cubit<TransactionsState>
 
   @override
   void update() {
-    var transactions = _transactionRepository.readAllTransactions();
+    var transactions = _transactionRepository.readTodayTransactions();
     emit(TransactionsState(transactions: transactions));
   }
 }

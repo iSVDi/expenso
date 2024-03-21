@@ -1,3 +1,4 @@
+import "package:expenso/extensions/appColors.dart";
 import "package:flutter/material.dart";
 
 class NumericButton extends StatelessWidget {
@@ -12,13 +13,15 @@ class NumericButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: TextButton(
-            onPressed: () {
-              callback();
-            },
-            child: Text(title,
-                style: const TextStyle(fontSize: 30),
-                textAlign: TextAlign.center)));
+    var textStyle = TextStyle(
+        fontSize: 30, color: AppColors.appBlack, fontWeight: FontWeight.w400);
+    var text = Text(title, style: textStyle, textAlign: TextAlign.center);
+    var textButton = TextButton(
+        onPressed: () {
+          callback();
+        },
+        child: text);
+    var center = Center(child: textButton);
+    return center;
   }
 }
