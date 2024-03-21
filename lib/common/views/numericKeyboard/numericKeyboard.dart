@@ -46,6 +46,7 @@ class NumericKeyboard extends StatefulWidget {
 
 class NumericKeyboardState extends State<NumericKeyboard> {
   final _amountUpdater = AmountStringUpdater();
+  bool get isDoneButtonDisabled => double.parse(widget.amount) == 0;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,12 @@ class NumericKeyboardState extends State<NumericKeyboard> {
   }
 
   Widget _getKeyboard(BuildContext context) {
+    var doneButtonHandler = isDoneButtonDisabled
+        ? null
+        : () {
+            widget.doneButtonCallback(widget.amount, widget.dateTime);
+          };
+    var doneButton = ViewFactory.getDoneButton(context, doneButtonHandler);
     return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
       Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         _getKeyboardHeader(context),
@@ -69,9 +76,7 @@ class NumericKeyboardState extends State<NumericKeyboard> {
         ),
         _getNumericKeyboard(context)
       ]),
-      ViewFactory.getDoneButton(context, () {
-        widget.doneButtonCallback(widget.amount, widget.dateTime);
-      })
+      doneButton
     ]);
   }
 

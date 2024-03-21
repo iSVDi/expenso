@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ViewFactory {
-  static Container getDoneButton(BuildContext context, Function() onPressed) {
+  static Container getDoneButton(BuildContext context, Function()? onPressed) {
     return Container(
         padding: const EdgeInsets.only(right: 5, bottom: 5),
         child: IconButton(
