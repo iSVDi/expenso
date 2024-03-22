@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 
 //TODO! fix keyboard is over text field
+//TODO! fix different behaviour when accept create new category via keyboard done button and custom done buttom
+//? maybe decision is in keyboard presenting/hiding
 class EnterTextBottomSheet extends StatefulWidget {
   String hintText;
   Function(String) callback;
@@ -21,12 +23,6 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override

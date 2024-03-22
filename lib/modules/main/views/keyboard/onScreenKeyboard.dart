@@ -69,11 +69,7 @@ class OnScreenKeyboard extends StatelessWidget {
           });
     } else {
       keyboard = SelectCategoriesList(
-          categories: cubit.getCategories(),
-          selectedCategory: cubit.getCategory,
-          addCategoryCallback: (categoryName) {
-            cubit.addNewCategory(categoryName);
-          },
+          // selectedCategory: cubit.getCategory,
           backButtonCallback: () {
             cubit.backCategoriesButtonHandler();
           },

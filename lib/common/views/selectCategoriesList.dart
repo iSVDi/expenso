@@ -2,6 +2,7 @@
 import 'package:expenso/common/views/enterTextBottomSheet.dart';
 import 'package:expenso/common/views/viewFactory.dart';
 import "package:expenso/extensions/appColors.dart";
+import "package:expenso/modules/main/dataLayer/repositories/categoriesRepository.dart";
 
 import "package:flutter/material.dart";
 
@@ -9,18 +10,14 @@ import "package:expenso/modules/main/dataLayer/models/category.dart";
 import "package:expenso/modules/main/views/cells/categoryCell.dart";
 
 class SelectCategoriesList extends StatefulWidget {
-  List<Category> categories;
   Category? selectedCategory;
   Function(Category?) doneButtonCallback;
-  Function(String) addCategoryCallback;
   Function() backButtonCallback;
 
   SelectCategoriesList({
     Key? key,
-    required this.categories,
     this.selectedCategory,
     required this.doneButtonCallback,
-    required this.addCategoryCallback,
     required this.backButtonCallback,
   }) : super(key: key);
 
@@ -29,6 +26,8 @@ class SelectCategoriesList extends StatefulWidget {
 }
 
 class SelectCategoriesListState extends State<SelectCategoriesList> {
+  CategoriesRepository repository = CategoriesRepository();
+
   @override
   Widget build(BuildContext context) {
     return _getKeyboard(context);
@@ -98,7 +97,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   Widget _getCategoriesList(BuildContext context) {
-    var categories = widget.categories;
+    var categories = repository.readAllCategories();
     var listView = ListView.builder(
         itemCount: categories.length,
         itemBuilder: (context, index) {
@@ -122,9 +121,9 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
       //todo get text from special class
       hintText: "Enter category name",
       callback: (categoryName) {
-        setState(() {
-          widget.addCategoryCallback(categoryName);
-        });
+        var category = Category(title: categoryName);
+        repository.insertCategory(category);
+        _selectCategory(category);
       },
     );
     _showSheet(context, sheet);
