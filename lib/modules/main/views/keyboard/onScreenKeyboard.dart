@@ -57,26 +57,21 @@ class OnScreenKeyboard extends StatelessWidget {
     Widget keyboard;
 
     if (cubit.state is EnteringBasicDataState) {
-      keyboard = NumericKeyboard(
-          amount: cubit.getAmount,
-          dateTime: cubit.getDate,
-          doneButtonCallback: (amount, dateTime) {
-            cubit.updateAmount(amount);
-            if (dateTime != null) {
-              cubit.updateDate(dateTime);
-            }
-            doneButtonHandler(context);
-          });
+      keyboard = SizedNumericKeyboard.sizedKeyboard(context, cubit.getAmount,
+          dateTime: cubit.getDate, (amount, dateTime) {
+        cubit.updateAmount(amount);
+        if (dateTime != null) {
+          cubit.updateDate(dateTime);
+        }
+        doneButtonHandler(context);
+      });
     } else {
-      keyboard = SelectCategoriesList(
-          // selectedCategory: cubit.getCategory,
-          backButtonCallback: () {
-            cubit.backCategoriesButtonHandler();
-          },
-          doneButtonCallback: (category) {
-            cubit.updateCategory(category);
-            doneButtonHandler(context);
-          });
+      keyboard = SelectCategoriesList(backButtonCallback: () {
+        cubit.backCategoriesButtonHandler();
+      }, doneButtonCallback: (category) {
+        cubit.updateCategory(category);
+        doneButtonHandler(context);
+      });
     }
     return ColoredBox(
         color: AppColors.appNumericKeyboardColor, child: keyboard);

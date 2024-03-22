@@ -14,15 +14,15 @@ class TransactionCell extends StatelessWidget {
   }
 
   Row _getCell() {
-    var priceLabel = _getLabel(
-        transaction.amount.toString(), Colors.black, 24, FontWeight.w300);
+    var priceLabel =
+        _getLabel(transaction.stringAmount, Colors.black, 24, FontWeight.w300);
     var column = _getTransactionsColumn();
     var crossAxisAlignment = transaction.comment.isEmpty
         ? CrossAxisAlignment.center
         : CrossAxisAlignment.start;
     return Row(
         crossAxisAlignment: crossAxisAlignment,
-        children: [priceLabel, SizedBox(width: 20, height: 0), column]);
+        children: [priceLabel, const SizedBox(width: 20, height: 0), column]);
   }
 
   Text _getLabel(

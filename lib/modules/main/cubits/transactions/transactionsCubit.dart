@@ -14,7 +14,7 @@ class TransactionsCubit extends Cubit<TransactionsState>
     _transactionRepository.registerObserver(this);
   }
 
-  List<Transaction> getTransactions() {
+  List<Transaction> getTodayTransactions() {
     return state.transactions;
   }
 

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/views/numericKeyboard/numericButton.dart';
 import 'package:expenso/extensions/appColors.dart';
 import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
@@ -27,25 +28,44 @@ enum NumericKeyboardButtonType {
   const NumericKeyboardButtonType(this.value);
 }
 
-class NumericKeyboard extends StatefulWidget {
-  String amount;
-  final Function(String amount, DateTime? dateTime) doneButtonCallback;
-  final Function(DateTime dateTime)? dateTimeButtonCallback;
-  DateTime? dateTime;
+class SizedNumericKeyboard {
+  static Widget sizedKeyboard(BuildContext context, String amount,
+      Function(String amount, DateTime? dateTime) doneButtonCallback,
+      {DateTime? dateTime,
+      Function(DateTime dateTime)? dateTimeButtonCallback}) {
+    var height =
+        Constants.sizeFrom(context).height * Constants.keyboardHeightRatio;
+    var width = Constants.sizeFrom(context).width;
 
-  NumericKeyboard(
-      {Key? key,
-      required this.amount,
-      required this.doneButtonCallback,
-      this.dateTimeButtonCallback,
-      this.dateTime})
-      : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => NumericKeyboardState();
+    var keyboard = _NumericKeyboard(
+      amount: amount,
+      dateTime: dateTime,
+      doneButtonCallback: doneButtonCallback,
+      dateTimeButtonCallback: dateTimeButtonCallback,
+    );
+    return SizedBox(width: width, height: height, child: keyboard);
+  }
 }
 
-class NumericKeyboardState extends State<NumericKeyboard> {
+class _NumericKeyboard extends StatefulWidget {
+  String amount;
+  DateTime? dateTime;
+  final Function(String amount, DateTime? dateTime) doneButtonCallback;
+  final Function(DateTime dateTime)? dateTimeButtonCallback;
+
+  _NumericKeyboard({
+    Key? key,
+    required this.amount,
+    this.dateTime,
+    required this.doneButtonCallback,
+    this.dateTimeButtonCallback,
+  }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _NumericKeyboardState();
+}
+
+class _NumericKeyboardState extends State<_NumericKeyboard> {
   final _amountUpdater = AmountStringUpdater();
   bool get isDoneButtonDisabled => double.parse(widget.amount) == 0;
 
@@ -93,6 +113,8 @@ class NumericKeyboardState extends State<NumericKeyboard> {
           },
           child: _getDateTimeLabel(date));
       children.insert(0, datePickerButton);
+    } else {
+      children.insert(0, const Spacer());
     }
 
     Row header = Row(

@@ -51,7 +51,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     final DateTime? selected = await showDatePicker(
         context: context,
         firstDate: DateTime(DateTime.now().year),
-        lastDate: widget._selectedDate,
+        lastDate: DateTime.now(),
         initialDate: widget._selectedDate);
 
     if (selected != null) {

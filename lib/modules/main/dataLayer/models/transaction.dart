@@ -11,6 +11,9 @@ class Transaction {
   ToOne<Category> category = ToOne<Category>();
   double amount;
 
+  String get stringAmount =>
+      (amount % 1 == 0) ? "${amount.toInt()}" : "$amount";
+
   Transaction({
     required this.date,
     required this.comment,

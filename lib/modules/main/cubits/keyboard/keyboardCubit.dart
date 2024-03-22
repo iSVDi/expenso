@@ -8,13 +8,7 @@ import "keyboardStates.dart";
 class KeyboardCubit extends Cubit<KeyboardState> {
   Transaction _transaction = Transaction.empty(date: DateTime.now());
 
-  String get getAmount {
-    if (_transaction.amount % 1 == 0) {
-      return "${_transaction.amount.toInt()}";
-    }
-    return "${_transaction.amount}";
-  }
-
+  String get getAmount => _transaction.stringAmount;
   DateTime get getDate => _transaction.date;
   Category? get getCategory => _transaction.category.target;
 

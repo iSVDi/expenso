@@ -10,7 +10,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "../cubits/keyboard/keyboardCubit.dart";
 
 class MainView extends StatelessWidget {
-  final constants = _MainViewConstants();
+  final constants = Constants();
 
   MainView({super.key});
 
@@ -65,8 +65,8 @@ class MainView extends StatelessWidget {
   }
 
   Widget _getKeyboard(BuildContext context) {
-    var height = Constants.sizeFrom(context).height *
-        _MainViewConstants.keyboardHeightRatio;
+    var height =
+        Constants.sizeFrom(context).height * Constants.keyboardHeightRatio;
     var width = Constants.sizeFrom(context).width;
     var bloc = BlocProvider(
         create: (context) => KeyboardCubit(),
@@ -75,8 +75,4 @@ class MainView extends StatelessWidget {
         ));
     return bloc;
   }
-}
-
-class _MainViewConstants {
-  static var keyboardHeightRatio = 0.43;
 }
