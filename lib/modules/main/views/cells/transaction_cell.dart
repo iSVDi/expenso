@@ -1,6 +1,6 @@
 import '../../dataLayer/models/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:expenso/extensions/appColors.dart';
+import 'package:expenso/extensions/app_colors.dart';
 
 class TransactionCell extends StatelessWidget {
   final Transaction transaction;

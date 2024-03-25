@@ -1,18 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:expenso/common/views/enterTextBottomSheet.dart';
-import 'package:expenso/common/views/viewFactory.dart';
-import "package:expenso/extensions/appColors.dart";
-import "package:expenso/modules/main/dataLayer/repositories/categoriesRepository.dart";
+import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
+import 'package:expenso/common/views/view_factory.dart';
+import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/modules/main/dataLayer/repositories/categories_repository.dart';
 
 import "package:flutter/material.dart";
 
 import "package:expenso/modules/main/dataLayer/models/category.dart";
-import "package:expenso/modules/main/views/cells/categoryCell.dart";
+import 'package:expenso/modules/main/views/cells/category_cell.dart';
 
 class SelectCategoriesList extends StatefulWidget {
   Category? selectedCategory;
-  Function(Category?) doneButtonCallback;
-  Function() backButtonCallback;
+  final Function(Category?) doneButtonCallback;
+  final Function() backButtonCallback;
 
   SelectCategoriesList({
     Key? key,
@@ -26,7 +25,7 @@ class SelectCategoriesList extends StatefulWidget {
 }
 
 class SelectCategoriesListState extends State<SelectCategoriesList> {
-  CategoriesRepository repository = CategoriesRepository();
+  final CategoriesRepository repository = CategoriesRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
       Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         _getKeyboardHeader(context),
-        Divider(thickness: 1, color: AppColors.appBlack),
+        const Divider(thickness: 1, color: AppColors.appBlack),
         _getCategoriesList(context)
       ]),
       ViewFactory.getDoneButton(context, () {
@@ -48,12 +47,12 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
 // todo move text to special class
   Widget _getKeyboardHeader(BuildContext context) {
-    var plustText = Text("+",
+    var plustText = const Text("+",
         style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: AppColors.appGreen));
-    var addCategoryText = Text("Создать категорию",
+    var addCategoryText = const Text("Создать категорию",
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w300,
@@ -74,7 +73,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     );
 
     var backButton = IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back_ios_new,
           size: 24,
           color: AppColors.appBlack,

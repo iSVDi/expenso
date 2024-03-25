@@ -1,9 +1,9 @@
 import "package:expenso/modules/main/dataLayer/models/transaction.dart";
-import "package:expenso/modules/main/dataLayer/repositories/transactionsRepository.dart";
+import 'package:expenso/modules/main/dataLayer/repositories/transactions_repository.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import "../../dataLayer/models/category.dart";
-import "../../dataLayer/repositories/categoriesRepository.dart";
-import "keyboardStates.dart";
+import '../../dataLayer/repositories/categories_repository.dart';
+import 'keyboard_states.dart';
 
 class KeyboardCubit extends Cubit<KeyboardState> {
   Transaction _transaction = Transaction.empty(date: DateTime.now());

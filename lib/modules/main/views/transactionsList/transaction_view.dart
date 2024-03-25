@@ -1,19 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:expenso/common/views/dateTimePicker.dart';
-import 'package:expenso/common/views/enterTextBottomSheet.dart';
-import 'package:expenso/common/views/numericKeyboard/numericKeyboard.dart';
-import 'package:expenso/common/views/selectCategoriesList.dart';
+import 'package:expenso/common/views/date_time_picker.dart';
+import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
+import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
+import 'package:expenso/common/views/select_categories_list.dart';
 import 'package:expenso/modules/main/dataLayer/models/category.dart';
-import 'package:expenso/modules/main/dataLayer/repositories/categoriesRepository.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenso/modules/main/dataLayer/models/transaction.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionView extends StatefulWidget {
   final Transaction transaction;
 
-  TransactionView({
+  const TransactionView({
     Key? key,
     required this.transaction,
   }) : super(key: key);
@@ -25,9 +23,6 @@ class TransactionView extends StatefulWidget {
 class TransactionViewState extends State<TransactionView> {
   Transaction get transaction => widget.transaction;
 
-  CategoriesRepository _getRepository(BuildContext context) {
-    return context.read<CategoriesRepository>();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +30,7 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   PreferredSizeWidget _getAppBar() {
-    return AppBar(actions: []);
+    return AppBar(actions: const []);
   }
 
   Widget _getBody(BuildContext context) {
@@ -123,10 +118,6 @@ class TransactionViewState extends State<TransactionView> {
     return textButton;
   }
 
-  void _addNewCategory(BuildContext context, String categoryTitle) {
-    var category = Category(title: categoryTitle);
-    _getRepository(context).insertCategory(category);
-  }
 
   void _updateCategory(Category? category) {
     setState(() {
@@ -134,17 +125,6 @@ class TransactionViewState extends State<TransactionView> {
     });
   }
 
-  TextButton _getPresentModallyButton(String buttonsTitle, Widget content) {
-    var text = Text(buttonsTitle);
-
-    var button = TextButton(
-        child: text,
-        onPressed: () {
-          showModalBottomSheet(
-              context: context, builder: (buildContext) => content);
-        });
-    return button;
-  }
 
   TextButton a(String buttonsTitle,
       {Function(BuildContext context)? contentFunc, Widget? content}) {

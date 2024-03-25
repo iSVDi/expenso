@@ -1,8 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:async';
-
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:expenso/extensions/appColors.dart';
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class RequestCommentSheet extends StatefulWidget {

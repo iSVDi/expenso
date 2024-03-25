@@ -5,9 +5,9 @@ import "package:flutter/material.dart";
 // TODO save comment when user tap outside of sheet and its begin closing
 //? maybe decision is in keyboard presenting/hiding
 class EnterTextBottomSheet extends StatefulWidget {
-  String hintText;
-  Function(String) callback;
-  EnterTextBottomSheet({
+  final String hintText;
+  final Function(String) callback;
+  const EnterTextBottomSheet({
     Key? key,
     required this.hintText,
     required this.callback,
@@ -32,7 +32,7 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
         onPressed: () {
           _doneButtonHandler();
         },
-        icon: Icon(Icons.done));
+        icon: const Icon(Icons.done));
     var textField = TextField(
       decoration: InputDecoration(hintText: widget.hintText),
       controller: _controller,

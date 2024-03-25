@@ -1,13 +1,13 @@
 import "package:expenso/common/constants.dart";
-import "package:expenso/modules/main/cubits/transactions/transactionsCubit.dart";
-import 'package:expenso/modules/main/views/transactionsList/transactionsList.dart';
-import "package:expenso/modules/settings/settingsView.dart";
+import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
+import 'package:expenso/modules/main/views/transactionsList/transactions_list.dart';
+import 'package:expenso/modules/settings/settings_view.dart';
 import "package:flutter/material.dart";
-import 'package:expenso/modules/main/views/keyboard/onScreenKeyboard.dart';
-import "package:expenso/extensions/appImages.dart";
+import 'package:expenso/modules/main/views/keyboard/on_screen_keyboard.dart';
+import 'package:expenso/extensions/app_images.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import "../cubits/keyboard/keyboardCubit.dart";
+import '../cubits/keyboard/keyboard_cubit.dart';
 
 class MainView extends StatelessWidget {
   final constants = Constants();
@@ -22,7 +22,7 @@ class MainView extends StatelessWidget {
   PreferredSizeWidget _getAppBar(BuildContext context) {
     return AppBar(
         //TODO: move text to special class
-        title: Text("Main Title"),
+        title: const Text("Main Title"),
         actions: [
           _getAnalyseBarButton(context),
           _getSettingsBarButton(context)
@@ -33,7 +33,7 @@ class MainView extends StatelessWidget {
     return IconButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: ((context) => SettingsView())));
+              MaterialPageRoute(builder: ((context) => const SettingsView())));
         },
         icon: AppImages.barChartIcon.assetsImage);
   }
@@ -42,7 +42,7 @@ class MainView extends StatelessWidget {
     return IconButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: ((context) => SettingsView())));
+              MaterialPageRoute(builder: ((context) => const SettingsView())));
         },
         icon: AppImages.settingsIcon.assetsImage);
   }

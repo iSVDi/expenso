@@ -1,19 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import "package:expenso/extensions/appColors.dart";
 import "package:flutter/material.dart";
 
-import "package:expenso/extensions/dateTime.dart";
+import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/extensions/date_time.dart';
 
 class DateTimePicker extends StatefulWidget {
-  DateTime _selectedDate;
-  Function(DateTime?) callback;
+  late DateTime selectedDate;
+  final Function(DateTime?) callback;
 
   DateTimePicker({
     Key? key,
-    required DateTime selectedDate,
+    required this.selectedDate,
     required this.callback,
-  })  : _selectedDate = selectedDate,
-        super(key: key);
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DateTimePickerState();
@@ -31,12 +30,12 @@ class _DateTimePickerState extends State<DateTimePicker> {
         borderSide: const BorderSide(color: AppColors.appGreen));
 
     var applyButton = _getRoundedButton(() {
-      widget.callback(widget._selectedDate);
+      widget.callback(widget.selectedDate);
     }, "apply", AppColors.appWhite,
         backgroundColor: AppColors.appGreen); //TODO: move text to special class
 
     var column = Column(
-        mainAxisAlignment: MainAxisAlignment.start, 
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _getDatePickerButton(),
@@ -62,11 +61,11 @@ class _DateTimePickerState extends State<DateTimePicker> {
         context: context,
         firstDate: DateTime(DateTime.now().year),
         lastDate: DateTime.now(),
-        initialDate: widget._selectedDate);
+        initialDate: widget.selectedDate);
 
     if (selected != null) {
       setState(() {
-        widget._selectedDate = widget._selectedDate.fromDateTime(selected);
+        widget.selectedDate = widget.selectedDate.fromDateTime(selected);
       });
     }
   }
@@ -76,7 +75,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
         await showTimePicker(context: context, initialTime: TimeOfDay.now());
     if (selected != null) {
       setState(() {
-        widget._selectedDate = widget._selectedDate.updateTime(selected);
+        widget.selectedDate = widget.selectedDate.updateTime(selected);
       });
     }
   }
@@ -86,7 +85,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
         onPressed: () {
           _handleSelectedDate(context);
         },
-        child: Text(widget._selectedDate.formattedDate,
+        child: Text(widget.selectedDate.formattedDate,
             style: const TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w400,
@@ -98,7 +97,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
         onPressed: () {
           _handleSelectedTime(context);
         },
-        child: Text(widget._selectedDate.formattedTime,
+        child: Text(widget.selectedDate.formattedTime,
             style: const TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w300,

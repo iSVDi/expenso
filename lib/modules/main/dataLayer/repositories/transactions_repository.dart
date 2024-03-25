@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import "package:expenso/objectbox.g.dart";
 import '../../../../main.dart';
 import '../models/transaction.dart';
@@ -9,20 +7,16 @@ abstract class RepositoryObserver {
 }
 
 abstract class RepositorySubject {
-  List<RepositoryObserver> _observers = [];
   void registerObserver(RepositoryObserver observer);
   void removeObserver(RepositoryObserver observer);
-  void _notifyObservers();
 }
 
 class TransactionRepository implements RepositorySubject {
   final Box<Transaction> _transactions = objectBoxStore.box<Transaction>();
-  late StreamSubscription<Query<Transaction>> _subscription;
-  @override
-  List<RepositoryObserver> _observers = [];
+  late List<RepositoryObserver> _observers;
 
   TransactionRepository() {
-    _subscription = _transactions
+    _transactions
         .query()
         .watch(triggerImmediately: true)
         .listen(subscriptionListener);
@@ -33,7 +27,6 @@ class TransactionRepository implements RepositorySubject {
   }
 
   void insertTransaction(Transaction transaction) {
-    //? need check id?
     _transactions.put(transaction);
   }
 
@@ -49,7 +42,6 @@ class TransactionRepository implements RepositorySubject {
     return res;
   }
 
-  @override
   void _notifyObservers() {
     for (var observer in _observers) {
       observer.update();

@@ -1,15 +1,15 @@
 // ignore_for_file: file_names
-import 'package:expenso/common/views/numericKeyboard/numericKeyboard.dart';
-import 'package:expenso/common/views/selectCategoriesList.dart';
-import 'package:expenso/extensions/appColors.dart';
+import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
+import 'package:expenso/common/views/select_categories_list.dart';
+import 'package:expenso/extensions/app_colors.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 
-import 'package:expenso/modules/main/views/keyboard/requestCommentSheet.dart';
-import 'package:expenso/common/views/enterTextBottomSheet.dart';
+import 'package:expenso/modules/main/views/keyboard/request_comment_sheet.dart';
+import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 
-import '../../cubits/keyboard/keyboardCubit.dart';
-import '../../cubits/keyboard/keyboardStates.dart';
+import '../../cubits/keyboard/keyboard_cubit.dart';
+import '../../cubits/keyboard/keyboard_states.dart';
 
 enum NumericKeyboardButtonType {
   point("."),

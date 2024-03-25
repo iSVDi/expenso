@@ -1,9 +1,9 @@
-import 'package:expenso/modules/main/cubits/transactions/transactionsCubit.dart';
-import 'package:expenso/modules/main/cubits/transactions/transactionsStates.dart';
+import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
+import 'package:expenso/modules/main/cubits/transactions/transactions_states.dart';
 import 'package:expenso/modules/main/dataLayer/models/transaction.dart';
-import 'package:expenso/modules/main/dataLayer/repositories/categoriesRepository.dart';
-import 'package:expenso/modules/main/views/cells/transactionCell.dart';
-import 'package:expenso/modules/main/views/transactionsList/transactionView.dart';
+import 'package:expenso/modules/main/dataLayer/repositories/categories_repository.dart';
+import 'package:expenso/modules/main/views/cells/transaction_cell.dart';
+import 'package:expenso/modules/main/views/transactionsList/transaction_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

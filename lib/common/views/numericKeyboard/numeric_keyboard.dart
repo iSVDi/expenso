@@ -1,13 +1,12 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:expenso/common/constants.dart';
-import 'package:expenso/common/views/numericKeyboard/numericButton.dart';
-import 'package:expenso/extensions/appColors.dart';
-import 'package:expenso/modules/main/helpers/amountStringUpdater.dart';
-import 'package:expenso/common/views/dateTimePicker.dart';
-import 'package:expenso/common/views/viewFactory.dart';
+import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
+import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/modules/main/helpers/amount_string_updater.dart';
+import 'package:expenso/common/views/date_time_picker.dart';
+import 'package:expenso/common/views/view_factory.dart';
 import 'package:flutter/material.dart';
 
-import 'package:expenso/extensions/dateTime.dart';
+import 'package:expenso/extensions/date_time.dart';
 
 enum NumericKeyboardButtonType {
   point("."),
@@ -90,7 +89,7 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     var doneButton = ViewFactory.getDoneButton(context, doneButtonHandler);
     var keyboard = Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       _getKeyboardHeader(context),
-      Divider(
+      const Divider(
         thickness: 1,
         color: AppColors.appBlack,
       ),
@@ -185,7 +184,7 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
         onPressed: () {
           _numericButtonHandler(NumericKeyboardButtonType.delete, context);
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
           size: 40,
           color: AppColors.appBlack,
@@ -214,12 +213,12 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     var timeTitle = dateTime.formattedTime.toString();
 
     var dateText = Text(dateTitle,
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,
             color: AppColors.appGreen));
     var timeText = Text(timeTitle,
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w400,
             color: AppColors.appDisabledGreen));
