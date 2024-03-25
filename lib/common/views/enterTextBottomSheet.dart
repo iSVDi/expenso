@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 
 //TODO! fix keyboard is over text field
 //TODO! fix different behaviour when accept create new category via keyboard done button and custom done buttom
+// TODO save comment when user tap outside of sheet and its begin closing
 //? maybe decision is in keyboard presenting/hiding
 class EnterTextBottomSheet extends StatefulWidget {
   String hintText;

@@ -16,6 +16,7 @@ dependencies:
   path: ^1.8.3
   objectbox: ^2.5.1
   objectbox_flutter_libs: any
+  circular_countdown_timer: ^0.2.3
 
 dev_dependencies:
   flutter_test:

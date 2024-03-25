@@ -5,7 +5,7 @@ import 'package:expenso/extensions/appColors.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 
-import 'package:expenso/modules/main/views/keyboard/commentSheet.dart';
+import 'package:expenso/modules/main/views/keyboard/requestCommentSheet.dart';
 import 'package:expenso/common/views/enterTextBottomSheet.dart';
 
 import '../../cubits/keyboard/keyboardCubit.dart';
@@ -93,9 +93,7 @@ class OnScreenKeyboard extends StatelessWidget {
           _getCubit(context).updateComment(comment);
         });
 
-    var askCommentSheet =
-        CommentSheet(callback: (needEnterComment, sheetsContext) {
-      Navigator.pop(sheetsContext);
+    var askCommentSheet = RequestCommentSheet(callback: (needEnterComment) {
       if (needEnterComment) {
         _showSheet(context, enterCommentSheet);
       } else {
