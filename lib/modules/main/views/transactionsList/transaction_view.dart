@@ -3,7 +3,6 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list.dart';
 import 'package:expenso/extensions/app_colors.dart';
-import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/modules/main/dataLayer/models/category.dart';
 import 'package:expenso/modules/main/dataLayer/repositories/transactions_repository.dart';
@@ -51,19 +50,30 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   Widget _getBody(BuildContext context) {
-    return Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      _getDateButton(),
-      _getCategoryButton(),
-      _getCommentButton(),
-      _getAmountButton()
-    ]));
+    return Padding(
+      padding: const EdgeInsets.only(left: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _getDateButton(),
+          _getCategoryButton(),
+          _getCommentButton(),
+          _getAmountButton()
+        ],
+      ),
+    );
     // return ;
   }
 
   Widget _getDateButton() {
     var title = Text(
-        "${transaction.date.formattedDate} ${transaction.date.formattedTime}");
+      "${transaction.date.formattedDate}, ${transaction.date.formattedTime}",
+      style: const TextStyle(
+        fontWeight: FontWeight.w100,
+        fontSize: 24,
+        color: AppColors.appBlack,
+      ),
+    );
     var dateTimePicker = DateTimePicker(
       selectedDate: transaction.date,
       callback: (date) {
@@ -85,6 +95,11 @@ class TransactionViewState extends State<TransactionView> {
   Widget _getCategoryButton() {
     // todo move text to special class
     var title = transaction.category.target?.title ?? "no category";
+    var text = Text(title,
+        style: const TextStyle(
+            fontWeight: FontWeight.w100,
+            fontSize: 40,
+            color: AppColors.appGreen));
     selectCategoriesList(BuildContext builderContext) {
       return SelectCategoriesList(
           selectedCategory: transaction.category.target,
@@ -98,7 +113,7 @@ class TransactionViewState extends State<TransactionView> {
     }
 
     var textButton = _getPresentModallyButton(
-      buttonsTitle: title,
+      child: text,
       contentFunc: selectCategoriesList,
     );
     return textButton;
@@ -107,12 +122,17 @@ class TransactionViewState extends State<TransactionView> {
   Widget _getCommentButton() {
     var comment =
         transaction.comment.isEmpty ? "add Comment" : transaction.comment;
+    var text = Text(comment,
+        style: const TextStyle(
+            fontWeight: FontWeight.w100,
+            fontSize: 20,
+            color: AppColors.appGreen));
     var enterCommentSheet = EnterTextBottomSheet(
         hintText: "add Comment",
         callback: (comment) => _updateComment(comment));
 
-    var textButton = _getPresentModallyButton(
-        buttonsTitle: comment, content: enterCommentSheet);
+    var textButton =
+        _getPresentModallyButton(child: text, content: enterCommentSheet);
     return textButton;
   }
 
@@ -127,8 +147,14 @@ class TransactionViewState extends State<TransactionView> {
       });
     }
 
+    var text = Text(transaction.stringAmount,
+        style: const TextStyle(
+          fontSize: 50,
+          fontWeight: FontWeight.w300,
+          color: AppColors.appBlack,
+        ));
     var textButton = _getPresentModallyButton(
-      buttonsTitle: transaction.stringAmount,
+      child: text,
       contentFunc: keyboard,
     );
     return textButton;
@@ -165,12 +191,11 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   TextButton _getPresentModallyButton(
-      {required String buttonsTitle,
+      {required Widget child,
       Function(BuildContext context)? contentFunc,
       Widget? content}) {
-    var text = Text(buttonsTitle);
     var textButton = TextButton(
-        child: text,
+        child: child,
         onPressed: () => showModalBottomSheet(
             context: context,
             builder: (buildContext) => content ?? contentFunc!(buildContext)));

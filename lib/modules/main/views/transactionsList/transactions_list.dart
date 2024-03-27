@@ -1,7 +1,6 @@
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_states.dart';
 import 'package:expenso/modules/main/dataLayer/models/transaction.dart';
-import 'package:expenso/modules/main/dataLayer/repositories/categories_repository.dart';
 import 'package:expenso/modules/main/views/cells/transaction_cell.dart';
 import 'package:expenso/modules/main/views/transactionsList/transaction_view.dart';
 import 'package:flutter/material.dart';
