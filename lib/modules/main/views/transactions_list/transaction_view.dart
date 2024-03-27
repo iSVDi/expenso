@@ -1,14 +1,14 @@
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
-import 'package:expenso/common/views/select_categories_list.dart';
+import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
 import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
-import 'package:expenso/modules/main/dataLayer/models/category.dart';
-import 'package:expenso/modules/main/dataLayer/repositories/transactions_repository.dart';
+import 'package:expenso/common/data_layer/models/category.dart';
+import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
 import 'package:flutter/material.dart';
 
-import 'package:expenso/modules/main/dataLayer/models/transaction.dart';
+import 'package:expenso/common/data_layer/models/transaction.dart';
 
 class TransactionView extends StatefulWidget {
   final Transaction transaction;

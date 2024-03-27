@@ -1,6 +1,6 @@
 import "package:expenso/common/constants.dart";
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
-import 'package:expenso/modules/main/views/transactionsList/transactions_list.dart';
+import 'package:expenso/modules/main/views/transactions_list/transactions_list.dart';
 import 'package:expenso/modules/settings/settings_view.dart';
 import "package:flutter/material.dart";
 import 'package:expenso/modules/main/views/enter_transaction_data/enter_transaction_data.dart';
@@ -10,9 +10,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import '../cubits/keyboard/keyboard_cubit.dart';
 
 class MainView extends StatelessWidget {
-  final constants = Constants();
-
-  MainView({super.key});
+  const MainView({super.key});
 
   @override
   Widget build(BuildContext context) {

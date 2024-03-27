@@ -1,6 +1,6 @@
-import 'package:expenso/modules/main/dataLayer/models/category.dart';
+import 'package:expenso/common/data_layer/models/category.dart';
 import "package:expenso/objectbox.g.dart";
-import '../../../../main.dart';
+import '../../../main.dart';
 
 class CategoriesRepository {
   final Box<Category> _categories = objectBoxStore.box<Category>();

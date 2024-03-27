@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
-import 'package:expenso/common/views/select_categories_list.dart';
+import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
 import 'package:expenso/extensions/app_colors.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';

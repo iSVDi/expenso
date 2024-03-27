@@ -1,4 +1,4 @@
-import 'package:expenso/modules/main/dataLayer/models/transaction.dart';
+import 'package:expenso/common/data_layer/models/transaction.dart';
 
 
 //? does state must keep transactions?

@@ -1,12 +1,12 @@
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/view_factory.dart';
 import 'package:expenso/extensions/app_colors.dart';
-import 'package:expenso/modules/main/dataLayer/repositories/categories_repository.dart';
+import 'package:expenso/common/data_layer/repositories/categories_repository.dart';
 
 import "package:flutter/material.dart";
 
-import "package:expenso/modules/main/dataLayer/models/category.dart";
-import 'package:expenso/modules/main/views/cells/category_cell.dart';
+import 'package:expenso/common/data_layer/models/category.dart';
+import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 
 class SelectCategoriesList extends StatefulWidget {
   Category? selectedCategory;

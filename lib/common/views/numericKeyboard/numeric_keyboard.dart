@@ -1,7 +1,7 @@
 import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
 import 'package:expenso/extensions/app_colors.dart';
-import 'package:expenso/modules/main/helpers/amount_string_updater.dart';
+import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/view_factory.dart';
 import 'package:flutter/material.dart';

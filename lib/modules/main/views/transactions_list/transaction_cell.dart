@@ -1,4 +1,4 @@
-import '../../dataLayer/models/transaction.dart';
+import '../../../../common/data_layer/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:expenso/extensions/app_colors.dart';
 

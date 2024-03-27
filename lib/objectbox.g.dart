@@ -15,8 +15,8 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'modules/main/dataLayer/models/category.dart';
-import 'modules/main/dataLayer/models/transaction.dart';
+import 'common/data_layer/models/category.dart';
+import 'common/data_layer/models/transaction.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
