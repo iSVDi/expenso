@@ -26,8 +26,17 @@ class TransactionRepository implements RepositorySubject {
     _notifyObservers();
   }
 
-  void insertTransaction(Transaction transaction) {
-    _transactions.put(transaction);
+  int insertTransaction(Transaction transaction) {
+    return _transactions.put(transaction);
+  }
+
+  void updateLastTransactionsComment(String comment) {
+    var id = _transactions.count();
+    var transaction = _transactions.get(id);
+    if (transaction != null) {
+      transaction.comment = comment;
+      _transactions.put(transaction);
+    }
   }
 
   void removeTransaction(Transaction transaction) {

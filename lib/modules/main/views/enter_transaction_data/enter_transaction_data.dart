@@ -5,7 +5,7 @@ import 'package:expenso/extensions/app_colors.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 
-import 'package:expenso/modules/main/views/keyboard/request_comment_sheet.dart';
+import 'package:expenso/modules/main/views/enter_transaction_data/request_comment_sheet.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 
 import '../../cubits/keyboard/keyboard_cubit.dart';
@@ -30,10 +30,10 @@ enum NumericKeyboardButtonType {
   const NumericKeyboardButtonType(this.value);
 }
 
-class OnScreenKeyboard extends StatelessWidget {
+class EnterTransactionData extends StatelessWidget {
   final Size size;
 
-  const OnScreenKeyboard({
+  const EnterTransactionData({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -62,9 +62,9 @@ class OnScreenKeyboard extends StatelessWidget {
     if (cubit.state is EnteringBasicDataState) {
       keyboard = SizedNumericKeyboard.sizedKeyboard(context, cubit.getAmount,
           dateTime: cubit.getDate, (amount, dateTime) {
-        cubit.updateAmount(amount);
+        cubit.setAmount(amount);
         if (dateTime != null) {
-          cubit.updateDate(dateTime);
+          cubit.setDate(dateTime);
         }
         doneButtonHandler(context);
       });
@@ -72,7 +72,7 @@ class OnScreenKeyboard extends StatelessWidget {
       keyboard = SelectCategoriesList(backButtonCallback: () {
         cubit.backCategoriesButtonHandler();
       }, doneButtonCallback: (category) {
-        cubit.updateCategory(category);
+        cubit.setCategory(category);
         doneButtonHandler(context);
       });
     }
@@ -100,7 +100,7 @@ class OnScreenKeyboard extends StatelessWidget {
       if (needEnterComment) {
         _showSheet(context, enterCommentSheet);
       } else {
-        _getCubit(context).updateComment("");
+        _getCubit(context).setEmptyComment();
       }
     });
     _showSheet(context, askCommentSheet);

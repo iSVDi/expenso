@@ -22,25 +22,29 @@ class KeyboardCubit extends Cubit<KeyboardState> {
     if (state is EnteringBasicDataState) {
       _saveAmount();
     } else if (state is SelectingCategoriesState) {
-      _saveCategory();
+      _saveTransaction();
     }
   }
 
-  void updateDate(DateTime newDate) {
+  void setDate(DateTime newDate) {
     _transaction.date = newDate;
   }
 
-  void updateAmount(String newAmount) {
+  void setAmount(String newAmount) {
     _transaction.amount = double.parse(newAmount);
   }
 
-  void updateCategory(Category? category) {
+  void setCategory(Category? category) {
     _transaction.category.target = category;
   }
 
-  void updateComment(String comment) {
-    _transaction.comment = comment;
+  void setEmptyComment() {
     _saveTransaction();
+  }
+
+  void updateComment(String comment) {
+    _transactionRepository.updateLastTransactionsComment(comment);
+    emit(EnteringBasicDataState());
   }
 
   void backCategoriesButtonHandler() {
@@ -50,7 +54,7 @@ class KeyboardCubit extends Cubit<KeyboardState> {
   void addNewCategory(String title) {
     Category category = Category(title: title);
     _categoriesRepository.insertCategory(category);
-    updateCategory(category);
+    setCategory(category);
     emit(SelectingCategoriesState());
   }
 
@@ -60,10 +64,6 @@ class KeyboardCubit extends Cubit<KeyboardState> {
 
   void _saveAmount() {
     emit(SelectingCategoriesState());
-  }
-
-  void _saveCategory() {
-    emit(EnteringBasicDataState());
   }
 
   void _saveTransaction() {
