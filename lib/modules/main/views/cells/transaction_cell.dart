@@ -5,8 +5,10 @@ import 'package:expenso/extensions/app_colors.dart';
 class TransactionCell extends StatelessWidget {
   final Transaction transaction;
 
-  const TransactionCell({Key? key, required this.transaction})
-      : super(key: key);
+  const TransactionCell({
+    Key? key,
+    required this.transaction,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

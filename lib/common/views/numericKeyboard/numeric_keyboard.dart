@@ -27,11 +27,15 @@ enum NumericKeyboardButtonType {
   const NumericKeyboardButtonType(this.value);
 }
 
+// TODO set named parameters
 class SizedNumericKeyboard {
-  static Widget sizedKeyboard(BuildContext context, String amount,
-      Function(String amount, DateTime? dateTime) doneButtonCallback,
-      {DateTime? dateTime,
-      Function(DateTime dateTime)? dateTimeButtonCallback}) {
+  static Widget sizedKeyboard(
+    BuildContext context,
+    String amount,
+    Function(String amount, DateTime? dateTime) doneButtonCallback, {
+    DateTime? dateTime,
+    Function(DateTime dateTime)? dateTimeButtonCallback,
+  }) {
     var height =
         Constants.sizeFrom(context).height * Constants.keyboardHeightRatio;
     var width = Constants.sizeFrom(context).width;

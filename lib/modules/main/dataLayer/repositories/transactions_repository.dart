@@ -13,7 +13,7 @@ abstract class RepositorySubject {
 
 class TransactionRepository implements RepositorySubject {
   final Box<Transaction> _transactions = objectBoxStore.box<Transaction>();
-  late List<RepositoryObserver> _observers;
+  final List<RepositoryObserver> _observers = [];
 
   TransactionRepository() {
     _transactions
@@ -28,6 +28,10 @@ class TransactionRepository implements RepositorySubject {
 
   void insertTransaction(Transaction transaction) {
     _transactions.put(transaction);
+  }
+
+  void removeTransaction(Transaction transaction) {
+    _transactions.remove(transaction.id);
   }
 
   List<Transaction> readTodayTransactions() {

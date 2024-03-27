@@ -44,11 +44,14 @@ class OnScreenKeyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var bloc =
-        BlocBuilder<KeyboardCubit, KeyboardState>(builder: (context, state) {
-      return SizedBox(
-          height: size.height, width: size.width, child: _getKeyboard(context));
-    });
+    var bloc = BlocBuilder<KeyboardCubit, KeyboardState>(
+      builder: (context, state) {
+        return SizedBox(
+            height: size.height,
+            width: size.width,
+            child: _getKeyboard(context));
+      },
+    );
     return bloc;
   }
 

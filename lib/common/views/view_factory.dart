@@ -3,6 +3,7 @@ import 'package:expenso/extensions/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ViewFactory {
+  //TODO rewrite as widget
   static Padding getDoneButton(BuildContext context, Function()? onPressed) {
     var buttonColor =
         onPressed == null ? AppColors.appDisabledGreen : AppColors.appGreen;

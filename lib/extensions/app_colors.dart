@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO check how need set colors in flutter docs
 class AppColors {
   static const appBlack = Colors.black;
   static const appWhite = Colors.white;

@@ -9,7 +9,7 @@ class Transaction {
   DateTime date;
   String comment;
   ToOne<Category> category = ToOne<Category>();
-  double amount;
+  double amount; // TODO rewrite via int
 
   String get stringAmount =>
       (amount % 1 == 0) ? "${amount.toInt()}" : "$amount";

@@ -45,9 +45,9 @@ class TransactionsList extends StatelessWidget {
 
   void _presentTransaction(BuildContext context, Transaction transaction) {
     var transactionView = TransactionView(transaction: transaction);
-    var repositoryProvider = RepositoryProvider(
-        create: (context) => CategoriesRepository(), child: transactionView);
     Navigator.push(
-        context, MaterialPageRoute(builder: ((context) => repositoryProvider)));
+      context,
+      MaterialPageRoute(builder: ((context) => transactionView)),
+    );
   }
 }
