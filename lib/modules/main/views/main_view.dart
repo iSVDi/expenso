@@ -1,32 +1,55 @@
-import "package:expenso/common/constants.dart";
-import 'package:expenso/modules/history/cubit/history_cubit.dart';
-import 'package:expenso/modules/history/views/history_list.dart';
-import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
-import 'package:expenso/modules/main/views/transactions_list/transactions_list.dart';
-import 'package:expenso/modules/settings/settings_view.dart';
+import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import "package:flutter/material.dart";
-import 'package:expenso/modules/main/views/enter_transaction_data/enter_transaction_data.dart';
-import 'package:expenso/extensions/app_images.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import '../cubits/keyboard/keyboard_cubit.dart';
+import "package:expenso/common/constants.dart";
+import 'package:expenso/extensions/app_images.dart';
+import 'package:expenso/modules/history/cubit/history_cubit.dart';
+import 'package:expenso/modules/history/views/history_list.dart';
+import 'package:expenso/modules/main/cubits/spend_today_amount_provider.dart';
+import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
+import 'package:expenso/modules/main/views/enter_transaction_data/enter_transaction_data.dart';
+import 'package:expenso/modules/main/views/transactions_list/transactions_list.dart';
+import 'package:expenso/modules/settings/settings_view.dart';
 
-class MainView extends StatelessWidget {
+class MainView extends StatefulWidget {
   const MainView({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> {
+  String sum = "";
+  late SpendTodayAmountProvider cubit;
+
+  _MainViewState() {
+    cubit = SpendTodayAmountProvider(callback: (String amountString) {
+      setState(() {
+        sum = amountString;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: _getAppBar(context), body: _getBody(context));
   }
 
   PreferredSizeWidget _getAppBar(BuildContext context) {
+    var column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(sum),
+        const Text("spent today"),
+      ],
+    );
     return AppBar(
-        //TODO: set sum of amounts
-        title: const Text("Main Title"),
-        actions: [
-          _getAnalyseBarButton(context),
-          _getSettingsBarButton(context)
-        ]);
+      title: column,
+      actions: [
+        _getAnalyseBarButton(context),
+        _getSettingsBarButton(context),
+      ],
+    );
   }
 
   IconButton _getAnalyseBarButton(BuildContext context) {
