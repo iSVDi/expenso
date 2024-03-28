@@ -1,14 +1,17 @@
+import 'package:expenso/extensions/date_time.dart';
+
 import '../../../../common/data_layer/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:expenso/extensions/app_colors.dart';
 
+enum TransactionCellMode { today, analyze }
+
 class TransactionCell extends StatelessWidget {
   final Transaction transaction;
-
-  const TransactionCell({
-    Key? key,
-    required this.transaction,
-  }) : super(key: key);
+  final TransactionCellMode mode;
+  const TransactionCell(
+      {Key? key, required this.transaction, required this.mode})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +19,24 @@ class TransactionCell extends StatelessWidget {
   }
 
   Row _getCell() {
-    var priceLabel =
-        _getLabel(transaction.stringAmount, Colors.black, 24, FontWeight.w300);
+    var title = mode == TransactionCellMode.today
+        ? transaction.stringAmount
+        : transaction.date.formattedTime;
+    var leftWidget = _getLabel(title, Colors.black, 24, FontWeight.w300);
     var column = _getTransactionsColumn();
     var crossAxisAlignment = transaction.comment.isEmpty
         ? CrossAxisAlignment.center
         : CrossAxisAlignment.start;
-    return Row(
-        crossAxisAlignment: crossAxisAlignment,
-        children: [priceLabel, const SizedBox(width: 20, height: 0), column]);
+
+    var children = [leftWidget, const SizedBox(width: 20, height: 0), column];
+    if (mode == TransactionCellMode.analyze) {
+      children.add(Spacer(
+        flex: 1,
+      ));
+      children.add(Text(transaction.stringAmount));
+    }
+    var row = Row(crossAxisAlignment: crossAxisAlignment, children: children);
+    return row;
   }
 
   Text _getLabel(

@@ -28,7 +28,10 @@ class TransactionsList extends StatelessWidget {
     var listView = ListView.builder(
         itemCount: transactions.length,
         itemBuilder: (context, index) {
-          var cell = TransactionCell(transaction: transactions[index]);
+          var cell = TransactionCell(
+            transaction: transactions[index],
+            mode: TransactionCellMode.today,
+          );
           var tile = ListTile(
             title: cell,
             onTap: () {

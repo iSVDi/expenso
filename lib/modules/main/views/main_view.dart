@@ -1,4 +1,5 @@
 import "package:expenso/common/constants.dart";
+import 'package:expenso/modules/analyze/analyze.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/views/transactions_list/transactions_list.dart';
 import 'package:expenso/modules/settings/settings_view.dart';
@@ -30,8 +31,11 @@ class MainView extends StatelessWidget {
   IconButton _getAnalyseBarButton(BuildContext context) {
     return IconButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: ((context) => const SettingsView())));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: ((context) => Analyze()),
+              ));
         },
         icon: AppImages.barChartIcon.assetsImage);
   }
@@ -52,7 +56,6 @@ class MainView extends StatelessWidget {
   }
 
   Widget _getTransactionListView() {
-    // TODO implement list
     var listView = const TransactionsList();
     var bloc = BlocProvider(
       create: (context) => TransactionsCubit(),
