@@ -1,6 +1,7 @@
+import 'package:expenso/common/data_layer/models/transaction.dart';
+import 'package:expenso/main.dart';
 import "package:expenso/objectbox.g.dart";
-import '../../../main.dart';
-import '../models/transaction.dart';
+import 'package:flutter/material.dart';
 
 abstract class RepositoryObserver {
   void update();
@@ -44,6 +45,24 @@ class TransactionRepository implements RepositorySubject {
   }
 
 //* Data queries
+
+  // return list in order
+  // 02/04/2024 10:45,
+  // 02/04/2024 10:00,
+  // 01/04/2024 09:34,
+  // 01/04/2024 09:01,
+  List<Transaction> readByDateRange(DateTimeRange dateRange) {
+    var query = _transactions
+        .query(Transaction_.date.betweenDate(
+          dateRange.start,
+          dateRange.end,
+        ))
+        .order(Transaction_.date, flags: Order.descending)
+        .build();
+    var res = query.find();
+    return res;
+  }
+
   List<Transaction> readTodayTransactions() {
     var now = DateTime.now();
     var today = DateTime(now.year, now.month, now.day);

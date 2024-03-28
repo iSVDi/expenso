@@ -1,6 +1,5 @@
+import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/extensions/date_time.dart';
-
-import '../../../../common/data_layer/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:expenso/extensions/app_colors.dart';
 
@@ -24,26 +23,41 @@ class TransactionCell extends StatelessWidget {
         : transaction.date.formattedTime;
     var leftWidget = _getLabel(title, Colors.black, 24, FontWeight.w300);
     var column = _getTransactionsColumn();
+
+    var children = [
+      leftWidget,
+      const SizedBox(width: 20, height: 0),
+      column,
+    ];
+
+    if (mode == TransactionCellMode.analyze) {
+      children.add(const Spacer(flex: 1));
+      children.add(Text(transaction.stringAmount));
+    }
+
     var crossAxisAlignment = transaction.comment.isEmpty
         ? CrossAxisAlignment.center
         : CrossAxisAlignment.start;
 
-    var children = [leftWidget, const SizedBox(width: 20, height: 0), column];
-    if (mode == TransactionCellMode.analyze) {
-      children.add(Spacer(
-        flex: 1,
-      ));
-      children.add(Text(transaction.stringAmount));
-    }
-    var row = Row(crossAxisAlignment: crossAxisAlignment, children: children);
+    var row = Row(
+      crossAxisAlignment: crossAxisAlignment,
+      children: children,
+    );
     return row;
   }
 
   Text _getLabel(
-      String title, Color titleColor, double fontSize, FontWeight fontWeight) {
-    return Text(title,
-        style: TextStyle(
-            fontSize: fontSize, color: titleColor, fontWeight: fontWeight));
+    String title,
+    Color titleColor,
+    double fontSize,
+    FontWeight fontWeight,
+  ) {
+    var style = TextStyle(
+      fontSize: fontSize,
+      color: titleColor,
+      fontWeight: fontWeight,
+    );
+    return Text(title, style: style);
   }
 
 // todo get text from special class

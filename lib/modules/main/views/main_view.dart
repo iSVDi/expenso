@@ -1,5 +1,6 @@
 import "package:expenso/common/constants.dart";
-import 'package:expenso/modules/analyze/analyze.dart';
+import 'package:expenso/modules/history/cubit/history_cubit.dart';
+import 'package:expenso/modules/history/views/history_list.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/views/transactions_list/transactions_list.dart';
 import 'package:expenso/modules/settings/settings_view.dart';
@@ -20,7 +21,7 @@ class MainView extends StatelessWidget {
 
   PreferredSizeWidget _getAppBar(BuildContext context) {
     return AppBar(
-        //TODO: move text to special class
+        //TODO: set sum of amounts
         title: const Text("Main Title"),
         actions: [
           _getAnalyseBarButton(context),
@@ -29,15 +30,18 @@ class MainView extends StatelessWidget {
   }
 
   IconButton _getAnalyseBarButton(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: ((context) => Analyze()),
-              ));
-        },
-        icon: AppImages.barChartIcon.assetsImage);
+    var bloc = BlocProvider(
+      create: (context) => HistoryCubit(),
+      child: HistoryList(),
+    );
+    var button = IconButton(
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => bloc)));
+      },
+      icon: AppImages.barChartIcon.assetsImage,
+    );
+    return button;
   }
 
   IconButton _getSettingsBarButton(BuildContext context) {
