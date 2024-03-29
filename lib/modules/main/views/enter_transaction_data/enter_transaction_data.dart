@@ -99,8 +99,6 @@ class EnterTransactionData extends StatelessWidget {
     var askCommentSheet = RequestCommentSheet(callback: (needEnterComment) {
       if (needEnterComment) {
         _showSheet(context, enterCommentSheet);
-      } else {
-        _getCubit(context).setEmptyComment();
       }
     });
     _showSheet(context, askCommentSheet);
