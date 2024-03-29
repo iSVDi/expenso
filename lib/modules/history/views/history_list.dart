@@ -1,6 +1,7 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
+import 'package:expenso/modules/history/views/diagram.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,10 @@ class HistoryList extends StatelessWidget {
   }
 
   Widget _getDiagram(BuildContext context) {
+    return BarChart();
+  }
+
+  Widget _getCategoriesButtons(BuildContext context) {
     var categories = _getCubit(context).getCategories();
     return ListView.builder(
         itemCount: categories.length,
@@ -104,5 +109,13 @@ class HistoryList extends StatelessWidget {
       child: padding,
     );
     return coloredBox;
+  }
+}
+
+class Diagram extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }
