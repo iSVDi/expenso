@@ -9,4 +9,14 @@ class Category {
   Category({
     required this.title,
   });
+
+  @override
+  bool operator ==(Object other) {
+    return other is Category && id == other.id && title == other.title;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(id, title);
+  }
 }

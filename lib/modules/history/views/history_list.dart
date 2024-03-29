@@ -6,19 +6,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_list_view/group_list_view.dart';
 
+//TODO unite list and diagram widget
 class HistoryList extends StatelessWidget {
+  const HistoryList({super.key});
+
   HistoryCubit _getCubit(BuildContext context) => context.read<HistoryCubit>();
 
   @override
   Widget build(BuildContext context) {
+    _getCubit(context).getCategories();
     var scaffold = Scaffold(
       appBar: AppBar(actions: []),
-      body: _getList(context),
+      body: _getDiagram(context),
     );
 
     var bloc = BlocBuilder<HistoryCubit, HistoryState>(
         builder: (context, state) => scaffold);
     return bloc;
+  }
+
+  Widget _getDiagram(BuildContext context) {
+    var categories = _getCubit(context).getCategories();
+    return ListView.builder(
+        itemCount: categories.length,
+        itemBuilder: (builderContext, index) {
+          var textStyle = const TextStyle(color: Colors.white);
+          var row = Row(children: [
+            Text(categories[index].value.toString(), style: textStyle),
+            const SizedBox(width: 10),
+            Text(categories[index].category?.title ?? "no category",
+                style: textStyle)
+          ]);
+
+          var button = TextButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll(categories[index].color)),
+              onPressed: () {
+                //  todo handle tap
+                print("title ${categories[index].category?.title}");
+              },
+              child: row);
+          return button;
+        });
   }
 
   Widget _getList(BuildContext context) {

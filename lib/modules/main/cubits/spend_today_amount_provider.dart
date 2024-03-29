@@ -9,6 +9,7 @@ class SpendTodayAmountProvider implements RepositoryObserver {
     _repository.registerObserver(this);
   }
 
+// TODO handle there aren't todays transaction
   @override
   void update() {
     var sum = _repository

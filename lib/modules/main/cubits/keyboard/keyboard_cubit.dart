@@ -5,6 +5,7 @@ import '../../../../common/data_layer/models/category.dart';
 import '../../../../common/data_layer/repositories/categories_repository.dart';
 import 'keyboard_states.dart';
 
+//TODO! after creating transaction without comment there are become transaction with 0 amoun and no category
 class KeyboardCubit extends Cubit<KeyboardState> {
   Transaction _transaction = Transaction.empty(date: DateTime.now());
 
