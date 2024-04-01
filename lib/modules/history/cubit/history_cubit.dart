@@ -11,17 +11,31 @@ import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/history_section_model.dart';
 
+// TODO! get transactions ones for current timeRange
 class HistoryCubit extends Cubit<HistoryState> {
   final _repository = TransactionRepository();
 
   HistoryCubit()
       : super(HistoryState(
-          timeFrame: getCurrentMonth(),
-          selectedCategories: [],
-        ));
+            timeFrame: getCurrentMonth(),
+            selectedCategories: {},
+            chartType: ChartType.bar));
+
+//TODO fix for adding category that already selected
+  void addSelectedCategory(Category? category) {
+    var newCategories = {...state.selectedCategories};
+    newCategories.add(category);
+
+    emit(HistoryState(
+        timeFrame: state.timeFrame,
+        selectedCategories: newCategories,
+        chartType: state.chartType));
+  }
 
   List<SectionHistory> getHistoryListData() {
-    var transactions = _repository.readByDateRange(state.timeFrame);
+    var transactions = _repository.readByDateRange(
+        dateRange: state.timeFrame,
+        selectedCategories: state.selectedCategories);
 
     //Map <28.03.2024, [Transaction]>
     Map<String, List<Transaction>> transactionsMap = {};
@@ -48,10 +62,20 @@ class HistoryCubit extends Cubit<HistoryState> {
     return res;
   }
 
+  double getSum() {
+    var transactions = _repository
+        .readByDateRange(dateRange: state.timeFrame, selectedCategories: {});
+    var sum = transactions
+        .map((e) => e.amount)
+        .reduce((value, element) => value + element);
+    return sum;
+  }
+
   // TODO rename and refactoring
   List<SelectCategoryModel> getCategories() {
     var percentMode = true;
-    var transactions = _repository.readByDateRange(state.timeFrame);
+    var transactions = _repository
+        .readByDateRange(dateRange: state.timeFrame, selectedCategories: {});
     Map<Category?, double> categoriesMap = {};
 
     for (var transaction in transactions) {
@@ -64,28 +88,24 @@ class HistoryCubit extends Cubit<HistoryState> {
       }
     }
 
-    var res = categoriesMap.entries
-        .map((e) => SelectCategoryModel(
-              category: e.key,
-              value: e.value,
-              color:
-                  Colors.primaries[Random().nextInt(Colors.primaries.length)],
-            ))
-        .toList();
+    var sum = transactions
+        .map((e) => e.amount)
+        .reduce((value, element) => value + element);
 
-    if (percentMode) {
-      var sum = transactions
-          .map((e) => e.amount)
-          .reduce((value, element) => value + element);
-
-      res = res.map((e) {
-        return SelectCategoryModel(
-          category: e.category,
-          value: e.value * 100 / sum,
-          color: e.color,
-        );
-      }).toList();
-    }
+    var res = categoriesMap.entries.map((e) {
+      var value =
+          state.chartType == ChartType.bar ? e.value : (e.value * 100 / sum);
+      var alphaColor = state.selectedCategories.contains(e.key) ||
+              state.selectedCategories.isEmpty
+          ? 255
+          : 60;
+      return SelectCategoryModel(
+        category: e.key,
+        value: value,
+        color: Colors.primaries[Random().nextInt(Colors.primaries.length)]
+            .withAlpha(alphaColor),
+      );
+    }).toList();
 
     res.sort((a, b) {
       if (a.value > b.value) {
@@ -98,8 +118,8 @@ class HistoryCubit extends Cubit<HistoryState> {
 
   static DateTimeRange getCurrentMonth() {
     var now = DateTime.now();
-    var startDate = DateTime(now.year, now.month);
-    var endDate = DateTime(startDate.year, now.month + 1);
+    var startDate = DateTime(now.year, now.month - 1);
+    var endDate = DateTime(startDate.year, now.month);
     return DateTimeRange(start: startDate, end: endDate);
   }
 }

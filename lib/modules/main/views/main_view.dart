@@ -55,7 +55,7 @@ class _MainViewState extends State<MainView> {
   IconButton _getAnalyseBarButton(BuildContext context) {
     var bloc = BlocProvider(
       create: (context) => HistoryCubit(),
-      child: HistoryList(),
+      child: const HistoryList(),
     );
     var button = IconButton(
       onPressed: () {

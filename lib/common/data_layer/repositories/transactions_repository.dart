@@ -1,3 +1,4 @@
+import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/main.dart';
 import "package:expenso/objectbox.g.dart";
@@ -51,7 +52,10 @@ class TransactionRepository implements RepositorySubject {
   // 02/04/2024 10:00,
   // 01/04/2024 09:34,
   // 01/04/2024 09:01,
-  List<Transaction> readByDateRange(DateTimeRange dateRange) {
+  List<Transaction> readByDateRange({
+    required DateTimeRange dateRange,
+    required Set<Category?> selectedCategories,
+  }) {
     var query = _transactions
         .query(Transaction_.date.betweenDate(
           dateRange.start,
@@ -59,7 +63,13 @@ class TransactionRepository implements RepositorySubject {
         ))
         .order(Transaction_.date, flags: Order.descending)
         .build();
+
     var res = query.find();
+    if (selectedCategories.isNotEmpty) {
+      res = res.where((element) {
+        return selectedCategories.contains(element.category.target);
+      }).toList();
+    }
     return res;
   }
 
