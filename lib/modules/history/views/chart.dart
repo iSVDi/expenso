@@ -9,12 +9,14 @@ import 'package:expenso/modules/history/models/select_category_model.dart';
 class Chart extends StatefulWidget {
   final ChartModel data;
   Function(Category? category) selectCategoryHandler;
+  Function() changeChartModeHandler;
 
-  Chart({
-    Key? key,
-    required this.data,
-    required this.selectCategoryHandler,
-  }) : super(key: key);
+  Chart(
+      {Key? key,
+      required this.data,
+      required this.selectCategoryHandler,
+      required this.changeChartModeHandler})
+      : super(key: key);
 
   @override
   _ChartState createState() => _ChartState();
@@ -32,9 +34,30 @@ class _ChartState extends State<Chart> {
         chart = const Text("none pie chart");
     }
     return Column(children: [
+      _getHeader(),
       chart,
       _getCategoriesButtons(),
     ]);
+  }
+
+  Widget _getHeader() {
+    var column = Column(
+      children: [
+        Text(widget.data.sum.toStringAsFixed(2)),
+        const Text("date frame"),
+      ],
+    );
+    var button = IconButton(
+        onPressed: widget.changeChartModeHandler,
+        icon: const Icon(Icons.replay_outlined));
+    var row = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        column,
+        button,
+      ],
+    );
+    return row;
   }
 
   Widget _getBarChart() {

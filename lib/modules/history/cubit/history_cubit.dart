@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +23,24 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
                 dateRange: _getCurrentMonth(), selectedCategories: {}),
             selectedCategories: {},
             chartType: ChartType.bar));
+
+  double _getSum() {
+    var sum = state.transactions
+        .map((e) => e.amount)
+        .reduce((value, element) => value + element);
+    return sum;
+  }
+
+  void changeModeHandler() {
+    var newMode =
+        state.chartType == ChartType.bar ? ChartType.pie : ChartType.bar;
+    emit(HistoryState(
+      timeFrame: state.timeFrame,
+      transactions: state.transactions,
+      selectedCategories: state.selectedCategories,
+      chartType: newMode,
+    ));
+  }
 
   void selectCategoryHandler(Category? category) {
     var newCategories = {...state.selectedCategories};
@@ -73,8 +92,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
       return SelectCategoryModel(
         category: e.key,
         value: value,
-        color: Colors.primaries[Random().nextInt(Colors.primaries.length)]
-            .withAlpha(alphaColor),
+        color: getCategoryColor(e.key?.id).withAlpha(alphaColor),
       );
     }).toList();
 
@@ -85,13 +103,6 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
       return 1;
     });
     return res;
-  }
-
-  double _getSum() {
-    var sum = state.transactions
-        .map((e) => e.amount)
-        .reduce((value, element) => value + element);
-    return sum;
   }
 
   ChartModel getChartData() {
@@ -161,5 +172,13 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     var startDate = DateTime(now.year, now.month - 1);
     var endDate = DateTime(startDate.year, now.month);
     return DateTimeRange(start: startDate, end: endDate);
+  }
+
+  Color getCategoryColor(int? id) {
+    var colors = AppColors.getCategoryColors();
+    if (id != null) {
+      return colors[id % colors.length];
+    }
+    return colors.last;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
-import 'package:expenso/modules/history/views/bar_chart.dart';
+import 'package:expenso/modules/history/views/chart.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,10 +29,11 @@ class HistoryList extends StatelessWidget {
     var cubit = _getCubit(context);
     var data = cubit.getChartData();
     var chart = Chart(
-        data: data,
-        selectCategoryHandler: (category) {
-          cubit.selectCategoryHandler(category);
-        });
+      data: data,
+      selectCategoryHandler: (category) =>
+          cubit.selectCategoryHandler(category),
+      changeChartModeHandler: () => cubit.changeModeHandler(),
+    );
     return chart;
   }
 

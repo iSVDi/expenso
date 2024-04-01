@@ -1,5 +1,6 @@
 import "package:objectbox/objectbox.dart";
 
+//TODO! create empty category
 @Entity()
 class Category {
   @Id()

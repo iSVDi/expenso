@@ -9,4 +9,17 @@ class AppColors {
   static const appDisabledGreen = Color.fromRGBO(120, 186, 195, 1);
   static const appNumericKeyboardColor = Color.fromRGBO(238, 238, 238, 1);
   static const appTimerTextColor = Color.fromRGBO(120, 186, 195, 1);
+
+  static List<Color> getCategoryColors() {
+    return [
+      Colors.purple,
+      Colors.orange,
+      Colors.green,
+      Colors.red,
+      Colors.blue,
+      Colors.yellow,
+      Colors.lightBlue,
+      Colors.pink,
+    ];
+  }
 }
