@@ -2,7 +2,7 @@ import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:flutter/material.dart';
 
-enum ChartType { bar, pie }
+enum ChartType { bar, donut }
 
 class HistoryState {
   DateTimeRange timeFrame;

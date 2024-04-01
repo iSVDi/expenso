@@ -116,6 +116,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   void _addCategoryButtonHandler(BuildContext context) {
+    //TODO! check why category is not selected if tap done on keyboard
     var sheet = EnterTextBottomSheet(
       //todo get text from special class
       hintText: "Enter category name",

@@ -1,4 +1,5 @@
 import 'package:expenso/common/data_layer/models/category.dart';
+import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -29,22 +30,25 @@ class _ChartState extends State<Chart> {
     switch (widget.data.chartType) {
       case ChartType.bar:
         chart = _getBarChart();
-      case ChartType.pie:
-        // todo implement pie chart
-        chart = const Text("none pie chart");
+      case ChartType.donut:
+        chart = _getPieChart();
     }
     return Column(children: [
       _getHeader(),
-      chart,
+      SizedBox(height: 200, child: chart),
       _getCategoriesButtons(),
     ]);
   }
 
   Widget _getHeader() {
+    var timeFrame = widget.data.timeFrame;
+    var dateTitle =
+        "${timeFrame.start.formattedDate} - ${timeFrame.end.formattedDate}";
     var column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.data.sum.toStringAsFixed(2)),
-        const Text("date frame"),
+        Text(dateTitle),
       ],
     );
     var button = IconButton(
@@ -80,7 +84,19 @@ class _ChartState extends State<Chart> {
       primaryYAxis: primaryYAxis,
       series: series,
     );
-    return SizedBox(height: 200, child: chart);
+    return chart;
+  }
+
+  Widget _getPieChart() {
+    return SfCircularChart(
+        series: <CircularSeries<SelectCategoryModel, String>>[
+          DoughnutSeries<SelectCategoryModel, String>(
+            dataSource: widget.data.chartCategories.toList(),
+            xValueMapper: (SelectCategoryModel data, _) => data.category.title,
+            yValueMapper: (SelectCategoryModel data, _) => data.value,
+            pointColorMapper: (datum, index) => datum.color,
+          )
+        ]);
   }
 
   Widget _getCategoriesButtons() {
@@ -94,8 +110,7 @@ class _ChartState extends State<Chart> {
             var row = Row(children: [
               Text(categories[index].value.toString(), style: textStyle),
               const SizedBox(width: 10),
-              Text(categories[index].category.title,
-                  style: textStyle)
+              Text(categories[index].category.title, style: textStyle)
             ]);
 
             var button = TextButton(

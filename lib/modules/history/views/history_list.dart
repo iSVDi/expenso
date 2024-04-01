@@ -16,10 +16,13 @@ class HistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = BlocBuilder<HistoryCubit, HistoryState>(
-        builder: (context, state) => Column(children: [
-              _getChart(context),
-              _getList(context),
-            ]));
+        builder: (context, state) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(children: [
+                _getChart(context),
+                _getList(context),
+              ]),
+            ));
     var scaffold = Scaffold(appBar: AppBar(actions: []), body: bloc);
 
     return scaffold;

@@ -33,7 +33,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
 
   void changeModeHandler() {
     var newMode =
-        state.chartType == ChartType.bar ? ChartType.pie : ChartType.bar;
+        state.chartType == ChartType.bar ? ChartType.donut : ChartType.bar;
     emit(HistoryState(
       timeFrame: state.timeFrame,
       transactions: state.transactions,
