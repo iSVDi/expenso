@@ -1,64 +1,91 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:expenso/common/data_layer/models/category.dart';
+import 'package:expenso/modules/history/cubit/history_state.dart';
+import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:expenso/modules/history/models/select_category_model.dart';
 
-class BarChart extends StatefulWidget {
-  final List<SelectCategoryModel> data;
-  final double sum;
+class Chart extends StatefulWidget {
+  final ChartModel data;
+  Function(Category? category) selectCategoryHandler;
 
-  const BarChart({
+  Chart({
     Key? key,
     required this.data,
-    required this.sum,
+    required this.selectCategoryHandler,
   }) : super(key: key);
 
   @override
-  _BarChartState createState() => _BarChartState();
+  _ChartState createState() => _ChartState();
 }
 
-class _BarChartState extends State<BarChart> {
-  // late List<_ChartData> data;
-  late TooltipBehavior _tooltip;
-  @override
-  void initState() {
-    // data = [
-    //   _ChartData('CHN', 12),
-    //   _ChartData('GER', 15),
-    //   _ChartData('RUS', 30),
-    //   _ChartData('BRZ', 6.4),
-    //   _ChartData('IND', 14)
-    // ];
-    _tooltip = TooltipBehavior(enable: true);
-    super.initState();
-  }
-
+class _ChartState extends State<Chart> {
   @override
   Widget build(BuildContext context) {
+    Widget chart;
+    switch (widget.data.chartType) {
+      case ChartType.bar:
+        chart = _getBarChart();
+      case ChartType.pie:
+        // todo implement pie chart
+        chart = const Text("none pie chart");
+    }
+    return Column(children: [
+      chart,
+      _getCategoriesButtons(),
+    ]);
+  }
+
+  Widget _getBarChart() {
+    var primaryYAxis = NumericAxis(
+      minimum: 0,
+      maximum: widget.data.sum,
+      opposedPosition: true,
+    );
+    var series = <CartesianSeries<SelectCategoryModel, String>>[
+      BarSeries<SelectCategoryModel, String>(
+        dataSource: widget.data.chartCategories.toList(),
+        xValueMapper: (SelectCategoryModel data, _) =>
+            data.category?.title ?? "no category",
+        yValueMapper: (SelectCategoryModel data, _) => data.value,
+        pointColorMapper: (datum, index) => datum.color,
+      )
+    ];
+
     var chart = SfCartesianChart(
-        primaryXAxis: const CategoryAxis(),
-        primaryYAxis: NumericAxis(
-            minimum: 0,
-            maximum: widget.sum,
-            // interval: 10,
-            opposedPosition: true),
-        tooltipBehavior: _tooltip,
-        series: <CartesianSeries<SelectCategoryModel, String>>[
-          BarSeries<SelectCategoryModel, String>(
-              dataSource: widget.data.reversed.toList(),
-              xValueMapper: (SelectCategoryModel data, _) =>
-                  data.category?.title ?? "no category",
-              yValueMapper: (SelectCategoryModel data, _) => data.value,
-              // name: 'Gold',
-              color: Color.fromRGBO(8, 142, 255, 1))
-        ]);
+      primaryXAxis: const CategoryAxis(),
+      primaryYAxis: primaryYAxis,
+      series: series,
+    );
     return SizedBox(height: 200, child: chart);
   }
-}
 
-class _ChartData {
-  _ChartData(this.x, this.y);
-  final String x;
-  final double y;
+  Widget _getCategoriesButtons() {
+    var categories = widget.data.selectableCategories;
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+          itemCount: categories.length,
+          itemBuilder: (builderContext, index) {
+            var textStyle = const TextStyle(color: Colors.white);
+            var row = Row(children: [
+              Text(categories[index].value.toString(), style: textStyle),
+              const SizedBox(width: 10),
+              Text(categories[index].category?.title ?? "no category",
+                  style: textStyle)
+            ]);
+
+            var button = TextButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(categories[index].color)),
+                onPressed: () {
+                  widget.selectCategoryHandler(categories[index].category);
+                },
+                child: row);
+            return button;
+          }),
+    );
+  }
 }

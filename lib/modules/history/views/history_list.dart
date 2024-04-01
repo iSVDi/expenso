@@ -17,8 +17,7 @@ class HistoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     var bloc = BlocBuilder<HistoryCubit, HistoryState>(
         builder: (context, state) => Column(children: [
-              _getDiagram(context),
-              _getCategoriesButtons(context),
+              _getChart(context),
               _getList(context),
             ]));
     var scaffold = Scaffold(appBar: AppBar(actions: []), body: bloc);
@@ -26,43 +25,15 @@ class HistoryList extends StatelessWidget {
     return scaffold;
   }
 
-  Widget _getDiagram(BuildContext context) {
-    var categories = _getCubit(context).getCategories();
-    var sum = _getCubit(context).getSum();
-    return BarChart(
-      data: categories,
-      sum: sum,
-    );
-  }
-
-  Widget _getCategoriesButtons(BuildContext context) {
-    var categories = _getCubit(context).getCategories();
-    return SizedBox(
-      height: 300,
-      child: ListView.builder(
-          itemCount: categories.length,
-          itemBuilder: (builderContext, index) {
-            var textStyle = const TextStyle(color: Colors.white);
-            var row = Row(children: [
-              Text(categories[index].value.toString(), style: textStyle),
-              const SizedBox(width: 10),
-              Text(categories[index].category?.title ?? "no category",
-                  style: textStyle)
-            ]);
-
-            var button = TextButton(
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(categories[index].color)),
-                onPressed: () {
-                  //  todo handle tap
-                  _getCubit(context)
-                      .addSelectedCategory(categories[index].category);
-                },
-                child: row);
-            return button;
-          }),
-    );
+  Widget _getChart(BuildContext context) {
+    var cubit = _getCubit(context);
+    var data = cubit.getChartData();
+    var chart = Chart(
+        data: data,
+        selectCategoryHandler: (category) {
+          cubit.selectCategoryHandler(category);
+        });
+    return chart;
   }
 
   Widget _getList(BuildContext context) {
