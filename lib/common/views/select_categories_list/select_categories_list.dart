@@ -9,13 +9,13 @@ import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 
 class SelectCategoriesList extends StatefulWidget {
-  Category? selectedCategory;
-  final Function(Category?) doneButtonCallback;
+  Category selectedCategory;
+  final Function(Category) doneButtonCallback;
   final Function() backButtonCallback;
 
   SelectCategoriesList({
     Key? key,
-    this.selectedCategory,
+    required this.selectedCategory,
     required this.doneButtonCallback,
     required this.backButtonCallback,
   }) : super(key: key);
@@ -40,7 +40,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         _getCategoriesList(context)
       ]),
       ViewFactory.getDoneButton(context, () {
-        widget.doneButtonCallback(widget.selectedCategory);
+        widget.doneButtonCallback(widget.selectedCategory!);
       })
     ]);
   }
@@ -128,23 +128,20 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     _showSheet(context, sheet);
   }
 
-  bool _isNeedSetBoldCategoryTitle(Category category) {
-    var currentState = widget.selectedCategory;
-    if (currentState != null) {
-      var res = category.id == currentState.id;
-      return res;
-    }
-    return false;
+  bool _isNeedSetBoldCategoryTitle(Category newCategory) {
+    var currentCategory = widget.selectedCategory;
+    var res = newCategory.id == currentCategory.id;
+    return res;
   }
 
   void _selectCategory(Category category) {
-    Category? currentCategory = widget.selectedCategory;
-    Category? newCategory = category;
-    bool areCategoriesSame =
-        currentCategory != null && currentCategory.id == category.id;
+    Category currentCategory = widget.selectedCategory;
+    Category newCategory = category;
+    bool areCategoriesSame = currentCategory != Category.emptyCategory() &&
+        currentCategory.id == category.id;
 
     if (areCategoriesSame) {
-      newCategory = null;
+      newCategory = Category.emptyCategory();
     }
 
     setState(() {

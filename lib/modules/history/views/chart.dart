@@ -8,7 +8,7 @@ import 'package:expenso/modules/history/models/select_category_model.dart';
 
 class Chart extends StatefulWidget {
   final ChartModel data;
-  Function(Category? category) selectCategoryHandler;
+  Function(Category category) selectCategoryHandler;
   Function() changeChartModeHandler;
 
   Chart(
@@ -69,8 +69,7 @@ class _ChartState extends State<Chart> {
     var series = <CartesianSeries<SelectCategoryModel, String>>[
       BarSeries<SelectCategoryModel, String>(
         dataSource: widget.data.chartCategories.toList(),
-        xValueMapper: (SelectCategoryModel data, _) =>
-            data.category?.title ?? "no category",
+        xValueMapper: (SelectCategoryModel data, _) => data.category.title,
         yValueMapper: (SelectCategoryModel data, _) => data.value,
         pointColorMapper: (datum, index) => datum.color,
       )
@@ -95,7 +94,7 @@ class _ChartState extends State<Chart> {
             var row = Row(children: [
               Text(categories[index].value.toString(), style: textStyle),
               const SizedBox(width: 10),
-              Text(categories[index].category?.title ?? "no category",
+              Text(categories[index].category.title,
                   style: textStyle)
             ]);
 

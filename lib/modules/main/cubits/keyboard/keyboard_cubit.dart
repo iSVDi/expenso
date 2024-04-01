@@ -10,7 +10,7 @@ class KeyboardCubit extends Cubit<KeyboardState> {
 
   String get getAmount => _transaction.stringAmount;
   DateTime get getDate => _transaction.date;
-  Category? get getCategory => _transaction.category.target;
+  Category get getCategory => _transaction.category.target!;
 
   final _categoriesRepository = CategoriesRepository();
   final _transactionRepository = TransactionRepository();
@@ -34,7 +34,7 @@ class KeyboardCubit extends Cubit<KeyboardState> {
     _transaction.amount = double.parse(newAmount);
   }
 
-  void setCategory(Category? category) {
+  void setCategory(Category category) {
     _transaction.category.target = category;
   }
 

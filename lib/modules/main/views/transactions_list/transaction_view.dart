@@ -93,8 +93,7 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   Widget _getCategoryButton() {
-    // todo move text to special class
-    var title = transaction.category.target?.title ?? "no category";
+    var title = transaction.category.target!.title;
     var text = Text(title,
         style: const TextStyle(
             fontWeight: FontWeight.w100,
@@ -102,7 +101,7 @@ class TransactionViewState extends State<TransactionView> {
             color: AppColors.appGreen));
     selectCategoriesList(BuildContext builderContext) {
       return SelectCategoriesList(
-          selectedCategory: transaction.category.target,
+          selectedCategory: transaction.category.target!,
           doneButtonCallback: (category) {
             _updateCategory(category);
             Navigator.pop(builderContext);
@@ -119,6 +118,7 @@ class TransactionViewState extends State<TransactionView> {
     return textButton;
   }
 
+// todo move text to special class
   Widget _getCommentButton() {
     var comment =
         transaction.comment.isEmpty ? "add Comment" : transaction.comment;
@@ -183,7 +183,7 @@ class TransactionViewState extends State<TransactionView> {
     });
   }
 
-  void _updateCategory(Category? category) {
+  void _updateCategory(Category category) {
     setState(() {
       transaction.category.target = category;
       _repository.insertTransaction(transaction);

@@ -1,6 +1,5 @@
 import "package:objectbox/objectbox.dart";
 
-//TODO! create empty category
 @Entity()
 class Category {
   @Id()
@@ -10,6 +9,10 @@ class Category {
   Category({
     required this.title,
   });
+
+  Category.emptyCategory()
+      : id = 1,
+        title = "no category"; // todo localize;
 
   @override
   bool operator ==(Object other) {

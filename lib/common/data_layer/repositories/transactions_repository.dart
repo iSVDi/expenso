@@ -54,7 +54,7 @@ class TransactionRepository implements RepositorySubject {
   // 01/04/2024 09:01,
   List<Transaction> readByDateRange({
     required DateTimeRange dateRange,
-    required Set<Category?> selectedCategories,
+    required Set<Category> selectedCategories,
   }) {
     var query = _transactions
         .query(Transaction_.date.betweenDate(

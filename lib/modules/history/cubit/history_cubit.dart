@@ -42,7 +42,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     ));
   }
 
-  void selectCategoryHandler(Category? category) {
+  void selectCategoryHandler(Category category) {
     var newCategories = {...state.selectedCategories};
 
     if (newCategories.contains(category)) {
@@ -68,10 +68,11 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
 
   // TODO rename and refactoring
   List<SelectCategoryModel> getCategories() {
-    Map<Category?, double> categoriesMap = {};
+    Map<Category, double> categoriesMap = {};
 
     for (var transaction in state.transactions) {
-      var category = transaction.category.target;
+      var category = transaction.category.target!;
+
       var isCategoryInMap = categoriesMap.keys.toSet().contains(category);
       if (!isCategoryInMap) {
         categoriesMap[category] = transaction.amount;
@@ -92,7 +93,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
       return SelectCategoryModel(
         category: e.key,
         value: value,
-        color: getCategoryColor(e.key?.id).withAlpha(alphaColor),
+        color: getCategoryColor(e.key.id).withAlpha(alphaColor),
       );
     }).toList();
 
@@ -166,19 +167,15 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     ));
   }
 
-  //TODO fix for current month
   static DateTimeRange _getCurrentMonth() {
     var now = DateTime.now();
-    var startDate = DateTime(now.year, now.month - 1);
-    var endDate = DateTime(startDate.year, now.month);
+    var startDate = DateTime(now.year, now.month);
+    var endDate = DateTime(startDate.year, now.month + 1);
     return DateTimeRange(start: startDate, end: endDate);
   }
 
-  Color getCategoryColor(int? id) {
+  Color getCategoryColor(int id) {
     var colors = AppColors.getCategoryColors();
-    if (id != null) {
-      return colors[id % colors.length];
-    }
-    return colors.last;
+    return colors[id % colors.length];
   }
 }
