@@ -23,9 +23,29 @@ class HistoryList extends StatelessWidget {
                 _getList(context),
               ]),
             ));
-    var scaffold = Scaffold(appBar: AppBar(actions: []), body: bloc);
+    var scaffold = Scaffold(
+      appBar: _getAppBar(context),
+      body: bloc,
+    );
 
     return scaffold;
+  }
+
+  AppBar _getAppBar(BuildContext context) {
+    var cubit = _getCubit(context);
+    var dateRange = cubit.getCalendarTimeRange();
+    var iconButton = IconButton(
+        onPressed: () async {
+          var newDateRange = await showDateRangePicker(
+              context: context,
+              firstDate: dateRange.start,
+              lastDate: dateRange.end);
+          if (newDateRange != null) {
+            cubit.updateDateRange(newDateRange);
+          }
+        },
+        icon: const Icon(Icons.calendar_month_rounded));
+    return AppBar(actions: [iconButton]);
   }
 
   Widget _getChart(BuildContext context) {

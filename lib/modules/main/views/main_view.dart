@@ -20,7 +20,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  String sum = "";
+  String sum = NumericKeyboardButtonType.zero.value;
   late SpendTodayAmountProvider cubit;
 
   _MainViewState() {

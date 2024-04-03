@@ -46,12 +46,8 @@ class TransactionRepository implements RepositorySubject {
   }
 
 //* Data queries
-
-  // return list in order
-  // 02/04/2024 10:45,
-  // 02/04/2024 10:00,
-  // 01/04/2024 09:34,
-  // 01/04/2024 09:01,
+  // dateRange = 01/04/2024 - 02/04/2024
+  // result = [02/04/2024 10:45, 02/04/2024 10:00, 01/04/2024 09:34, 01/04/2024 09:01]
   List<Transaction> readByDateRange({
     required DateTimeRange dateRange,
     required Set<Category> selectedCategories,
@@ -59,7 +55,7 @@ class TransactionRepository implements RepositorySubject {
     var query = _transactions
         .query(Transaction_.date.betweenDate(
           dateRange.start,
-          dateRange.end,
+          dateRange.end.add(const Duration(days: 1)),
         ))
         .order(Transaction_.date, flags: Order.descending)
         .build();

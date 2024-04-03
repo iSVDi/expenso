@@ -40,7 +40,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         _getCategoriesList(context)
       ]),
       ViewFactory.getDoneButton(context, () {
-        widget.doneButtonCallback(widget.selectedCategory!);
+        widget.doneButtonCallback(widget.selectedCategory);
       })
     ]);
   }

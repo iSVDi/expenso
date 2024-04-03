@@ -44,6 +44,7 @@ class _ChartState extends State<Chart> {
     var timeFrame = widget.data.timeFrame;
     var dateTitle =
         "${timeFrame.start.formattedDate} - ${timeFrame.end.formattedDate}";
+
     var column = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -51,9 +52,11 @@ class _ChartState extends State<Chart> {
         Text(dateTitle),
       ],
     );
-    var button = IconButton(
-        onPressed: widget.changeChartModeHandler,
-        icon: const Icon(Icons.replay_outlined));
+    var icon = Icon(widget.data.chartType == ChartType.bar
+        ? Icons.donut_large_outlined
+        : Icons.bar_chart_rounded);
+    var button =
+        IconButton(onPressed: widget.changeChartModeHandler, icon: icon);
     var row = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

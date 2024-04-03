@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +22,28 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
             selectedCategories: {},
             chartType: ChartType.bar));
 
+  void updateDateRange(DateTimeRange dateRange) {
+    var newTransactions = _repository.readByDateRange(
+        dateRange: dateRange, selectedCategories: state.selectedCategories);
+    emit(
+      HistoryState(
+          timeFrame: dateRange,
+          transactions: newTransactions,
+          selectedCategories: state.selectedCategories,
+          chartType: state.chartType),
+    );
+  }
+
+  DateTimeRange getCalendarTimeRange() {
+    var lastDate = DateTime.now();
+    var firstDate = DateTime(lastDate.year - 1, lastDate.month + 1);
+    return DateTimeRange(start: firstDate, end: lastDate);
+  }
+
   double _getSum() {
+    if (state.transactions.isEmpty) {
+      return 0;
+    }
     var sum = state.transactions
         .map((e) => e.amount)
         .reduce((value, element) => value + element);
@@ -171,6 +190,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     var now = DateTime.now();
     var startDate = DateTime(now.year, now.month);
     var endDate = DateTime(startDate.year, now.month + 1);
+    endDate = endDate.subtract(const Duration(days: 1));
     return DateTimeRange(start: startDate, end: endDate);
   }
 
