@@ -139,14 +139,13 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     }
 
     var calendarTimeFrame = getCalendarTimeRange();
-    var durationCurrentTimeFrame = _getDuration();
 
     var needSetForwardHandler = state.dateRange.start
-            .add(durationCurrentTimeFrame)
+            .add(calculateNewDateRange(true).duration)
             .compareTo(calendarTimeFrame.end) <=
         0;
     var needSetBackHandler = state.dateRange.start
-            .subtract(durationCurrentTimeFrame)
+            .subtract(calculateNewDateRange(false).duration)
             .compareTo(calendarTimeFrame.start) >=
         0;
 
@@ -162,25 +161,47 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   }
 
   void forwardTimeFrameHandler() {
-    var duration = _getDuration();
-    var newTimeFrame = DateTimeRange(
-        start: state.dateRange.start.add(duration),
-        end: state.dateRange.end.add(duration));
-    updateDateRange(newTimeFrame);
+    var newDateRange = calculateNewDateRange(true);
+    updateDateRange(newDateRange);
   }
 
   void backTimeFrameHandler() {
-    var duration = _getDuration();
-    var newTimeFrame = DateTimeRange(
-        start: state.dateRange.start.subtract(duration),
-        end: state.dateRange.end.subtract(duration));
-    updateDateRange(newTimeFrame);
+    var newDateRange = calculateNewDateRange(false);
+    updateDateRange(newDateRange);
   }
 
-  Duration _getDuration() {
-    return state.dateRange.start.isAtSameMomentAs(state.dateRange.end)
+  DateTimeRange calculateNewDateRange(bool toForward) {
+    if (isCurrentDateRangeOneMonth()) {
+      var now = state.dateRange.start;
+      var month = toForward ? now.month + 1 : now.month - 1;
+      var start = DateTime(now.year, month);
+      var end = DateTime(start.year, start.month + 1)
+          .subtract(const Duration(days: 1));
+      return DateTimeRange(start: start, end: end);
+    }
+    var duration = state.dateRange.start.isAtSameMomentAs(state.dateRange.end)
         ? const Duration(days: 1)
         : state.dateRange.duration;
+
+    var start = toForward
+        ? state.dateRange.start.add(duration)
+        : state.dateRange.start.subtract(duration);
+    var end = toForward
+        ? state.dateRange.end.add(duration)
+        : state.dateRange.end.subtract(duration);
+    var newDateRange = DateTimeRange(start: start, end: end);
+    return newDateRange;
+  }
+
+  bool isCurrentDateRangeOneMonth() {
+    var currentStart = state.dateRange.start;
+    var monthStart = DateTime(currentStart.year, currentStart.month);
+    var monthEnd = DateTime(monthStart.year, monthStart.month + 1)
+        .subtract(const Duration(days: 1));
+    // monthEnd.subtract(const Duration(days: 1));
+    var monthDateRange = DateTimeRange(start: monthStart, end: monthEnd);
+
+    return state.dateRange == monthDateRange;
   }
 
   String getChartHeaderTitle() {
@@ -237,7 +258,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   static DateTimeRange _getCurrentMonth() {
     var now = DateTime.now();
     var startDate = DateTime(now.year, now.month);
-    var endDate = DateTime(startDate.year, now.month + 1);
+    var endDate = DateTime(startDate.year, startDate.month + 1);
     endDate = endDate.subtract(const Duration(days: 1));
     return DateTimeRange(start: startDate, end: endDate);
   }
