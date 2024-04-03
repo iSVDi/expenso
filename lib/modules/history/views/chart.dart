@@ -1,5 +1,4 @@
 import 'package:expenso/common/data_layer/models/category.dart';
-import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +8,10 @@ import 'package:expenso/modules/history/models/select_category_model.dart';
 
 class Chart extends StatefulWidget {
   final ChartModel data;
-  Function(Category category) selectCategoryHandler;
-  Function() changeChartModeHandler;
+  final Function(Category category) selectCategoryHandler;
+  final Function() changeChartModeHandler;
 
-  Chart(
+  const Chart(
       {Key? key,
       required this.data,
       required this.selectCategoryHandler,
@@ -20,7 +19,7 @@ class Chart extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ChartState createState() => _ChartState();
+  State<StatefulWidget> createState() => _ChartState();
 }
 
 class _ChartState extends State<Chart> {
@@ -34,37 +33,9 @@ class _ChartState extends State<Chart> {
         chart = _getPieChart();
     }
     return Column(children: [
-      _getHeader(),
-      SizedBox(height: 200, child: chart),
+      chart,
       _getCategoriesButtons(),
     ]);
-  }
-
-  Widget _getHeader() {
-    var timeFrame = widget.data.timeFrame;
-    var dateTitle =
-        "${timeFrame.start.formattedDate} - ${timeFrame.end.formattedDate}";
-
-    var column = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(widget.data.sum.toStringAsFixed(2)),
-        Text(dateTitle),
-      ],
-    );
-    var icon = Icon(widget.data.chartType == ChartType.bar
-        ? Icons.donut_large_outlined
-        : Icons.bar_chart_rounded);
-    var button =
-        IconButton(onPressed: widget.changeChartModeHandler, icon: icon);
-    var row = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        column,
-        button,
-      ],
-    );
-    return row;
   }
 
   Widget _getBarChart() {
@@ -87,25 +58,54 @@ class _ChartState extends State<Chart> {
       primaryYAxis: primaryYAxis,
       series: series,
     );
-    return chart;
+    var buttons = _getNavigateTimeFrameButtons();
+    var row = Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      buttons.$1,
+      buttons.$2,
+    ]);
+    return Column(children: [
+      chart,
+      row,
+    ]);
   }
 
   Widget _getPieChart() {
-    return SfCircularChart(
-        series: <CircularSeries<SelectCategoryModel, String>>[
-          DoughnutSeries<SelectCategoryModel, String>(
-            dataSource: widget.data.chartCategories.toList(),
-            xValueMapper: (SelectCategoryModel data, _) => data.category.title,
-            yValueMapper: (SelectCategoryModel data, _) => data.value,
-            pointColorMapper: (datum, index) => datum.color,
-          )
-        ]);
+    var chart =
+        SfCircularChart(series: <CircularSeries<SelectCategoryModel, String>>[
+      DoughnutSeries<SelectCategoryModel, String>(
+        dataSource: widget.data.chartCategories.toList(),
+        xValueMapper: (SelectCategoryModel data, _) => data.category.title,
+        yValueMapper: (SelectCategoryModel data, _) => data.value,
+        pointColorMapper: (datum, index) => datum.color,
+      )
+    ]);
+
+    var buttons = _getNavigateTimeFrameButtons();
+    var buttonsRow = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [buttons.$1, buttons.$2]);
+
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: [chart, buttonsRow],
+    );
+  }
+
+  (IconButton, IconButton) _getNavigateTimeFrameButtons() {
+    var backButton = IconButton(
+        onPressed: widget.data.backTimeFrameButtonHandler,
+        icon: const Icon(Icons.arrow_back_ios));
+
+    var forwardButton = IconButton(
+        onPressed: widget.data.forwardTimeFrameButtonHandler,
+        icon: const Icon(Icons.arrow_forward_ios));
+    return (backButton, forwardButton);
   }
 
   Widget _getCategoriesButtons() {
     var categories = widget.data.selectableCategories;
     return SizedBox(
-      height: 300,
+      height: 250,
       child: ListView.builder(
           itemCount: categories.length,
           itemBuilder: (builderContext, index) {

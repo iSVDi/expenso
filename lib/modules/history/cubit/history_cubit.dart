@@ -16,7 +16,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   // All transactions for current time frame
   HistoryCubit()
       : super(HistoryState(
-            timeFrame: _getCurrentMonth(),
+            dateRange: _getCurrentMonth(),
             transactions: TransactionRepository().readByDateRange(
                 dateRange: _getCurrentMonth(), selectedCategories: {}),
             selectedCategories: {},
@@ -27,7 +27,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
         dateRange: dateRange, selectedCategories: state.selectedCategories);
     emit(
       HistoryState(
-          timeFrame: dateRange,
+          dateRange: dateRange,
           transactions: newTransactions,
           selectedCategories: state.selectedCategories,
           chartType: state.chartType),
@@ -36,11 +36,12 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
 
   DateTimeRange getCalendarTimeRange() {
     var lastDate = DateTime.now();
-    var firstDate = DateTime(lastDate.year - 1, lastDate.month + 1);
+    var firstDate =
+        DateTime(lastDate.year - 1, lastDate.month, lastDate.day + 1);
     return DateTimeRange(start: firstDate, end: lastDate);
   }
 
-  double _getSum() {
+  double getSum() {
     if (state.transactions.isEmpty) {
       return 0;
     }
@@ -54,7 +55,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     var newMode =
         state.chartType == ChartType.bar ? ChartType.donut : ChartType.bar;
     emit(HistoryState(
-      timeFrame: state.timeFrame,
+      dateRange: state.dateRange,
       transactions: state.transactions,
       selectedCategories: state.selectedCategories,
       chartType: newMode,
@@ -71,7 +72,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     }
 
     emit(HistoryState(
-        timeFrame: state.timeFrame,
+        dateRange: state.dateRange,
         transactions: state.transactions,
         selectedCategories: newCategories,
         chartType: state.chartType));
@@ -79,7 +80,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
 
   void resetCategoriesHandler() {
     emit(HistoryState(
-        timeFrame: state.timeFrame,
+        dateRange: state.dateRange,
         transactions: state.transactions,
         selectedCategories: {},
         chartType: state.chartType));
@@ -100,7 +101,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
       }
     }
 
-    var sum = _getSum();
+    var sum = getSum();
 
     var res = categoriesMap.entries.map((e) {
       var value =
@@ -137,13 +138,60 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
       return res;
     }
 
+    var calendarTimeFrame = getCalendarTimeRange();
+    var durationCurrentTimeFrame = _getDuration();
+
+    var needSetForwardHandler = state.dateRange.start
+            .add(durationCurrentTimeFrame)
+            .compareTo(calendarTimeFrame.end) <=
+        0;
+    var needSetBackHandler = state.dateRange.start
+            .subtract(durationCurrentTimeFrame)
+            .compareTo(calendarTimeFrame.start) >=
+        0;
+
     return ChartModel(
-      sum: _getSum(),
-      chartType: state.chartType,
-      timeFrame: state.timeFrame,
-      chartCategories: chartCategories(),
-      selectableCategories: selectableCategories,
-    );
+        sum: getSum(),
+        chartType: state.chartType,
+        chartCategories: chartCategories(),
+        selectableCategories: selectableCategories,
+        forwardTimeFrameButtonHandler:
+            needSetForwardHandler ? forwardTimeFrameHandler : null,
+        backTimeFrameButtonHandler:
+            needSetBackHandler ? backTimeFrameHandler : null);
+  }
+
+  void forwardTimeFrameHandler() {
+    var duration = _getDuration();
+    var newTimeFrame = DateTimeRange(
+        start: state.dateRange.start.add(duration),
+        end: state.dateRange.end.add(duration));
+    updateDateRange(newTimeFrame);
+  }
+
+  void backTimeFrameHandler() {
+    var duration = _getDuration();
+    var newTimeFrame = DateTimeRange(
+        start: state.dateRange.start.subtract(duration),
+        end: state.dateRange.end.subtract(duration));
+    updateDateRange(newTimeFrame);
+  }
+
+  Duration _getDuration() {
+    return state.dateRange.start.isAtSameMomentAs(state.dateRange.end)
+        ? const Duration(days: 1)
+        : state.dateRange.duration;
+  }
+
+  String getChartHeaderTitle() {
+    var isOneDayDuration =
+        state.dateRange.start.isAtSameMomentAs(state.dateRange.end);
+    var dateRange = state.dateRange;
+    if (isOneDayDuration) {
+      return dateRange.start.formattedDate;
+    }
+
+    return "${dateRange.start.formattedDate} - ${dateRange.end.formattedDate}";
   }
 
   List<SectionHistory> getHistoryListData() {
@@ -175,11 +223,11 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   @override
   void update() {
     var newTransactions = _repository.readByDateRange(
-        dateRange: state.timeFrame,
+        dateRange: state.dateRange,
         selectedCategories: state.selectedCategories);
 
     emit(HistoryState(
-      timeFrame: state.timeFrame,
+      dateRange: state.dateRange,
       transactions: newTransactions,
       selectedCategories: state.selectedCategories,
       chartType: state.chartType,

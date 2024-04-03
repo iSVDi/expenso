@@ -1,19 +1,19 @@
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/select_category_model.dart';
-import 'package:flutter/material.dart';
 
 class ChartModel {
   double sum;
   ChartType chartType;
-  DateTimeRange timeFrame;
   List<SelectCategoryModel> chartCategories;
   List<SelectCategoryModel> selectableCategories;
+  Function()? backTimeFrameButtonHandler;
+  Function()? forwardTimeFrameButtonHandler;
 
-  ChartModel({
-    required this.sum,
-    required this.chartType,
-    required this.timeFrame,
-    required this.chartCategories,
-    required this.selectableCategories,
-  });
+  ChartModel(
+      {required this.sum,
+      required this.chartType,
+      required this.chartCategories,
+      required this.selectableCategories,
+      this.backTimeFrameButtonHandler,
+      this.forwardTimeFrameButtonHandler});
 }
