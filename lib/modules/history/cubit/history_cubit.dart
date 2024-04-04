@@ -1,4 +1,5 @@
 import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/modules/history/cubit/date_range_helper.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,39 +14,41 @@ import 'package:expenso/modules/history/models/select_category_model.dart';
 
 class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   final _repository = TransactionRepository();
-  // All transactions for current time frame
+  final dateRangeHelper = DateRangeHelper();
+
+  DateTimeRange get getCalendarTimeRange =>
+      dateRangeHelper.getCalendarTimeRange();
+  // All transactions for current date range
   HistoryCubit()
       : super(HistoryState(
-            dateRange: _getCurrentMonth(),
+            dateRange: DateRangeHelper.getCurrentMonth(),
             transactions: TransactionRepository().readByDateRange(
-                dateRange: _getCurrentMonth(), selectedCategories: {}),
+                dateRange: DateRangeHelper.getCurrentMonth(),
+                selectedCategories: {}),
             selectedCategories: {},
             chartType: ChartType.bar));
+
+//* Interface
 
   void updateDateRange(DateTimeRange dateRange) {
     var newTransactions = _repository.readByDateRange(
         dateRange: dateRange, selectedCategories: state.selectedCategories);
-    emit(
-      HistoryState(
-          dateRange: dateRange,
-          transactions: newTransactions,
-          selectedCategories: state.selectedCategories,
-          chartType: state.chartType),
-    );
-  }
-
-  DateTimeRange getCalendarTimeRange() {
-    var lastDate = DateTime.now();
-    var firstDate =
-        DateTime(lastDate.year - 1, lastDate.month, lastDate.day + 1);
-    return DateTimeRange(start: firstDate, end: lastDate);
+    _emitNewState(
+        dateRange, newTransactions, state.selectedCategories, state.chartType);
   }
 
   double getSum() {
     if (state.transactions.isEmpty) {
       return 0;
     }
-    var sum = state.transactions
+
+    var transactions = state.selectedCategories.isEmpty
+        ? state.transactions
+        : state.transactions
+            .where((e) => state.selectedCategories.contains(e.category.target!))
+            .toList();
+
+    var sum = transactions
         .map((e) => e.amount)
         .reduce((value, element) => value + element);
     return sum;
@@ -54,12 +57,8 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   void changeModeHandler() {
     var newMode =
         state.chartType == ChartType.bar ? ChartType.donut : ChartType.bar;
-    emit(HistoryState(
-      dateRange: state.dateRange,
-      transactions: state.transactions,
-      selectedCategories: state.selectedCategories,
-      chartType: newMode,
-    ));
+    _emitNewState(
+        state.dateRange, state.transactions, state.selectedCategories, newMode);
   }
 
   void selectCategoryHandler(Category category) {
@@ -71,137 +70,14 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
       newCategories.add(category);
     }
 
-    emit(HistoryState(
-        dateRange: state.dateRange,
-        transactions: state.transactions,
-        selectedCategories: newCategories,
-        chartType: state.chartType));
+    var newTransactions = _repository
+        .readByDateRange(dateRange: state.dateRange, selectedCategories: {});
+    _emitNewState(
+        state.dateRange, newTransactions, newCategories, state.chartType);
   }
 
   void resetCategoriesHandler() {
-    emit(HistoryState(
-        dateRange: state.dateRange,
-        transactions: state.transactions,
-        selectedCategories: {},
-        chartType: state.chartType));
-  }
-
-  // TODO rename and refactoring
-  List<SelectCategoryModel> getCategories() {
-    Map<Category, double> categoriesMap = {};
-
-    for (var transaction in state.transactions) {
-      var category = transaction.category.target!;
-
-      var isCategoryInMap = categoriesMap.keys.toSet().contains(category);
-      if (!isCategoryInMap) {
-        categoriesMap[category] = transaction.amount;
-      } else {
-        categoriesMap[category] = categoriesMap[category]! + transaction.amount;
-      }
-    }
-
-    var sum = getSum();
-
-    var res = categoriesMap.entries.map((e) {
-      var value =
-          state.chartType == ChartType.bar ? e.value : (e.value * 100 / sum);
-      var alphaColor = state.selectedCategories.contains(e.key) ||
-              state.selectedCategories.isEmpty
-          ? 255
-          : 60;
-      return SelectCategoryModel(
-        category: e.key,
-        value: value,
-        color: getCategoryColor(e.key.id).withAlpha(alphaColor),
-      );
-    }).toList();
-
-    res.sort((a, b) {
-      if (a.value > b.value) {
-        return -1;
-      }
-      return 1;
-    });
-    return res;
-  }
-
-  ChartModel getChartData() {
-    var selectableCategories = getCategories();
-    List<SelectCategoryModel> chartCategories() {
-      if (state.selectedCategories.isEmpty) {
-        return selectableCategories.reversed.toList();
-      }
-      var res = selectableCategories.reversed.where((element) {
-        return state.selectedCategories.contains(element.category);
-      }).toList();
-      return res;
-    }
-
-    var calendarTimeFrame = getCalendarTimeRange();
-
-    var needSetForwardHandler = state.dateRange.start
-            .add(calculateNewDateRange(true).duration)
-            .compareTo(calendarTimeFrame.end) <=
-        0;
-    var needSetBackHandler = state.dateRange.start
-            .subtract(calculateNewDateRange(false).duration)
-            .compareTo(calendarTimeFrame.start) >=
-        0;
-
-    return ChartModel(
-        sum: getSum(),
-        chartType: state.chartType,
-        chartCategories: chartCategories(),
-        selectableCategories: selectableCategories,
-        forwardTimeFrameButtonHandler:
-            needSetForwardHandler ? forwardTimeFrameHandler : null,
-        backTimeFrameButtonHandler:
-            needSetBackHandler ? backTimeFrameHandler : null);
-  }
-
-  void forwardTimeFrameHandler() {
-    var newDateRange = calculateNewDateRange(true);
-    updateDateRange(newDateRange);
-  }
-
-  void backTimeFrameHandler() {
-    var newDateRange = calculateNewDateRange(false);
-    updateDateRange(newDateRange);
-  }
-
-  DateTimeRange calculateNewDateRange(bool toForward) {
-    if (isCurrentDateRangeOneMonth()) {
-      var now = state.dateRange.start;
-      var month = toForward ? now.month + 1 : now.month - 1;
-      var start = DateTime(now.year, month);
-      var end = DateTime(start.year, start.month + 1)
-          .subtract(const Duration(days: 1));
-      return DateTimeRange(start: start, end: end);
-    }
-    var duration = state.dateRange.start.isAtSameMomentAs(state.dateRange.end)
-        ? const Duration(days: 1)
-        : state.dateRange.duration;
-
-    var start = toForward
-        ? state.dateRange.start.add(duration)
-        : state.dateRange.start.subtract(duration);
-    var end = toForward
-        ? state.dateRange.end.add(duration)
-        : state.dateRange.end.subtract(duration);
-    var newDateRange = DateTimeRange(start: start, end: end);
-    return newDateRange;
-  }
-
-  bool isCurrentDateRangeOneMonth() {
-    var currentStart = state.dateRange.start;
-    var monthStart = DateTime(currentStart.year, currentStart.month);
-    var monthEnd = DateTime(monthStart.year, monthStart.month + 1)
-        .subtract(const Duration(days: 1));
-    // monthEnd.subtract(const Duration(days: 1));
-    var monthDateRange = DateTimeRange(start: monthStart, end: monthEnd);
-
-    return state.dateRange == monthDateRange;
+    _emitNewState(state.dateRange, state.transactions, {}, state.chartType);
   }
 
   String getChartHeaderTitle() {
@@ -213,6 +89,35 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     }
 
     return "${dateRange.start.formattedDate} - ${dateRange.end.formattedDate}";
+  }
+
+  ChartModel getChartData() {
+    var allCategories = _getCategoriesByTransactions();
+    List<SelectCategoryModel> chartCategories() {
+      if (state.selectedCategories.isEmpty) {
+        return allCategories.toList();
+      }
+      var res = allCategories.where((element) {
+        return state.selectedCategories.contains(element.category);
+      }).toList();
+      return res;
+    }
+
+    var needSetForwardHandler = dateRangeHelper.needSetForwardHandler(
+        currentDateRange: state.dateRange);
+
+    var needSetBackHandler =
+        dateRangeHelper.needSetBackHandler(currentDateRange: state.dateRange);
+
+    return ChartModel(
+        sum: getSum(),
+        chartType: state.chartType,
+        chartCategories: chartCategories(),
+        selectableCategories: allCategories,
+        forwardTimeFrameButtonHandler:
+            needSetForwardHandler ? _forwardTimeFrameHandler : null,
+        backTimeFrameButtonHandler:
+            needSetBackHandler ? _backTimeFrameHandler : null);
   }
 
   List<SectionHistory> getHistoryListData() {
@@ -241,6 +146,49 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     return res;
   }
 
+//* Helpers
+
+  List<SelectCategoryModel> _getCategoriesByTransactions() {
+    // Mapping of categories with zero spendings
+    var categoriesMap = Map.fromEntries(
+        state.transactions.map((e) => MapEntry(e.category.target!, 0.0)));
+    for (var transaction in state.transactions) {
+      var category = transaction.category.target!;
+      categoriesMap[category] = categoriesMap[category]! + transaction.amount;
+    }
+
+    var sum = getSum();
+
+    var res = categoriesMap.entries.map((e) {
+      var value =
+          state.chartType == ChartType.bar ? e.value : (e.value * 100 / sum);
+      var noNeedSetOpacity = state.selectedCategories.contains(e.key) ||
+          state.selectedCategories.isEmpty;
+      var alphaColor = noNeedSetOpacity ? 255 : 60;
+
+      return SelectCategoryModel(
+        category: e.key,
+        value: value,
+        color: _getCategoryColor(e.key.id).withAlpha(alphaColor),
+      );
+    }).toList();
+
+    res.sort((a, b) => a.value > b.value ? -1 : 1);
+    return res;
+  }
+
+  void _forwardTimeFrameHandler() {
+    var newDateRange = dateRangeHelper.calculateNewDateRange(
+        currentDateRange: state.dateRange, toForward: true);
+    updateDateRange(newDateRange);
+  }
+
+  void _backTimeFrameHandler() {
+    var newDateRange = dateRangeHelper.calculateNewDateRange(
+        currentDateRange: state.dateRange, toForward: false);
+    updateDateRange(newDateRange);
+  }
+
   @override
   void update() {
     var newTransactions = _repository.readByDateRange(
@@ -255,15 +203,18 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     ));
   }
 
-  static DateTimeRange _getCurrentMonth() {
-    var now = DateTime.now();
-    var startDate = DateTime(now.year, now.month);
-    var endDate = DateTime(startDate.year, startDate.month + 1);
-    endDate = endDate.subtract(const Duration(days: 1));
-    return DateTimeRange(start: startDate, end: endDate);
+  void _emitNewState(DateTimeRange dateRange, List<Transaction> transactions,
+      Set<Category> selectedCategories, ChartType chartType) {
+    emit(
+      HistoryState(
+          dateRange: dateRange,
+          transactions: transactions,
+          selectedCategories: selectedCategories,
+          chartType: chartType),
+    );
   }
 
-  Color getCategoryColor(int id) {
+  Color _getCategoryColor(int id) {
     var colors = AppColors.getCategoryColors();
     return colors[id % colors.length];
   }

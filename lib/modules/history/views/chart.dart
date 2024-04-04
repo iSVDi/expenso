@@ -46,7 +46,7 @@ class _ChartState extends State<Chart> {
     );
     var series = <CartesianSeries<SelectCategoryModel, String>>[
       BarSeries<SelectCategoryModel, String>(
-        dataSource: widget.data.chartCategories.toList(),
+        dataSource: widget.data.chartCategories.reversed.toList(),
         xValueMapper: (SelectCategoryModel data, _) => data.category.title,
         yValueMapper: (SelectCategoryModel data, _) => data.value,
         pointColorMapper: (datum, index) => datum.color,
@@ -109,7 +109,7 @@ class _ChartState extends State<Chart> {
       child: ListView.builder(
           itemCount: categories.length,
           itemBuilder: (builderContext, index) {
-            var textStyle = const TextStyle(color: Colors.white);
+            var textStyle = const TextStyle(color: Colors.white, fontSize: 14);
             var row = Row(children: [
               Text(categories[index].value.toString(), style: textStyle),
               const SizedBox(width: 10),
