@@ -3,7 +3,7 @@ import 'package:expenso/extensions/date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:expenso/extensions/app_colors.dart';
 
-enum TransactionCellMode { today, analyze }
+enum TransactionCellMode { today, history }
 
 class TransactionCell extends StatelessWidget {
   final Transaction transaction;
@@ -30,7 +30,7 @@ class TransactionCell extends StatelessWidget {
       column,
     ];
 
-    if (mode == TransactionCellMode.analyze) {
+    if (mode == TransactionCellMode.history) {
       children.add(const Spacer(flex: 1));
       children.add(Text(transaction.stringAmount));
     }

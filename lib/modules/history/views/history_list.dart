@@ -123,7 +123,7 @@ class HistoryList extends StatelessWidget {
   Widget _itemBuilder(Transaction transaction) {
     var cell = TransactionCell(
       transaction: transaction,
-      mode: TransactionCellMode.analyze,
+      mode: TransactionCellMode.history,
     );
     var listTile = ListTile(
         title: cell,

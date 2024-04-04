@@ -147,7 +147,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   }
 
 //* Helpers
-
+//TODO need sort by value and selecting status
   List<SelectCategoryModel> _getCategoriesByTransactions() {
     // Mapping of categories with zero spendings
     var categoriesMap = Map.fromEntries(
@@ -194,13 +194,8 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     var newTransactions = _repository.readByDateRange(
         dateRange: state.dateRange,
         selectedCategories: state.selectedCategories);
-
-    emit(HistoryState(
-      dateRange: state.dateRange,
-      transactions: newTransactions,
-      selectedCategories: state.selectedCategories,
-      chartType: state.chartType,
-    ));
+    _emitNewState(state.dateRange, newTransactions, state.selectedCategories,
+        state.chartType);
   }
 
   void _emitNewState(DateTimeRange dateRange, List<Transaction> transactions,

@@ -3,7 +3,6 @@ import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import 'package:expenso/modules/history/models/select_category_model.dart';
 
 class Chart extends StatefulWidget {
@@ -32,10 +31,11 @@ class _ChartState extends State<Chart> {
       case ChartType.donut:
         chart = _getPieChart();
     }
-    return Column(children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       chart,
       _getCategoriesButtons(),
     ]);
+    // return _getCategoriesButtonsX();
   }
 
   Widget _getBarChart() {
@@ -103,29 +103,42 @@ class _ChartState extends State<Chart> {
   }
 
   Widget _getCategoriesButtons() {
-    var categories = widget.data.selectableCategories;
-    return SizedBox(
-      height: 250,
-      child: ListView.builder(
-          itemCount: categories.length,
-          itemBuilder: (builderContext, index) {
-            var textStyle = const TextStyle(color: Colors.white, fontSize: 14);
-            var row = Row(children: [
-              Text(categories[index].value.toString(), style: textStyle),
-              const SizedBox(width: 10),
-              Text(categories[index].category.title, style: textStyle)
-            ]);
+    var buttons = widget.data.selectableCategories.map((e) {
+      var textStyle = const TextStyle(color: Colors.white, fontSize: 14);
+      var row = Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(e.value.toStringAsFixed(0), style: textStyle),
+            const SizedBox(width: 10),
+            Text(e.category.title, style: textStyle)
+          ]);
 
-            var button = TextButton(
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(categories[index].color)),
-                onPressed: () {
-                  widget.selectCategoryHandler(categories[index].category);
-                },
-                child: row);
-            return button;
-          }),
+      var button = TextButton(
+          style:
+              ButtonStyle(backgroundColor: MaterialStatePropertyAll(e.color)),
+          onPressed: () {
+            widget.selectCategoryHandler(e.category);
+          },
+          child: row);
+      return button;
+    }).toList();
+
+    var wrap = Wrap(
+      direction: Axis.horizontal,
+      spacing: 10,
+      runSpacing: 10,
+      children: buttons,
     );
+    var resetButton = IconButton(
+        onPressed: () {
+          //todo implement 
+          print("reset button");
+        },
+        icon: const Icon(Icons.replay_outlined));
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [resetButton, wrap]);
+    // return wrap;
   }
 }
