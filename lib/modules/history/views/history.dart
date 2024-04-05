@@ -58,36 +58,35 @@ class History extends StatelessWidget {
 
   Widget _getList(BuildContext context) {
     var sectionsData = _getCubit(context).getHistoryListData();
-    return Expanded(
-      child: GroupListView(
-          sectionsCount: sectionsData.length + 1,
-          countOfItemInSection: (sectionID) {
-            if (sectionID == 0) {
-              return 1;
-            }
-            return sectionsData[sectionID - 1].transactions.length;
-          },
-          itemBuilder: (itemBuilderContext, index) {
-            if (index.section == 0) {
-              return _getChart(context);
-            }
-            var transaction =
-                sectionsData[index.section - 1].transactions[index.index];
-            var item = _itemBuilder(itemBuilderContext, transaction);
-            return item;
-          },
-          groupHeaderBuilder: (context, sectionID) {
-            if (sectionID == 0) {
-              return _getChartHeader(context);
-            }
-            var sectionDate = sectionsData[sectionID - 1];
-            var header = _groupHeaderBuilder(
-              sectionDate.headerDate,
-              sectionDate.sum,
-            );
-            return header;
-          }),
-    );
+    var list = GroupListView(
+        sectionsCount: sectionsData.length + 1,
+        countOfItemInSection: (sectionID) {
+          if (sectionID == 0) {
+            return 1;
+          }
+          return sectionsData[sectionID - 1].transactions.length;
+        },
+        itemBuilder: (itemBuilderContext, index) {
+          if (index.section == 0) {
+            return _getChart(context);
+          }
+          var transaction =
+              sectionsData[index.section - 1].transactions[index.index];
+          var item = _itemBuilder(itemBuilderContext, transaction);
+          return item;
+        },
+        groupHeaderBuilder: (context, sectionID) {
+          if (sectionID == 0) {
+            return _getChartHeader(context);
+          }
+          var sectionDate = sectionsData[sectionID - 1];
+          var header = _groupHeaderBuilder(
+            sectionDate.headerDate,
+            sectionDate.sum,
+          );
+          return header;
+        });
+    return list;
   }
 
   Widget _getChartHeader(BuildContext context) {

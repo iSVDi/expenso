@@ -30,6 +30,12 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     _repository.registerObserver(this);
   }
 
+  @override
+  Future<void> close() {
+    _repository.removeObserver(this);
+    return super.close();
+  }
+
 //* Interface
 
   void updateDateRange(DateTimeRange dateRange) {
