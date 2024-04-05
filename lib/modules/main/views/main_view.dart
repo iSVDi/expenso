@@ -5,7 +5,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:expenso/common/constants.dart";
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
-import 'package:expenso/modules/history/views/history_list.dart';
+import 'package:expenso/modules/history/views/history.dart';
 import 'package:expenso/modules/main/cubits/spend_today_amount_provider.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/views/enter_transaction_data/enter_transaction_data.dart';
@@ -55,7 +55,7 @@ class _MainViewState extends State<MainView> {
   IconButton _getAnalyseBarButton(BuildContext context) {
     var bloc = BlocProvider(
       create: (context) => HistoryCubit(),
-      child: const HistoryList(),
+      child: const History(),
     );
     var button = IconButton(
       onPressed: () {

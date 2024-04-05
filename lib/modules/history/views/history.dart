@@ -3,13 +3,13 @@ import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/views/chart.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
+import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_list_view/group_list_view.dart';
 
-//TODO unite list and diagram widget
-class HistoryList extends StatelessWidget {
-  const HistoryList({super.key});
+class History extends StatelessWidget {
+  const History({super.key});
 
   HistoryCubit _getCubit(BuildContext context) => context.read<HistoryCubit>();
 
@@ -56,6 +56,7 @@ class HistoryList extends StatelessWidget {
       selectCategoryHandler: (category) =>
           cubit.selectCategoryHandler(category),
       changeChartModeHandler: () => cubit.changeModeHandler(),
+      resetChartModeHandler: () => cubit.resetCategoriesHandler(),
     );
     return chart;
   }
@@ -71,13 +72,13 @@ class HistoryList extends StatelessWidget {
             }
             return sectionsData[sectionID - 1].transactions.length;
           },
-          itemBuilder: (context, index) {
+          itemBuilder: (itemBuilderContext, index) {
             if (index.section == 0) {
               return _getChart(context);
             }
             var transaction =
                 sectionsData[index.section - 1].transactions[index.index];
-            var item = _itemBuilder(transaction);
+            var item = _itemBuilder(itemBuilderContext, transaction);
             return item;
           },
           groupHeaderBuilder: (context, sectionID) {
@@ -120,18 +121,29 @@ class HistoryList extends StatelessWidget {
     return row;
   }
 
-  Widget _itemBuilder(Transaction transaction) {
+  Widget _itemBuilder(BuildContext context, Transaction transaction) {
     var cell = TransactionCell(
       transaction: transaction,
       mode: TransactionCellMode.history,
     );
     var listTile = ListTile(
         title: cell,
-        onTap: () {
-          // todo handle tap
-          print(transaction.comment);
-        });
+        onTap: () => _presentTransaction(context, transaction),
+        onLongPress: () => _showContextMenu(context, transaction));
+
     return listTile;
+  }
+
+  void _presentTransaction(BuildContext context, Transaction transaction) {
+    var transactionView = TransactionView(transaction: transaction);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: ((context) => transactionView)),
+    );
+  }
+
+  void _showContextMenu(BuildContext context, Transaction transaction) {
+// TODO implement
   }
 
   Widget _groupHeaderBuilder(String title, String sum) {

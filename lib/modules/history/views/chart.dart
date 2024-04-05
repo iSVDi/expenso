@@ -9,12 +9,14 @@ class Chart extends StatefulWidget {
   final ChartModel data;
   final Function(Category category) selectCategoryHandler;
   final Function() changeChartModeHandler;
+  final Function() resetChartModeHandler;
 
   const Chart(
       {Key? key,
       required this.data,
       required this.selectCategoryHandler,
-      required this.changeChartModeHandler})
+      required this.changeChartModeHandler,
+      required this.resetChartModeHandler})
       : super(key: key);
 
   @override
@@ -102,17 +104,25 @@ class _ChartState extends State<Chart> {
     return (backButton, forwardButton);
   }
 
+//TODO add percent for values on donut chart
   Widget _getCategoriesButtons() {
     var buttons = widget.data.selectableCategories.map((e) {
       var textStyle = const TextStyle(color: Colors.white, fontSize: 14);
+      List<Widget> children = [Text(e.category.title, style: textStyle)];
+
+      if (widget.data.chartCategories
+          .map((e) => e.category)
+          .contains(e.category)) {
+        children = [
+              Text(e.value.toStringAsFixed(0), style: textStyle),
+              const SizedBox(width: 10)
+            ] +
+            children;
+      }
       var row = Row(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(e.value.toStringAsFixed(0), style: textStyle),
-            const SizedBox(width: 10),
-            Text(e.category.title, style: textStyle)
-          ]);
+          children: children);
 
       var button = TextButton(
           style:
@@ -131,10 +141,7 @@ class _ChartState extends State<Chart> {
       children: buttons,
     );
     var resetButton = IconButton(
-        onPressed: () {
-          //todo implement 
-          print("reset button");
-        },
+        onPressed: widget.resetChartModeHandler,
         icon: const Icon(Icons.replay_outlined));
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

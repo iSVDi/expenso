@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:expenso/common/data_layer/models/category.dart';
 
+// TODO add data for selecting categories buttons
 class SelectCategoryModel {
   Category category;
   double value;

@@ -26,7 +26,9 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
                 dateRange: DateRangeHelper.getCurrentMonth(),
                 selectedCategories: {}),
             selectedCategories: {},
-            chartType: ChartType.bar));
+            chartType: ChartType.donut)) {
+    _repository.registerObserver(this);
+  }
 
 //* Interface
 
@@ -146,8 +148,12 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     return res;
   }
 
+  void deleteTransaction(Transaction transaction) {
+    _repository.removeTransaction(transaction);
+  }
+
 //* Helpers
-//TODO need sort by value and selecting status
+//TODO need sort by value and selecting status, refactoring
   List<SelectCategoryModel> _getCategoriesByTransactions() {
     // Mapping of categories with zero spendings
     var categoriesMap = Map.fromEntries(
@@ -162,18 +168,19 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     var res = categoriesMap.entries.map((e) {
       var value =
           state.chartType == ChartType.bar ? e.value : (e.value * 100 / sum);
-      var noNeedSetOpacity = state.selectedCategories.contains(e.key) ||
+      var noNeedSetCustomOpacity = state.selectedCategories.contains(e.key) ||
           state.selectedCategories.isEmpty;
-      var alphaColor = noNeedSetOpacity ? 255 : 60;
+      var alphaColor = noNeedSetCustomOpacity ? 255 : 60;
 
       return SelectCategoryModel(
         category: e.key,
-        value: value,
+        value: noNeedSetCustomOpacity ? value : 0,
         color: _getCategoryColor(e.key.id).withAlpha(alphaColor),
       );
     }).toList();
 
     res.sort((a, b) => a.value > b.value ? -1 : 1);
+    // res.
     return res;
   }
 
