@@ -22,7 +22,13 @@ class CategoriesRepository {
         .query()
         .order(Category_.id, flags: Order.descending)
         .build();
-    var res = query.find().where((element) => element.id != _noCategoryId).toList();
+
+    var res =
+        query.find().where((element) => element.id != _noCategoryId).toList();
     return res;
+  }
+
+  void deleteCategory(Category category) {
+    _categories.remove(category.id);
   }
 }

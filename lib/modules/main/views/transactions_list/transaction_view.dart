@@ -101,14 +101,19 @@ class TransactionViewState extends State<TransactionView> {
             color: AppColors.appGreen));
     selectCategoriesList(BuildContext builderContext) {
       return SelectCategoriesList(
-          selectedCategory: transaction.category.target!,
-          doneButtonCallback: (category) {
-            _updateCategory(category);
-            Navigator.pop(builderContext);
-          },
-          backButtonCallback: () {
-            Navigator.pop(builderContext);
-          });
+        isManagingCategories: false,
+        selectedCategory: transaction.category.target!,
+        doneButtonCallback: (category) {
+          _updateCategory(category);
+          Navigator.pop(builderContext);
+        },
+        backButtonCallback: () {
+          Navigator.pop(builderContext);
+        },
+        categoryUpdatedCallback: (category) {
+          _updateCategory(category);
+        },
+      );
     }
 
     var textButton = _getPresentModallyButton(

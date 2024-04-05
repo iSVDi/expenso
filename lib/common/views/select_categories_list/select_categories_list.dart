@@ -1,23 +1,29 @@
+import "package:flutter/material.dart";
+import 'package:focused_menu/focused_menu.dart';
+import 'package:focused_menu/modals.dart';
+
+import 'package:expenso/common/constants.dart';
+import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
+import 'package:expenso/common/views/select_categories_list/category_cell.dart';
+import 'package:expenso/common/views/select_categories_list/select_categories_list_interactor.dart';
 import 'package:expenso/common/views/view_factory.dart';
 import 'package:expenso/extensions/app_colors.dart';
-import 'package:expenso/common/data_layer/repositories/categories_repository.dart';
-
-import "package:flutter/material.dart";
-
-import 'package:expenso/common/data_layer/models/category.dart';
-import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 
 class SelectCategoriesList extends StatefulWidget {
-  Category selectedCategory;
+  final bool isManagingCategories;
+  final Category selectedCategory;
   final Function(Category) doneButtonCallback;
   final Function() backButtonCallback;
+  final Function(Category)? categoryUpdatedCallback;
 
-  SelectCategoriesList({
+  const SelectCategoriesList({
     Key? key,
+    required this.isManagingCategories,
     required this.selectedCategory,
     required this.doneButtonCallback,
     required this.backButtonCallback,
+    this.categoryUpdatedCallback,
   }) : super(key: key);
 
   @override
@@ -25,7 +31,11 @@ class SelectCategoriesList extends StatefulWidget {
 }
 
 class SelectCategoriesListState extends State<SelectCategoriesList> {
-  final CategoriesRepository repository = CategoriesRepository();
+  late final SelectCategoriesListInteractor _interactor =
+      SelectCategoriesListInteractor(
+          isManagingCategories: widget.isManagingCategories,
+          selectedCategory: widget.selectedCategory,
+          setState: () => setState(() {}));
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +43,19 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   Widget _getKeyboard(BuildContext context) {
-    return Stack(alignment: AlignmentDirectional.bottomEnd, children: [
-      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        _getKeyboardHeader(context),
-        const Divider(thickness: 1, color: AppColors.appBlack),
-        _getCategoriesList(context)
-      ]),
-      ViewFactory.getDoneButton(context, () {
-        widget.doneButtonCallback(widget.selectedCategory);
-      })
-    ]);
+    var columnChildren = [
+      _getKeyboardHeader(context),
+      const Divider(thickness: 1, color: AppColors.appBlack),
+      _getCategoriesList(context)
+    ];
+    var column = Column(
+        mainAxisAlignment: MainAxisAlignment.end, children: columnChildren);
+    var stackChildren = _interactor.isFromSettings
+        ? [column]
+        : [column, _getDoneButton(context)];
+    var stack = Stack(
+        alignment: AlignmentDirectional.bottomEnd, children: stackChildren);
+    return stack;
   }
 
 // todo move text to special class
@@ -67,24 +80,15 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
     var addCategoryButton = TextButton(
       child: titlesRow,
-      onPressed: () {
-        _addCategoryButtonHandler(context);
-      },
+      onPressed: () => _addCategoryButtonHandler(context),
     );
 
-    var backButton = IconButton(
-        icon: const Icon(
-          Icons.arrow_back_ios_new,
-          size: 24,
-          color: AppColors.appBlack,
-        ),
-        onPressed: () {
-          widget.backButtonCallback();
-        });
-
+    var rowChildren = _interactor.isFromSettings
+        ? [addCategoryButton]
+        : [addCategoryButton, _getBackButton()];
     Row header = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [addCategoryButton, backButton]);
+        children: rowChildren);
     EdgeInsets padding =
         const EdgeInsets.only(left: 32, right: 32, top: 14, bottom: 4);
 
@@ -95,24 +99,69 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     );
   }
 
+  IconButton _getBackButton() {
+    return IconButton(
+        icon: const Icon(
+          Icons.arrow_back_ios_new,
+          size: 24,
+          color: AppColors.appBlack,
+        ),
+        onPressed: widget.backButtonCallback);
+  }
+
+  Widget _getDoneButton(BuildContext context) {
+    return ViewFactory.getDoneButton(context, () {
+      widget.doneButtonCallback(_interactor.selectedCategory);
+    });
+  }
+
   Widget _getCategoriesList(BuildContext context) {
-    var categories = repository.readAllCategories();
+    var categories = _interactor.readAllCategories;
     var listView = ListView.builder(
         itemCount: categories.length,
-        itemBuilder: (context, index) {
-          var needSetBold = _isNeedSetBoldCategoryTitle(categories[index]);
-          var tile = ListTile(
-            title: CategoryCell(
-                needSetBold: needSetBold, category: categories[index]),
-            onTap: () {
-              _selectCategory(categories[index]);
-            },
-          );
-          return tile;
-        });
-    var container = Container(
-        padding: const EdgeInsets.only(left: 32, right: 32), child: listView);
+        itemBuilder: (context, index) => _getListCell(categories[index]));
+    var container = Container(child: listView);
     return Expanded(child: container);
+  }
+
+  Widget _getListCell(Category category) {
+    var needSetBold = _interactor.isNeedSetBoldCategoryTitle(category);
+    var cell = CategoryCell(needSetBold: needSetBold, category: category);
+    var listTile = ListTile(
+        contentPadding: const EdgeInsets.only(left: 32, right: 32),
+        title: cell);
+
+    var coloredListTile = ColoredBox(
+      color: Colors.white,
+      child: listTile,
+    );
+
+    var editItem = FocusedMenuItem(
+      title: const Text("Edit"),
+      onPressed: () => _showEditCategorySheet(context, category),
+    );
+
+    var deleteItem = FocusedMenuItem(
+      title: const Text("Delete"),
+      onPressed: () => _interactor.deleteCategory(category: category),
+    );
+
+    var menuHolder = FocusedMenuHolder(
+      menuOffset: 10,
+      menuWidth: Constants.sizeFrom(context).width * 0.34,
+      onPressed: () {
+        if (_interactor.isFromSettings) {
+          // todo implement show pop up
+          print("handler pop up");
+        } else {
+          _interactor.selectCategory(category);
+        }
+      },
+      menuItems: [editItem, deleteItem],
+      child: coloredListTile,
+    );
+
+    return menuHolder;
   }
 
   void _addCategoryButtonHandler(BuildContext context) {
@@ -120,34 +169,25 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     var sheet = EnterTextBottomSheet(
       //todo get text from special class
       hintText: "Enter category name",
-      callback: (categoryName) {
-        var category = Category(title: categoryName);
-        repository.insertCategory(category);
-        _selectCategory(category);
-      },
+      callback: (categoryName) => _interactor.addCategory(categoryName),
     );
     _showSheet(context, sheet);
   }
 
-  bool _isNeedSetBoldCategoryTitle(Category newCategory) {
-    var currentCategory = widget.selectedCategory;
-    var res = newCategory.id == currentCategory.id;
-    return res;
-  }
+  void _showEditCategorySheet(BuildContext context, Category category) {
+    var enterCategoryNameSheet = EnterTextBottomSheet(
+        // todo move to special class
+        text: category.title,
+        hintText: "hintText",
+        callback: (String newCategoryName) {
+          _interactor.editCategory(
+            category: category,
+            newCategoryName: newCategoryName,
+            categoryUpdatedCallback: widget.categoryUpdatedCallback,
+          );
+        });
 
-  void _selectCategory(Category category) {
-    Category currentCategory = widget.selectedCategory;
-    Category newCategory = category;
-    bool areCategoriesSame = currentCategory != Category.emptyCategory() &&
-        currentCategory.id == category.id;
-
-    if (areCategoriesSame) {
-      newCategory = Category.emptyCategory();
-    }
-
-    setState(() {
-      widget.selectedCategory = newCategory;
-    });
+    _showSheet(context, enterCategoryNameSheet);
   }
 
   Future _showSheet(BuildContext context, Widget child) async {

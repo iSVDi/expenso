@@ -34,7 +34,6 @@ class SizedNumericKeyboard {
     String amount,
     Function(String amount, DateTime? dateTime) doneButtonCallback, {
     DateTime? dateTime,
-    Function(DateTime dateTime)? dateTimeButtonCallback,
   }) {
     var height =
         Constants.sizeFrom(context).height * Constants.keyboardHeightRatio;
@@ -44,7 +43,6 @@ class SizedNumericKeyboard {
       amount: amount,
       dateTime: dateTime,
       doneButtonCallback: doneButtonCallback,
-      dateTimeButtonCallback: dateTimeButtonCallback,
     );
     return SizedBox(width: width, height: height, child: keyboard);
   }
@@ -54,14 +52,12 @@ class _NumericKeyboard extends StatefulWidget {
   String amount;
   DateTime? dateTime;
   final Function(String amount, DateTime? dateTime) doneButtonCallback;
-  final Function(DateTime dateTime)? dateTimeButtonCallback;
 
   _NumericKeyboard({
     Key? key,
     required this.amount,
     this.dateTime,
     required this.doneButtonCallback,
-    this.dateTimeButtonCallback,
   }) : super(key: key);
 
   @override

@@ -1,3 +1,5 @@
+import "package:expenso/common/data_layer/models/category.dart";
+import "package:expenso/common/views/select_categories_list/select_categories_list.dart";
 import "package:flutter/material.dart";
 
 class SettingsView extends StatelessWidget {
@@ -5,12 +7,19 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: TextButton(
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: const Text("go Back"),
-    ));
+    var scaffold = Scaffold(
+      appBar: AppBar(actions: []),
+      body: _getBody(),
+    );
+    return scaffold;
+  }
+
+  Widget _getBody() {
+    return SelectCategoriesList(
+      isManagingCategories: true,
+      selectedCategory: Category.emptyCategory(),
+      doneButtonCallback: (category) {},
+      backButtonCallback: () {},
+    );
   }
 }

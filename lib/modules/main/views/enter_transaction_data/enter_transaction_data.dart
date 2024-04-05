@@ -71,6 +71,7 @@ class EnterTransactionData extends StatelessWidget {
       });
     } else {
       keyboard = SelectCategoriesList(
+        isManagingCategories: false,
         backButtonCallback: () {
           cubit.backCategoriesButtonHandler();
         },
@@ -108,8 +109,6 @@ class EnterTransactionData extends StatelessWidget {
     });
     _showSheet(context, askCommentSheet);
   }
-
-  void commentEnteredHandler(BuildContext context, String comment) {}
 
   Future _showSheet(BuildContext context, Widget child) async {
     var container = Container(
