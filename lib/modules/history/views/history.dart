@@ -6,6 +6,7 @@ import 'package:expenso/modules/main/views/transactions_list/transaction_cell.da
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focused_menu/modals.dart';
 import 'package:group_list_view/group_list_view.dart';
 
 class History extends StatelessWidget {
@@ -16,13 +17,7 @@ class History extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = BlocBuilder<HistoryCubit, HistoryState>(
-        builder: (context, state) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0),
-            // child: Column(children: [
-            // _getChart(context),
-            child: _getList(context)
-            // ]),
-            ));
+        builder: (context, state) => _getList(context));
     var scaffold = Scaffold(
       appBar: _getAppBar(context),
       body: bloc,
@@ -121,17 +116,24 @@ class History extends StatelessWidget {
     return row;
   }
 
+// todo localize
   Widget _itemBuilder(BuildContext context, Transaction transaction) {
+    var viewItem = FocusedMenuItem(
+        title: const Text("View"),
+        onPressed: () => _presentTransaction(context, transaction));
+
+    var deleteItem = FocusedMenuItem(
+        title: const Text("Delete"),
+        onPressed: () => _getCubit(context).deleteTransaction(transaction));
+
     var cell = TransactionCell(
       transaction: transaction,
       mode: TransactionCellMode.history,
+      menuItems: [viewItem, deleteItem],
+      onTap: () => _presentTransaction(context, transaction),
     );
-    var listTile = ListTile(
-        title: cell,
-        onTap: () => _presentTransaction(context, transaction),
-        onLongPress: () => _showContextMenu(context, transaction));
 
-    return listTile;
+    return cell;
   }
 
   void _presentTransaction(BuildContext context, Transaction transaction) {
@@ -140,10 +142,6 @@ class History extends StatelessWidget {
       context,
       MaterialPageRoute(builder: ((context) => transactionView)),
     );
-  }
-
-  void _showContextMenu(BuildContext context, Transaction transaction) {
-// TODO implement
   }
 
   Widget _groupHeaderBuilder(String title, String sum) {

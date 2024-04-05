@@ -40,7 +40,7 @@ class TransactionViewState extends State<TransactionView> {
   IconButton _getDeleteBarButton(BuildContext context) {
     return IconButton(
         onPressed: () {
-          _repository.removeTransaction(transaction);
+          _repository.deleteTransaction(transaction);
           Navigator.pop(context);
         },
         icon: const Icon(

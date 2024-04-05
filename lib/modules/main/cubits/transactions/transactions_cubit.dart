@@ -18,6 +18,10 @@ class TransactionsCubit extends Cubit<TransactionsState>
     return state.transactions;
   }
 
+  void deleteTransaction(Transaction transaction) {
+    _transactionRepository.deleteTransaction(transaction);
+  }
+
   @override
   void update() {
     var transactions = _transactionRepository.readTodayTransactions();

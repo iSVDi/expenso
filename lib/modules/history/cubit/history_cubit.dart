@@ -149,7 +149,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   }
 
   void deleteTransaction(Transaction transaction) {
-    _repository.removeTransaction(transaction);
+    _repository.deleteTransaction(transaction);
   }
 
 //* Helpers

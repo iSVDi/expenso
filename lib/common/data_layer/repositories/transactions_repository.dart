@@ -90,7 +90,7 @@ class TransactionRepository implements RepositorySubject {
     }
   }
 
-  void removeTransaction(Transaction transaction) {
+  void deleteTransaction(Transaction transaction) {
     _transactions.remove(transaction.id);
   }
 }

@@ -1,34 +1,62 @@
+import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:expenso/extensions/app_colors.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:focused_menu/modals.dart';
 
 enum TransactionCellMode { today, history }
 
 class TransactionCell extends StatelessWidget {
   final Transaction transaction;
   final TransactionCellMode mode;
+  final List<FocusedMenuItem> menuItems;
+  final Function() onTap;
+
   const TransactionCell(
-      {Key? key, required this.transaction, required this.mode})
+      {Key? key,
+      required this.transaction,
+      required this.mode,
+      required this.menuItems,
+      required this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _getCell();
+    return _getBody(context);
   }
 
-  Row _getCell() {
+  Widget _getBody(BuildContext context) {
+    var cell = _getCell();
+    var listTile = ListTile(
+      title: cell,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 32),
+    );
+
+    var coloredListTile = ColoredBox(
+      color: Colors.white,
+      child: listTile,
+    );
+
+    var menuHolder = FocusedMenuHolder(
+      menuOffset: 10,
+      menuWidth: Constants.sizeFrom(context).width * 0.34,
+      onPressed: onTap,
+      menuItems: menuItems,
+      child: coloredListTile,
+    );
+    return menuHolder;
+  }
+
+  Widget _getCell() {
     var title = mode == TransactionCellMode.today
         ? transaction.stringAmount
         : transaction.date.formattedTime;
     var leftWidget = _getLabel(title, Colors.black, 24, FontWeight.w300);
     var column = _getTransactionsColumn();
 
-    var children = [
-      leftWidget,
-      const SizedBox(width: 20, height: 0),
-      column,
-    ];
+    var children = [leftWidget, const SizedBox(width: 20, height: 0), column];
 
     if (mode == TransactionCellMode.history) {
       children.add(const Spacer(flex: 1));
@@ -63,7 +91,7 @@ class TransactionCell extends StatelessWidget {
 // todo get text from special class
   Widget _getTransactionsColumn() {
     var categoryText = _getLabel(
-        transaction.category.target?.title ?? "no category",
+        transaction.category.target!.title,
         AppColors.appGreen,
         18,
         FontWeight.w400);

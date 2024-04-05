@@ -5,11 +5,12 @@ import 'package:expenso/modules/main/views/transactions_list/transaction_cell.da
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focused_menu/modals.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({super.key});
 
-  TransactionsCubit getCubit(BuildContext context) {
+  TransactionsCubit _getCubit(BuildContext context) {
     return context.read<TransactionsCubit>();
   }
 
@@ -23,26 +24,26 @@ class TransactionsList extends StatelessWidget {
   }
 
   Widget _getBody(BuildContext context) {
-    var cubit = getCubit(context);
+    var cubit = _getCubit(context);
     var transactions = cubit.getTodayTransactions();
     var listView = ListView.builder(
         itemCount: transactions.length,
-        itemBuilder: (context, index) {
-          var cell = TransactionCell(
-            transaction: transactions[index],
-            mode: TransactionCellMode.today,
-          );
-          var tile = ListTile(
-            title: cell,
-            onTap: () {
-              _presentTransaction(context, transactions[index]);
-            },
-          );
-          return tile;
-        });
-    var container =
-        Container(padding: const EdgeInsets.only(left: 32), child: listView);
-    return Expanded(child: container);
+        itemBuilder: (context, index) =>
+            _itemBuilder(context, transactions[index]));
+    return Expanded(child: listView);
+  }
+
+  Widget _itemBuilder(BuildContext context, Transaction transaction) {
+    var deleteItem = FocusedMenuItem(
+        title: const Text("Delete"),
+        onPressed: () => _getCubit(context).deleteTransaction(transaction));
+
+    var cell = TransactionCell(
+        transaction: transaction,
+        mode: TransactionCellMode.today,
+        menuItems: [deleteItem],
+        onTap: () => _presentTransaction(context, transaction));
+    return cell;
   }
 
   void _presentTransaction(BuildContext context, Transaction transaction) {
