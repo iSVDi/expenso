@@ -1,7 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:expenso/my_app.dart';
 import "package:flutter/material.dart";
-
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
 
 class DateTimePicker extends StatefulWidget {
@@ -22,17 +20,25 @@ class _DateTimePickerState extends State<DateTimePicker> {
   final double _screenHeightRatio = 0.3;
   final double _screenWidthRatio = 0.9;
 
+  ColorScheme _getColorScheme(BuildContext context) =>
+      Theme.of(context).colorScheme;
+
   @override
   Widget build(BuildContext context) {
-    var cancelButton = _getRoundedButton(() {
-      widget.callback(null);
-    }, "cancel", AppColors.appGreen, //TODO: move text to special class
-        borderSide: const BorderSide(color: AppColors.appGreen));
+    var colorScheme = _getColorScheme(context);
 
-    var applyButton = _getRoundedButton(() {
-      widget.callback(widget.selectedDate);
-    }, "apply", AppColors.appWhite,
-        backgroundColor: AppColors.appGreen); //TODO: move text to special class
+    var cancelButton = _getRoundedButton(
+        text: "cancel", //TODO: move text to special class
+        textColor: colorScheme.primary,
+        borderSide: BorderSide(color: colorScheme.primary),
+        onPressed: () => widget.callback(null));
+
+    var applyButton = _getRoundedButton(
+      text: "apply", //TODO: move text to special class
+      textColor: Colors.white,
+      backgroundColor: colorScheme.primary,
+      onPressed: () => widget.callback(widget.selectedDate),
+    );
 
     var column = Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -51,8 +57,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
         width: MediaQuery.of(context).size.width * _screenWidthRatio,
         child: column);
     return AlertDialog(
+      surfaceTintColor: colorScheme.background,
       content: sizedBox,
-      backgroundColor: AppColors.appWhite,
     );
   }
 
@@ -86,10 +92,10 @@ class _DateTimePickerState extends State<DateTimePicker> {
           _handleSelectedDate(context);
         },
         child: Text(widget.selectedDate.formattedDate,
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w400,
-                color: AppColors.appGreen)));
+                color: _getColorScheme(context).primary)));
   }
 
   Widget _getTimePickerButton() {
@@ -98,35 +104,36 @@ class _DateTimePickerState extends State<DateTimePicker> {
           _handleSelectedTime(context);
         },
         child: Text(widget.selectedDate.formattedTime,
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w300,
-                color: AppColors.appGreen)));
+                color: _getColorScheme(context).primary)));
   }
 
-  ElevatedButton _getRoundedButton(
-      Function() onPressed, String text, Color textColor,
-      {BorderSide borderSide = BorderSide.none,
-      Color backgroundColor = AppColors.appWhite}) {
+  ElevatedButton _getRoundedButton({
+    required String text,
+    required Color textColor,
+    BorderSide borderSide = BorderSide.none,
+    Color backgroundColor = Colors.white,
+    required Function() onPressed,
+  }) {
     var buttonStyle = ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(backgroundColor),
         shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
             RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30), side: borderSide)));
+
     var textStyle =
-        TextStyle(fontWeight: FontWeight.w300, fontSize: 24, color: textColor);
+        Theme.of(context).textTheme.appTitle3.copyWith(color: textColor);
 
     double horizontalPadding = 5;
     double verticalPadding = 12;
-    var button = ElevatedButton(
-        onPressed: onPressed,
-        style: buttonStyle,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(horizontalPadding, verticalPadding,
-              horizontalPadding, verticalPadding),
-          child: Text(text, //TODO: move text to special class
-              style: textStyle),
-        ));
+    var child = Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding, vertical: verticalPadding),
+        child: Text(text, style: textStyle));
+    var button =
+        ElevatedButton(onPressed: onPressed, style: buttonStyle, child: child);
     return button;
   }
 }

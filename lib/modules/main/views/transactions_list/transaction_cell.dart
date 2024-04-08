@@ -35,7 +35,7 @@ class TransactionCell extends StatelessWidget {
     );
 
     var coloredListTile = ColoredBox(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.background,
       child: listTile,
     );
 
@@ -77,12 +77,19 @@ class TransactionCell extends StatelessWidget {
 
 // todo get text from special class
   Widget _getTransactionsColumn(BuildContext context) {
-    var categoryStyle = Theme.of(context).textTheme.appBody;
+    var colorScheme = Theme.of(context).colorScheme;
+    var categoryStyle = Theme.of(context)
+        .textTheme
+        .appBody
+        .copyWith(color: colorScheme.primary);
     var categoryText =
         Text(transaction.category.target!.title, style: categoryStyle);
 
     if (transaction.comment.isNotEmpty) {
-      var commentStyle = Theme.of(context).textTheme.appSubhead;
+      var commentStyle = Theme.of(context)
+          .textTheme
+          .appSubhead
+          .copyWith(color: colorScheme.onPrimary);
       var commentText = Text(transaction.comment, style: commentStyle);
       var column = Column(
           mainAxisAlignment: MainAxisAlignment.start,

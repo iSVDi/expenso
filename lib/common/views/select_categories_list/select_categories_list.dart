@@ -8,7 +8,6 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list_interactor.dart';
 import 'package:expenso/common/views/view_factory.dart';
-import 'package:expenso/extensions/app_colors.dart';
 
 class SelectCategoriesList extends StatefulWidget {
   final bool isManagingCategories;
@@ -42,10 +41,13 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     return _getKeyboard(context);
   }
 
+  ColorScheme _getColorScheme(BuildContext context) =>
+      Theme.of(context).colorScheme;
+
   Widget _getKeyboard(BuildContext context) {
     var columnChildren = [
       _getKeyboardHeader(context),
-      const Divider(thickness: 1, color: AppColors.appBlack),
+      Divider(thickness: 1, color: _getColorScheme(context).onBackground),
       _getCategoriesList(context)
     ];
     var column = Column(
@@ -60,16 +62,23 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
 // todo move text to special class
   Widget _getKeyboardHeader(BuildContext context) {
-    var plustText = const Text("+",
-        style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: AppColors.appGreen));
-    var addCategoryText = const Text("Создать категорию",
-        style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w300,
-            color: AppColors.appGreen));
+    var textColor = _getColorScheme(context).primary;
+    var plustText = Text(
+      "+",
+      style: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: textColor,
+      ),
+    );
+    var addCategoryText = Text(
+      "Создать категорию",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w300,
+        color: textColor,
+      ),
+    );
     var titlesRow = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -104,7 +113,8 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         icon: const Icon(
           Icons.arrow_back_ios_new,
           size: 24,
-          color: AppColors.appBlack,
+          // todo use color scheme
+          color: Colors.black,
         ),
         onPressed: widget.backButtonCallback);
   }
@@ -132,7 +142,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         title: cell);
 
     var coloredListTile = ColoredBox(
-      color: Colors.white,
+      color: _getColorScheme(context).surface,
       child: listTile,
     );
 

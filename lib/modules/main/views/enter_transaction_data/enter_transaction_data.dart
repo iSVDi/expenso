@@ -2,7 +2,6 @@
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
-import 'package:expenso/extensions/app_colors.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 
@@ -11,8 +10,6 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 
 import '../../cubits/keyboard/keyboard_cubit.dart';
 import '../../cubits/keyboard/keyboard_states.dart';
-
-
 
 class EnterTransactionData extends StatelessWidget {
   final Size size;
@@ -65,8 +62,8 @@ class EnterTransactionData extends StatelessWidget {
         selectedCategory: Category.emptyCategory(),
       );
     }
-    return ColoredBox(
-        color: AppColors.appNumericKeyboardColor, child: keyboard);
+    var keyboardColor = Theme.of(context).colorScheme.surface;
+    return ColoredBox(color: keyboardColor, child: keyboard);
   }
 
   void doneButtonHandler(BuildContext context) {

@@ -39,13 +39,15 @@ class _MainViewState extends State<MainView> {
 
   PreferredSizeWidget _getAppBar(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var colorTheme = Theme.of(context).colorScheme;
     var column = Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(sum, style: textTheme.appLargeTitle),
-          Text("spent today", style: textTheme.appBody),
+          Text("spent today",
+              style: textTheme.appBody.copyWith(color: colorTheme.primary)),
         ],
       ),
     );

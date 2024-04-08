@@ -1,14 +1,14 @@
 import 'package:expenso/common/constants.dart';
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ViewFactory {
   //TODO rewrite as widget
   static Padding getDoneButton(BuildContext context, Function()? onPressed) {
+    var colorScheme = Theme.of(context).colorScheme;
     var buttonColor =
-        onPressed == null ? AppColors.appDisabledGreen : AppColors.appGreen;
+        onPressed == null ? colorScheme.onPrimary : colorScheme.primary;
 
-    var icon = const Icon(Icons.done, color: AppColors.appWhite);
+    var icon = const Icon(Icons.done, color: Colors.white);
     var sideSize = Constants.sizeFrom(context).width * 0.235;
     var buttonStyleSize = Size(sideSize, sideSize);
 
@@ -17,8 +17,8 @@ class ViewFactory {
         backgroundColor: MaterialStateProperty.all(buttonColor));
 
     var button = IconButton(
-        color: AppColors.appGreen,
-        disabledColor: AppColors.appDisabledGreen,
+        color: colorScheme.primary,
+        disabledColor: colorScheme.onPrimary,
         onPressed: onPressed,
         icon: icon,
         iconSize: 40,

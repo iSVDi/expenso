@@ -13,7 +13,9 @@ class NumericButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = Theme.of(context).textTheme.appTitle2;
+    var buttonColor = Theme.of(context).colorScheme.onBackground;
+    var textStyle =
+        Theme.of(context).textTheme.appTitle2.copyWith(color: buttonColor);
     var text = Text(title, style: textStyle, textAlign: TextAlign.center);
     var textButton = TextButton(
         onPressed: () {
