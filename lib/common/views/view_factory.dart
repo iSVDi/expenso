@@ -21,7 +21,7 @@ class ViewFactory {
         disabledColor: AppColors.appDisabledGreen,
         onPressed: onPressed,
         icon: icon,
-        iconSize: 27,
+        iconSize: 40,
         style: buttonStyle);
     return Padding(
       padding: const EdgeInsets.only(right: 5, bottom: 5),

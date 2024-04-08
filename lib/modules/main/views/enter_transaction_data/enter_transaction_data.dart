@@ -12,24 +12,7 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import '../../cubits/keyboard/keyboard_cubit.dart';
 import '../../cubits/keyboard/keyboard_states.dart';
 
-enum NumericKeyboardButtonType {
-  point("."),
-  zero("0"),
-  one("1"),
-  two("2"),
-  three("3"),
-  four("4"),
-  five("5"),
-  six("6"),
-  seven("7"),
-  eight("8"),
-  nine("9"),
-  empty(""),
-  delete("x");
 
-  final String value;
-  const NumericKeyboardButtonType(this.value);
-}
 
 class EnterTransactionData extends StatelessWidget {
   final Size size;

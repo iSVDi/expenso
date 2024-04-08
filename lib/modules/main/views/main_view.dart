@@ -1,4 +1,6 @@
+import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
+import 'package:expenso/my_app.dart';
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -36,19 +38,31 @@ class _MainViewState extends State<MainView> {
   }
 
   PreferredSizeWidget _getAppBar(BuildContext context) {
-    var column = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(sum),
-        const Text("spent today"),
-      ],
+    var textTheme = Theme.of(context).textTheme;
+    var column = Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(sum, style: textTheme.appLargeTitle),
+          Text("spent today", style: textTheme.appBody),
+        ],
+      ),
     );
-    return AppBar(
-      title: column,
+    var appBar = AppBar(
+      flexibleSpace: column,
+      // title: column,
       actions: [
         _getAnalyseBarButton(context),
         _getSettingsBarButton(context),
       ],
+    );
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(100),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 32, right: 20),
+        child: appBar,
+      ),
     );
   }
 
@@ -58,22 +72,30 @@ class _MainViewState extends State<MainView> {
       child: const History(),
     );
     var button = IconButton(
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: ((context) => bloc)));
-      },
-      icon: AppImages.barChartIcon.assetsImage,
-    );
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: ((context) => bloc)));
+        },
+        icon: SizedBox(
+          width: 24,
+          height: 24,
+          child: AppImages.barChartIcon.assetsImage,
+        ));
     return button;
   }
 
   IconButton _getSettingsBarButton(BuildContext context) {
     return IconButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: ((context) => const SettingsView())));
-        },
-        icon: AppImages.settingsIcon.assetsImage);
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: ((context) => const SettingsView())));
+      },
+      icon: SizedBox(
+        width: 24,
+        height: 24,
+        child: AppImages.settingsIcon.assetsImage,
+      ),
+    );
   }
 
   Widget _getBody(BuildContext context) {

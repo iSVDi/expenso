@@ -4,6 +4,7 @@ import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/view_factory.dart';
+import 'package:expenso/my_app.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenso/extensions/date_time.dart';
@@ -202,9 +203,10 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
   }
 
   Text _getAmountLabel(String title) {
+    var style = Theme.of(context).textTheme.appLargeTitle;
     return Text(
       title,
-      style: const TextStyle(fontSize: 50, fontWeight: FontWeight.w300),
+      style: style
     );
   }
 
@@ -212,16 +214,12 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     var dateTitle = dateTime.formattedDate.toString();
     var timeTitle = dateTime.formattedTime.toString();
 
-    var dateText = Text(dateTitle,
-        style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: AppColors.appGreen));
-    var timeText = Text(timeTitle,
-        style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-            color: AppColors.appDisabledGreen));
+    var textTheme = Theme.of(context).textTheme;
+    var dateStyle = textTheme.appHeadline.copyWith(color: AppColors.appGreen);
+    var timeStyle = textTheme.appBody.copyWith(color: AppColors.appGreen);
+
+    var dateText = Text(dateTitle, style: dateStyle);
+    var timeText = Text(timeTitle, style: timeStyle);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [dateText, timeText]);
