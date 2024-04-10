@@ -82,7 +82,7 @@ class TransactionRepository implements RepositorySubject {
   }
 
   void updateLastTransactionsComment(String comment) {
-    var id = _transactions.count();
+    var id = _transactions.getAll().last.id;
     var transaction = _transactions.get(id);
     if (transaction != null) {
       transaction.comment = comment;
