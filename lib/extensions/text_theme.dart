@@ -1,4 +1,4 @@
-//TODO move to separate file
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:flutter/material.dart';
 
 extension AppTextTheme on TextTheme {
@@ -7,7 +7,8 @@ extension AppTextTheme on TextTheme {
       const TextStyle(fontSize: 50, fontWeight: FontWeight.w300);
 
   ///* SF Pro Light 40
-  TextStyle get appTitle1 => const TextStyle(fontSize: 40);
+  TextStyle get appTitle1 =>
+      const TextStyle(fontSize: 40, fontWeight: FontWeight.w200);
 
   ///* SF Pro Light 30
   TextStyle get appTitle2 =>
@@ -22,13 +23,13 @@ extension AppTextTheme on TextTheme {
       const TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
 
   ///* SF Pro Light 18
-  TextStyle get appBody =>
-      const TextStyle(fontSize: 18, fontWeight: FontWeight.w300);
+  TextStyle get appBody => const TextStyle(
+      fontSize: 18, fontWeight: FontWeight.w300, color: AppColors.appGreen);
 
   ///* SF Pro Regular 14
   TextStyle get appLabel => const TextStyle(fontSize: 14);
 
   ///* SF Pro Regular 12
-  TextStyle get appSubhead =>
-      const TextStyle(fontSize: 12, fontWeight: FontWeight.w200);
+  TextStyle get appSubhead => const TextStyle(
+      fontSize: 12, fontWeight: FontWeight.w200, color: AppColors.appGreen);
 }

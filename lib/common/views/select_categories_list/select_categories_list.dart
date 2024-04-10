@@ -39,12 +39,13 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
   @override
   Widget build(BuildContext context) {
-    return _getKeyboard(context);
+    var body = _getBody(context);
+    return ColoredBox(color: AppColors.appNumericKeyboardColor, child: body);
   }
 
-  Widget _getKeyboard(BuildContext context) {
+  Widget _getBody(BuildContext context) {
     var columnChildren = [
-      _getKeyboardHeader(context),
+      _getHeader(context),
       const Divider(thickness: 1, color: AppColors.appBlack),
       _getCategoriesList(context)
     ];
@@ -59,7 +60,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
 // todo move text to special class
-  Widget _getKeyboardHeader(BuildContext context) {
+  Widget _getHeader(BuildContext context) {
     var textColor = AppColors.appGreen;
     var plustText = Text(
       "+",
@@ -133,14 +134,15 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   Widget _getListCell(Category category) {
-    var needSetBold = _interactor.isNeedSetBoldCategoryTitle(category);
-    var cell = CategoryCell(needSetBold: needSetBold, category: category);
+    var isSelected = _interactor.isNeedSetBoldCategoryTitle(category);
+    var cell = CategoryCell(isSelected: isSelected, category: category);
     var listTile = ListTile(
         contentPadding: const EdgeInsets.only(left: 32, right: 32),
         title: cell);
 
     var coloredListTile = ColoredBox(
-      color: AppColors.appWhite,
+      color:
+          isSelected ? AppColors.appWhite : AppColors.appNumericKeyboardColor,
       child: listTile,
     );
 

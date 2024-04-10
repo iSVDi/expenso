@@ -7,7 +7,6 @@ class ViewFactory {
   static Padding getDoneButton(BuildContext context, Function()? onPressed) {
     var buttonColor =
         onPressed == null ? AppColors.appDisabledGreen : AppColors.appGreen;
-    ;
 
     var icon = const Icon(Icons.done, color: AppColors.appWhite);
     var sideSize = Constants.sizeFrom(context).width * 0.235;

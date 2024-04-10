@@ -18,9 +18,9 @@ class SpendTodayAmountProvider implements RepositoryObserver {
     } else {
       var sum = transactions
           .map((transaction) => transaction.amount)
-          .reduce((value, element) => value + element)
-          .toString();
-      _callback(sum);
+          .reduce((value, element) => value + element);
+      var res = (sum % 1 == 0) ? "${sum.toInt()}" : "$sum";
+      _callback(res);
     }
   }
 }

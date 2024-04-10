@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: _getTheme(),
+      darkTheme: _getDarkTheme(),
       home: const MainView(),
       routes: {
         "/home": (context) => const MainView(),
@@ -18,24 +19,32 @@ class MyApp extends StatelessWidget {
 
   ThemeData _getTheme() {
     return ThemeData(
-      appBarTheme: const AppBarTheme(backgroundColor: AppColors.appWhite),
-      scaffoldBackgroundColor: AppColors.appWhite,
+      bottomSheetTheme:
+          const BottomSheetThemeData(surfaceTintColor: AppColors.appWhite),
+      appBarTheme: const AppBarTheme(surfaceTintColor: AppColors.appWhite),
       fontFamily: "SF Pro",
-      // colorScheme: _getColorScheme(), //TODO implement
+      colorScheme: _getColorScheme(),
+      textTheme: const TextTheme(),
+    );
+  }
+
+  ThemeData _getDarkTheme() {
+    return ThemeData(
+      bottomSheetTheme:
+          const BottomSheetThemeData(surfaceTintColor: AppColors.appBlack),
+      appBarTheme: const AppBarTheme(surfaceTintColor: AppColors.appBlack),
+      fontFamily: "SF Pro",
+      colorScheme: _getDarkColorScheme(),
       textTheme: const TextTheme(),
     );
   }
 
 //TODO implement
-  // ColorScheme _getColorScheme() {
-  // return const ColorScheme.light(
-  //     primary: Color.fromRGBO(0, 133, 150, 1),
-  //     onPrimary: Color.fromRGBO(120, 186, 195, 1),
-  //     surface: Color.fromRGBO(238, 238, 238, 1));
-  // }
+  ColorScheme _getColorScheme() {
+    return const ColorScheme.light(primary: AppColors.appGreen);
+  }
 
   ColorScheme _getDarkColorScheme() {
-    return const ColorScheme.dark();
+    return const ColorScheme.dark(primary: AppColors.appDarkGreen);
   }
 }
-
