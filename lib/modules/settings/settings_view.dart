@@ -8,7 +8,7 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var scaffold = Scaffold(
-      appBar: AppBar(actions: []),
+      appBar: AppBar(actions: const []),
       body: _getBody(),
     );
     return scaffold;

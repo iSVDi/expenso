@@ -27,14 +27,13 @@ enum NumericKeyboardButtonType {
   const NumericKeyboardButtonType(this.value);
 }
 
-// TODO set named parameters
 //TODO fix numeric button font size
 class SizedNumericKeyboard {
-  static Widget sizedKeyboard(
-    BuildContext context,
-    String amount,
-    Function(String amount, DateTime? dateTime) doneButtonCallback, {
+  static Widget sizedKeyboard({
+    required BuildContext context,
+    required String amount,
     DateTime? dateTime,
+    required Function(String amount, DateTime? dateTime) doneButtonCallback,
   }) {
     var height =
         Constants.sizeFrom(context).height * Constants.keyboardHeightRatio;
@@ -49,6 +48,7 @@ class SizedNumericKeyboard {
   }
 }
 
+// ignore: must_be_immutable
 class _NumericKeyboard extends StatefulWidget {
   String amount;
   DateTime? dateTime;
@@ -57,7 +57,7 @@ class _NumericKeyboard extends StatefulWidget {
   _NumericKeyboard({
     Key? key,
     required this.amount,
-    this.dateTime,
+    required this.dateTime,
     required this.doneButtonCallback,
   }) : super(key: key);
 

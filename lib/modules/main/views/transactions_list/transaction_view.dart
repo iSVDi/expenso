@@ -145,12 +145,15 @@ class TransactionViewState extends State<TransactionView> {
   Widget _getAmountButton() {
     keyboard(BuildContext buildContext) {
       return SizedNumericKeyboard.sizedKeyboard(
-          context, transaction.stringAmount, (amountString, date) {
-        setState(() {
-          _updateAmount(amountString);
-          Navigator.pop(buildContext);
-        });
-      });
+        context: context,
+        amount: transaction.stringAmount,
+        doneButtonCallback: (amountString, dateTime) {
+          setState(() {
+            _updateAmount(amountString);
+            Navigator.pop(buildContext);
+          });
+        },
+      );
     }
 
     var text = Text(transaction.stringAmount,
@@ -204,7 +207,14 @@ class TransactionViewState extends State<TransactionView> {
         child: child,
         onPressed: () => showModalBottomSheet(
             context: context,
-            builder: (buildContext) => content ?? contentFunc!(buildContext)));
+            builder: (buildContext) {
+              var padding = Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: content ?? contentFunc!(buildContext),
+              );
+              return padding;
+            }));
     return textButton;
   }
 }

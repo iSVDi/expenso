@@ -42,14 +42,18 @@ class EnterTransactionData extends StatelessWidget {
     Widget keyboard;
 
     if (cubit.state is EnteringBasicDataState) {
-      keyboard = SizedNumericKeyboard.sizedKeyboard(context, cubit.getAmount,
-          dateTime: cubit.getDate, (amount, dateTime) {
-        cubit.setAmount(amount);
-        if (dateTime != null) {
-          cubit.setDate(dateTime);
-        }
-        doneButtonHandler(context);
-      });
+      keyboard = SizedNumericKeyboard.sizedKeyboard(
+        context: context,
+        amount: cubit.getAmount,
+        dateTime: cubit.getDate,
+        doneButtonCallback: (amount, dateTime) {
+          cubit.setAmount(amount);
+          if (dateTime != null) {
+            cubit.setDate(dateTime);
+          }
+          doneButtonHandler(context);
+        },
+      );
     } else {
       keyboard = SelectCategoriesList(
         isManagingCategories: false,
@@ -63,10 +67,12 @@ class EnterTransactionData extends StatelessWidget {
         selectedCategory: Category.emptyCategory(),
       );
     }
-    return ColoredBox(
+    var coloredKeyboard = ColoredBox(
       color: AppColors.appNumericKeyboardColor,
       child: keyboard,
     );
+
+    return coloredKeyboard;
   }
 
   void doneButtonHandler(BuildContext context) {
@@ -90,14 +96,26 @@ class EnterTransactionData extends StatelessWidget {
         _showSheet(context, enterCommentSheet);
       }
     });
-    _showSheet(context, askCommentSheet);
+    
+    var height = MediaQuery.of(context).size.height * 0.123;
+    var container = Container(
+        height: height,
+        margin: const EdgeInsets.only(left: 32, right: 32),
+        child: askCommentSheet);
+    _showSheet(context, container);
   }
 
   Future _showSheet(BuildContext context, Widget child) async {
-    var container = Container(
-        height: 100,
-        margin: const EdgeInsets.only(left: 32, right: 32),
-        child: child);
-    showModalBottomSheet(context: context, builder: (context) => container);
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          var bottomInsets = MediaQuery.of(context).viewInsets.bottom;
+          var padding = Padding(
+            padding: EdgeInsets.only(bottom: bottomInsets),
+            child: child,
+          );
+          return padding;
+          // return container;
+        });
   }
 }

@@ -10,6 +10,7 @@ import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list_interactor.dart';
 import 'package:expenso/common/views/view_factory.dart';
 
+//todo! fix keyboard over widget when edit categry and add new
 class SelectCategoriesList extends StatefulWidget {
   final bool isManagingCategories;
   final Category selectedCategory;
@@ -175,12 +176,12 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   void _addCategoryButtonHandler(BuildContext context) {
-    //TODO! check why category is not selected if tap done on keyboard
     var sheet = EnterTextBottomSheet(
       //todo get text from special class
       hintText: "Enter category name",
       callback: (categoryName) => _interactor.addCategory(categoryName),
     );
+
     _showSheet(context, sheet);
   }
 
