@@ -1,7 +1,6 @@
 import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
 import 'package:expenso/extensions/app_colors.dart';
-import 'package:expenso/extensions/text_theme.dart';
 import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/view_factory.dart';
@@ -29,6 +28,7 @@ enum NumericKeyboardButtonType {
 }
 
 // TODO set named parameters
+//TODO fix numeric button font size
 class SizedNumericKeyboard {
   static Widget sizedKeyboard(
     BuildContext context,
@@ -81,6 +81,7 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     });
   }
 
+//todo refactor
   Widget _getKeyboard(BuildContext context) {
     var doneButtonHandler = isDoneButtonDisabled
         ? null
@@ -200,7 +201,7 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
   }
 
   Text _getAmountLabel(String title) {
-    var style = Theme.of(context).textTheme.appLargeTitle;
+    var style = Theme.of(context).textTheme.displayMedium;
     return Text(title, style: style);
   }
 
@@ -210,8 +211,8 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
 
     var textTheme = Theme.of(context).textTheme;
 
-    var dateStyle = textTheme.appHeadline.copyWith(color: AppColors.appGreen);
-    var timeStyle = textTheme.appBody.copyWith(color: AppColors.appGreen);
+    var dateStyle = textTheme.titleLarge;
+    var timeStyle = textTheme.titleMedium;
 
     var dateText = Text(dateTitle, style: dateStyle);
     var timeText = Text(timeTitle, style: timeStyle);

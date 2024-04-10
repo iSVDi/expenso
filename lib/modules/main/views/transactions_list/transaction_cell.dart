@@ -2,7 +2,6 @@ import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
-import 'package:expenso/extensions/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -55,7 +54,8 @@ class TransactionCell extends StatelessWidget {
         ? transaction.stringAmount
         : transaction.date.formattedTime;
 
-    var leftWidget = Text(title, style: Theme.of(context).textTheme.appTitle3);
+    var leftWidget =
+        Text(title, style: Theme.of(context).textTheme.headlineSmall);
     var column = _getTransactionsColumn(context);
 
     var children = [leftWidget, const SizedBox(width: 20, height: 0), column];
@@ -78,12 +78,12 @@ class TransactionCell extends StatelessWidget {
 
 // todo get text from special class
   Widget _getTransactionsColumn(BuildContext context) {
-    var categoryStyle = Theme.of(context).textTheme.appBody;
+    var categoryStyle = Theme.of(context).textTheme.titleMedium;
     var categoryText =
         Text(transaction.category.target!.title, style: categoryStyle);
 
     if (transaction.comment.isNotEmpty) {
-      var commentStyle = Theme.of(context).textTheme.appSubhead;
+      var commentStyle = Theme.of(context).textTheme.labelMedium;
       var commentText = Text(transaction.comment, style: commentStyle);
       var column = Column(
           mainAxisAlignment: MainAxisAlignment.start,

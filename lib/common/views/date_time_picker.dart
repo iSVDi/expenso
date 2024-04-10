@@ -1,6 +1,6 @@
-import 'package:expenso/extensions/app_colors.dart';
-import 'package:expenso/extensions/text_theme.dart';
 import "package:flutter/material.dart";
+
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
 
 class DateTimePicker extends StatefulWidget {
@@ -120,7 +120,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 borderRadius: BorderRadius.circular(30), side: borderSide)));
 
     var textStyle =
-        Theme.of(context).textTheme.appTitle3.copyWith(color: textColor);
+        Theme.of(context).textTheme.headlineSmall?.copyWith(color: textColor);
 
     double horizontalPadding = 5;
     double verticalPadding = 12;

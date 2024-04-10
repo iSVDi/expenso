@@ -1,4 +1,4 @@
-import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'modules/main/views/main_view.dart';
 
@@ -7,44 +7,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = ThemeProvider();
     return MaterialApp(
-      theme: _getTheme(),
-      darkTheme: _getDarkTheme(),
+      theme: themeProvider.getTheme(),
+      darkTheme: themeProvider.getDarkTheme(),
       home: const MainView(),
       routes: {
         "/home": (context) => const MainView(),
       },
     );
-  }
-
-  ThemeData _getTheme() {
-    return ThemeData(
-      bottomSheetTheme:
-          const BottomSheetThemeData(surfaceTintColor: AppColors.appWhite),
-      appBarTheme: const AppBarTheme(surfaceTintColor: AppColors.appWhite),
-      fontFamily: "SF Pro",
-      colorScheme: _getColorScheme(),
-      textTheme: const TextTheme(),
-    );
-  }
-
-  ThemeData _getDarkTheme() {
-    return ThemeData(
-      bottomSheetTheme:
-          const BottomSheetThemeData(surfaceTintColor: AppColors.appBlack),
-      appBarTheme: const AppBarTheme(surfaceTintColor: AppColors.appBlack),
-      fontFamily: "SF Pro",
-      colorScheme: _getDarkColorScheme(),
-      textTheme: const TextTheme(),
-    );
-  }
-
-//TODO implement
-  ColorScheme _getColorScheme() {
-    return const ColorScheme.light(primary: AppColors.appGreen);
-  }
-
-  ColorScheme _getDarkColorScheme() {
-    return const ColorScheme.dark(primary: AppColors.appDarkGreen);
   }
 }

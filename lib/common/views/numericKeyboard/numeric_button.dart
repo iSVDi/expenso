@@ -1,4 +1,3 @@
-import 'package:expenso/extensions/text_theme.dart';
 import "package:flutter/material.dart";
 
 class NumericButton extends StatelessWidget {
@@ -13,7 +12,7 @@ class NumericButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = Theme.of(context).textTheme.appTitle2;
+    var textStyle = Theme.of(context).textTheme.headlineLarge;
     var text = Text(title, style: textStyle, textAlign: TextAlign.center);
     var textButton = TextButton(
         onPressed: () {

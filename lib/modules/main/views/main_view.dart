@@ -1,5 +1,4 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
-import 'package:expenso/extensions/text_theme.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -45,8 +44,8 @@ class _MainViewState extends State<MainView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(sum, style: textTheme.appLargeTitle),
-          Text("spent today", style: textTheme.appBody),
+          Text(sum, style: textTheme.displayMedium),
+          Text("spent today", style: textTheme.titleMedium),
         ],
       ),
     );
