@@ -156,6 +156,7 @@ class History extends StatelessWidget {
       child: row,
     );
     var coloredBox = ColoredBox(
+      //todo change color
       color: Colors.greenAccent[100]!,
       child: padding,
     );

@@ -1,5 +1,5 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:expenso/my_app.dart';
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class RequestCommentSheet extends StatefulWidget {
@@ -18,7 +18,7 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
   // todo get text from class
   Widget build(BuildContext context) {
     var textStyle = const TextStyle(
-        fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black);
+        fontSize: 20, fontWeight: FontWeight.w400, color: AppColors.appBlack);
     var buttonsText = Text("добавить комментарий", style: textStyle);
     var button = TextButton(
         onPressed: () {
@@ -35,18 +35,17 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
   }
 
   Widget _getTimer() {
-    var colorScheme = Theme.of(context).colorScheme;
     var timer = CircularCountDownTimer(
       duration: 4,
       width: 60,
       strokeWidth: 2,
       height: 60,
-      fillColor: colorScheme.onPrimary,
-      ringColor: colorScheme.surface,
-      textStyle: Theme.of(context)
-          .textTheme
-          .appTitle3
-          .copyWith(color: colorScheme.onPrimary),
+      fillColor: AppColors.appTimerTextColor,
+      ringColor: AppColors.appNumericKeyboardColor,
+      textStyle: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w300,
+          color: AppColors.appTimerTextColor),
       isReverse: true,
       isReverseAnimation: true,
       timeFormatterFunction: (defaultFormatterFunction, duration) {

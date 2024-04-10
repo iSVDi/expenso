@@ -1,4 +1,5 @@
 import 'package:expenso/common/data_layer/models/category.dart';
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,7 @@ class _ChartState extends State<Chart> {
 //TODO add percent for values on donut chart
   Widget _getCategoriesButtons() {
     var buttons = widget.data.selectableCategories.map((e) {
-      var textStyle = const TextStyle(color: Colors.white, fontSize: 14);
+      var textStyle = const TextStyle(color: AppColors.appWhite, fontSize: 14);
       List<Widget> children = [Text(e.category.title, style: textStyle)];
 
       if (widget.data.chartCategories

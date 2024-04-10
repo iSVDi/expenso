@@ -1,5 +1,6 @@
 import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/my_app.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class TransactionCell extends StatelessWidget {
     );
 
     var coloredListTile = ColoredBox(
-      color: Theme.of(context).colorScheme.background,
+      color: AppColors.appWhite,
       child: listTile,
     );
 
@@ -77,19 +78,12 @@ class TransactionCell extends StatelessWidget {
 
 // todo get text from special class
   Widget _getTransactionsColumn(BuildContext context) {
-    var colorScheme = Theme.of(context).colorScheme;
-    var categoryStyle = Theme.of(context)
-        .textTheme
-        .appBody
-        .copyWith(color: colorScheme.primary);
+    var categoryStyle = Theme.of(context).textTheme.appBody;
     var categoryText =
         Text(transaction.category.target!.title, style: categoryStyle);
 
     if (transaction.comment.isNotEmpty) {
-      var commentStyle = Theme.of(context)
-          .textTheme
-          .appSubhead
-          .copyWith(color: colorScheme.onPrimary);
+      var commentStyle = Theme.of(context).textTheme.appSubhead;
       var commentText = Text(transaction.comment, style: commentStyle);
       var column = Column(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -2,6 +2,7 @@
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
+import 'package:expenso/extensions/app_colors.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 
@@ -62,8 +63,10 @@ class EnterTransactionData extends StatelessWidget {
         selectedCategory: Category.emptyCategory(),
       );
     }
-    var keyboardColor = Theme.of(context).colorScheme.surface;
-    return ColoredBox(color: keyboardColor, child: keyboard);
+    return ColoredBox(
+      color: AppColors.appNumericKeyboardColor,
+      child: keyboard,
+    );
   }
 
   void doneButtonHandler(BuildContext context) {

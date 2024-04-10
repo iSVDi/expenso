@@ -1,3 +1,4 @@
+import 'package:expenso/extensions/app_colors.dart';
 import "package:flutter/material.dart";
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -41,13 +42,10 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     return _getKeyboard(context);
   }
 
-  ColorScheme _getColorScheme(BuildContext context) =>
-      Theme.of(context).colorScheme;
-
   Widget _getKeyboard(BuildContext context) {
     var columnChildren = [
       _getKeyboardHeader(context),
-      Divider(thickness: 1, color: _getColorScheme(context).onBackground),
+      const Divider(thickness: 1, color: AppColors.appBlack),
       _getCategoriesList(context)
     ];
     var column = Column(
@@ -62,7 +60,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
 // todo move text to special class
   Widget _getKeyboardHeader(BuildContext context) {
-    var textColor = _getColorScheme(context).primary;
+    var textColor = AppColors.appGreen;
     var plustText = Text(
       "+",
       style: TextStyle(
@@ -114,7 +112,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
           Icons.arrow_back_ios_new,
           size: 24,
           // todo use color scheme
-          color: Colors.black,
+          color: AppColors.appBlack,
         ),
         onPressed: widget.backButtonCallback);
   }
@@ -142,7 +140,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         title: cell);
 
     var coloredListTile = ColoredBox(
-      color: _getColorScheme(context).surface,
+      color: AppColors.appWhite,
       child: listTile,
     );
 

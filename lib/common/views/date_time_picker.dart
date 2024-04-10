@@ -1,3 +1,4 @@
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/my_app.dart';
 import "package:flutter/material.dart";
 import 'package:expenso/extensions/date_time.dart';
@@ -20,23 +21,18 @@ class _DateTimePickerState extends State<DateTimePicker> {
   final double _screenHeightRatio = 0.3;
   final double _screenWidthRatio = 0.9;
 
-  ColorScheme _getColorScheme(BuildContext context) =>
-      Theme.of(context).colorScheme;
-
   @override
   Widget build(BuildContext context) {
-    var colorScheme = _getColorScheme(context);
-
     var cancelButton = _getRoundedButton(
         text: "cancel", //TODO: move text to special class
-        textColor: colorScheme.primary,
-        borderSide: BorderSide(color: colorScheme.primary),
+        textColor: AppColors.appGreen,
+        borderSide: const BorderSide(color: AppColors.appGreen),
         onPressed: () => widget.callback(null));
 
     var applyButton = _getRoundedButton(
       text: "apply", //TODO: move text to special class
-      textColor: Colors.white,
-      backgroundColor: colorScheme.primary,
+      textColor: AppColors.appWhite,
+      backgroundColor: AppColors.appGreen,
       onPressed: () => widget.callback(widget.selectedDate),
     );
 
@@ -57,7 +53,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
         width: MediaQuery.of(context).size.width * _screenWidthRatio,
         child: column);
     return AlertDialog(
-      surfaceTintColor: colorScheme.background,
+      surfaceTintColor: AppColors.appWhite,
       content: sizedBox,
     );
   }
@@ -92,10 +88,10 @@ class _DateTimePickerState extends State<DateTimePicker> {
           _handleSelectedDate(context);
         },
         child: Text(widget.selectedDate.formattedDate,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w400,
-                color: _getColorScheme(context).primary)));
+                color: AppColors.appGreen)));
   }
 
   Widget _getTimePickerButton() {
@@ -104,17 +100,17 @@ class _DateTimePickerState extends State<DateTimePicker> {
           _handleSelectedTime(context);
         },
         child: Text(widget.selectedDate.formattedTime,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w300,
-                color: _getColorScheme(context).primary)));
+                color: AppColors.appGreen)));
   }
 
   ElevatedButton _getRoundedButton({
     required String text,
     required Color textColor,
     BorderSide borderSide = BorderSide.none,
-    Color backgroundColor = Colors.white,
+    Color backgroundColor = AppColors.appWhite,
     required Function() onPressed,
   }) {
     var buttonStyle = ButtonStyle(

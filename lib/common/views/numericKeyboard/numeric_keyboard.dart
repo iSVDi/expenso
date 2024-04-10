@@ -1,5 +1,6 @@
 import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/view_factory.dart';
@@ -73,9 +74,6 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     return _getKeyboard(context);
   }
 
-  ColorScheme _getColorScheme(BuildContext context) =>
-      Theme.of(context).colorScheme;
-
   void updateAmount(NumericKeyboardButtonType buttonType) {
     var newValue = _amountUpdater.update(widget.amount, buttonType);
     setState(() {
@@ -92,10 +90,7 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     var doneButton = ViewFactory.getDoneButton(context, doneButtonHandler);
     var keyboard = Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       _getKeyboardHeader(context),
-      Divider(
-        thickness: 1,
-        color: _getColorScheme(context).onBackground,
-      ),
+      const Divider(thickness: 1, color: AppColors.appBlack),
       _getNumericKeyboard(context)
     ]);
     var keyboardStack = Stack(
@@ -190,7 +185,7 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
         icon: const Icon(
           Icons.arrow_back,
           size: 40,
-          color: Colors.black,
+          color: AppColors.appBlack,
         ));
   }
 
@@ -214,9 +209,9 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     var timeTitle = dateTime.formattedTime.toString();
 
     var textTheme = Theme.of(context).textTheme;
-    var textColor = _getColorScheme(context).primary;
-    var dateStyle = textTheme.appHeadline.copyWith(color: textColor);
-    var timeStyle = textTheme.appBody.copyWith(color: textColor);
+
+    var dateStyle = textTheme.appHeadline.copyWith(color: AppColors.appGreen);
+    var timeStyle = textTheme.appBody.copyWith(color: AppColors.appGreen);
 
     var dateText = Text(dateTitle, style: dateStyle);
     var timeText = Text(timeTitle, style: timeStyle);
