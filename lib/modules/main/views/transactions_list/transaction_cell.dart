@@ -2,7 +2,7 @@ import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
-import 'package:expenso/my_app.dart';
+import 'package:expenso/extensions/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';

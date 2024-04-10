@@ -6,7 +6,6 @@ import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
-import 'package:expenso/my_app.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenso/common/data_layer/models/transaction.dart';

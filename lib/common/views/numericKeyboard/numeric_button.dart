@@ -1,4 +1,4 @@
-import 'package:expenso/my_app.dart';
+import 'package:expenso/extensions/text_theme.dart';
 import "package:flutter/material.dart";
 
 class NumericButton extends StatelessWidget {

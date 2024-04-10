@@ -1,6 +1,6 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
+import 'package:expenso/extensions/text_theme.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
-import 'package:expenso/my_app.dart';
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
