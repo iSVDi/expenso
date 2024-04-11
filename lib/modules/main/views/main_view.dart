@@ -3,7 +3,6 @@ import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import "package:expenso/common/constants.dart";
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/views/history.dart';
@@ -115,13 +114,12 @@ class _MainViewState extends State<MainView> {
   }
 
   Widget _getKeyboard(BuildContext context) {
-    var height =
-        Constants.sizeFrom(context).height * Constants.keyboardHeightRatio;
-    var width = Constants.sizeFrom(context).width;
+    var keyboardHeightRatio = 0.387;
+    var size = MediaQuery.of(context).size;
     var bloc = BlocProvider(
         create: (context) => KeyboardCubit(),
         child: EnterTransactionData(
-          size: Size(width, height),
+          size: Size(size.width, size.height * keyboardHeightRatio),
         ));
     return bloc;
   }

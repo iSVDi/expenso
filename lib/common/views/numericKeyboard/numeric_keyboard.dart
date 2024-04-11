@@ -1,4 +1,3 @@
-import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
 import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
@@ -27,7 +26,6 @@ enum NumericKeyboardButtonType {
   const NumericKeyboardButtonType(this.value);
 }
 
-//TODO fix numeric button font size
 class SizedNumericKeyboard {
   static Widget sizedKeyboard({
     required BuildContext context,
@@ -35,16 +33,12 @@ class SizedNumericKeyboard {
     DateTime? dateTime,
     required Function(String amount, DateTime? dateTime) doneButtonCallback,
   }) {
-    var height =
-        Constants.sizeFrom(context).height * Constants.keyboardHeightRatio;
-    var width = Constants.sizeFrom(context).width;
-
     var keyboard = _NumericKeyboard(
       amount: amount,
       dateTime: dateTime,
       doneButtonCallback: doneButtonCallback,
     );
-    return SizedBox(width: width, height: height, child: keyboard);
+    return keyboard;
   }
 }
 
@@ -89,9 +83,10 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
             widget.doneButtonCallback(widget.amount, widget.dateTime);
           };
     var doneButton = ViewFactory.getDoneButton(context, doneButtonHandler);
-    var keyboard = Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+    var keyboard =
+        Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       _getKeyboardHeader(context),
-      const Divider(thickness: 1, color: AppColors.appBlack),
+      const Divider(height: 1, color: AppColors.appBlack),
       _getNumericKeyboard(context)
     ]);
     var keyboardStack = Stack(
@@ -116,8 +111,11 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     }
 
     Row header = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, children: children);
-    EdgeInsets padding = const EdgeInsets.only(left: 32, right: 32);
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: children,
+    );
+    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 32);
     return Container(
       padding: padding,
       height: 74,
@@ -217,6 +215,7 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     var dateText = Text(dateTitle, style: dateStyle);
     var timeText = Text(timeTitle, style: timeStyle);
     return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [dateText, timeText]);
   }

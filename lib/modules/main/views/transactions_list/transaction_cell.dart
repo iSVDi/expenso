@@ -1,4 +1,3 @@
-import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
@@ -41,7 +40,7 @@ class TransactionCell extends StatelessWidget {
 
     var menuHolder = FocusedMenuHolder(
       menuOffset: 10,
-      menuWidth: Constants.sizeFrom(context).width * 0.34,
+      menuWidth: MediaQuery.of(context).size.width * 0.34,
       onPressed: onTap,
       menuItems: menuItems,
       child: coloredListTile,

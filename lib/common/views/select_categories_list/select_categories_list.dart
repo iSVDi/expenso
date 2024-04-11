@@ -3,7 +3,6 @@ import "package:flutter/material.dart";
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 
-import 'package:expenso/common/constants.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/select_categories_list/category_cell.dart';
@@ -47,11 +46,12 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   Widget _getBody(BuildContext context) {
     var columnChildren = [
       _getHeader(context),
-      const Divider(thickness: 1, color: AppColors.appBlack),
+      const Divider(height: 1, color: AppColors.appBlack),
       _getCategoriesList(context)
     ];
     var column = Column(
-        mainAxisAlignment: MainAxisAlignment.end, children: columnChildren);
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: columnChildren);
     var stackChildren = _interactor.isFromSettings
         ? [column]
         : [column, _getDoneButton(context)];
@@ -159,7 +159,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
     var menuHolder = FocusedMenuHolder(
       menuOffset: 10,
-      menuWidth: Constants.sizeFrom(context).width * 0.34,
+      menuWidth: MediaQuery.of(context).size.width * 0.34,
       onPressed: () {
         if (_interactor.isFromSettings) {
           // todo implement show pop up
