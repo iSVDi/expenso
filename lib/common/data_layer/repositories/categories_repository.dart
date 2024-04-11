@@ -8,7 +8,7 @@ class CategoriesRepository {
 
   CategoriesRepository() {
     if (_categories.isEmpty()) {
-      //todo localize
+      //TODO localize
       insertCategory(Category(title: "no category"));
     }
   }

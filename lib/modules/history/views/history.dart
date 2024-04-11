@@ -115,7 +115,7 @@ class History extends StatelessWidget {
     return row;
   }
 
-// todo localize
+// TODO localize
   Widget _itemBuilder(BuildContext context, Transaction transaction) {
     var viewItem = FocusedMenuItem(
         title: const Text("View"),
@@ -156,7 +156,7 @@ class History extends StatelessWidget {
       child: row,
     );
     var coloredBox = ColoredBox(
-      //todo change color
+      //TODO change color
       color: Colors.greenAccent[100]!,
       child: padding,
     );

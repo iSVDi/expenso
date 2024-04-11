@@ -3,12 +3,14 @@ import "package:flutter/material.dart";
 class EnterTextBottomSheet extends StatefulWidget {
   final String? text;
   final String hintText;
+  final double bottomInsets;
   final Function(String) callback;
 
-  const EnterTextBottomSheet({
+  EnterTextBottomSheet({
     Key? key,
     this.text,
     required this.hintText,
+    required this.bottomInsets,
     required this.callback,
   }) : super(key: key);
 
@@ -40,13 +42,18 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
       },
     );
     var row = Row(children: [Expanded(child: textField), button]);
-    var height = MediaQuery.of(context).size.height * 0.123;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      height: height,
-      child: row,
+
+    var padding = EdgeInsets.only(
+      left: 32,
+      right: 32,
+      bottom: widget.bottomInsets,
     );
-    // return row;
+
+    var mediaQuery = MediaQuery.of(context);
+    var height = mediaQuery.size.height * 0.123;
+    var container = SizedBox(height: height, child: row);
+
+    return Padding(padding: padding, child: container);
   }
 
   void _doneButtonHandler() {

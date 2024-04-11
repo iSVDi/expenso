@@ -32,10 +32,14 @@ class _MainViewState extends State<MainView> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: _getAppBar(context), body: _getBody(context));
+    return Scaffold(
+      appBar: _getAppBar(context),
+      body: _getBody(context),
+      resizeToAvoidBottomInset: false,
+    );
   }
 
-  PreferredSizeWidget _getAppBar(BuildContext context) {
+  PreferredSizeWidget? _getAppBar(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     // var colorTheme = Theme.of(context).colorScheme;
     var column = Padding(
@@ -50,19 +54,21 @@ class _MainViewState extends State<MainView> {
     );
     var appBar = AppBar(
       flexibleSpace: column,
-      // title: column,
       actions: [
         _getAnalyseBarButton(context),
         _getSettingsBarButton(context),
       ],
     );
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(100),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 32, right: 20),
-        child: appBar,
-      ),
+    var padding = Padding(
+      padding: const EdgeInsets.only(left: 32, right: 20),
+      child: appBar,
     );
+
+    var preferredSize = PreferredSize(
+      preferredSize: const Size.fromHeight(100),
+      child: padding,
+    );
+    return preferredSize;
   }
 
   IconButton _getAnalyseBarButton(BuildContext context) {

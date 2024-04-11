@@ -75,7 +75,7 @@ class TransactionCell extends StatelessWidget {
     return row;
   }
 
-// todo get text from special class
+// TODO get text from special class
   Widget _getTransactionsColumn(BuildContext context) {
     var categoryStyle = Theme.of(context).textTheme.titleMedium;
     var categoryText =

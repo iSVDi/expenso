@@ -15,18 +15,29 @@ class RequestCommentSheet extends StatefulWidget {
 
 class RequestCommentSheetState extends State<RequestCommentSheet> {
   @override
-  // todo get text from class
+  // TODO get text from class
   Widget build(BuildContext context) {
     var textStyle = const TextStyle(
-        fontSize: 20, fontWeight: FontWeight.w400, color: AppColors.appBlack);
+      fontSize: 20,
+      fontWeight: FontWeight.w400,
+      color: AppColors.appBlack,
+    );
     var buttonsText = Text("добавить комментарий", style: textStyle);
     var button = TextButton(
-        onPressed: () {
-          prepareForClose(true);
-        },
-        child: buttonsText);
+      onPressed: () => prepareForClose(true),
+      child: buttonsText,
+    );
 
-    return Row(children: [button, _getTimer()]);
+    var row = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [button, _getTimer()],
+    );
+    var height = MediaQuery.of(context).size.height * 0.123;
+    var sizedBox = SizedBox(
+      height: height,
+      child: row,
+    );
+    return sizedBox;
   }
 
   void prepareForClose(bool needEnterComment) {
@@ -49,7 +60,7 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
       isReverse: true,
       isReverseAnimation: true,
       timeFormatterFunction: (defaultFormatterFunction, duration) {
-        return "${duration.inSeconds} c"; // todo get text from special class
+        return "${duration.inSeconds} c"; // TODO get text from special class
       },
       onComplete: () {
         prepareForClose(false);

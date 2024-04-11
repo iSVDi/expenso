@@ -9,7 +9,6 @@ import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list_interactor.dart';
 import 'package:expenso/common/views/view_factory.dart';
 
-//todo! fix keyboard over widget when edit categry and add new
 class SelectCategoriesList extends StatefulWidget {
   final bool isManagingCategories;
   final Category selectedCategory;
@@ -60,11 +59,12 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     return stack;
   }
 
-// todo move text to special class
+// TODO move text to special class
   Widget _getHeader(BuildContext context) {
     var textColor = AppColors.appGreen;
     var plustText = Text(
       "+",
+      //TODO use textTheme
       style: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
@@ -113,7 +113,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         icon: const Icon(
           Icons.arrow_back_ios_new,
           size: 24,
-          // todo use color scheme
+          // TODO use color scheme
           color: AppColors.appBlack,
         ),
         onPressed: widget.backButtonCallback);
@@ -162,7 +162,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
       menuWidth: MediaQuery.of(context).size.width * 0.34,
       onPressed: () {
         if (_interactor.isFromSettings) {
-          // todo implement show pop up
+          // TODO implement show pop up
           print("handler pop up");
         } else {
           _interactor.selectCategory(category);
@@ -176,36 +176,45 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   void _addCategoryButtonHandler(BuildContext context) {
-    var sheet = EnterTextBottomSheet(
-      //todo get text from special class
-      hintText: "Enter category name",
-      callback: (categoryName) => _interactor.addCategory(categoryName),
-    );
+    enterTextBottomSheet(BuildContext buildContext) {
+      return EnterTextBottomSheet(
+        //TODO get text from special class
+        hintText: "Enter category name",
+        bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
+        callback: (categoryName) => _interactor.addCategory(categoryName),
+      );
+    }
 
-    _showSheet(context, sheet);
+    _showSheet(
+        context: context,
+        builder: (builderContext) => enterTextBottomSheet(builderContext));
   }
 
   void _showEditCategorySheet(BuildContext context, Category category) {
-    var enterCategoryNameSheet = EnterTextBottomSheet(
-        // todo move to special class
-        text: category.title,
-        hintText: "hintText",
-        callback: (String newCategoryName) {
-          _interactor.editCategory(
-            category: category,
-            newCategoryName: newCategoryName,
-            categoryUpdatedCallback: widget.categoryUpdatedCallback,
-          );
-        });
+    enterTextBottomSheet(BuildContext buildContext) {
+      return EnterTextBottomSheet(
+          // TODO move to special class
+          text: category.title,
+          hintText: "hintText",
+          bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
+          callback: (String newCategoryName) {
+            _interactor.editCategory(
+              category: category,
+              newCategoryName: newCategoryName,
+              categoryUpdatedCallback: widget.categoryUpdatedCallback,
+            );
+          });
+    }
 
-    _showSheet(context, enterCategoryNameSheet);
+    _showSheet(
+        context: context,
+        builder: (builderContext) => enterTextBottomSheet(builderContext));
   }
 
-  Future _showSheet(BuildContext context, Widget child) async {
-    var container = Container(
-        height: 100,
-        margin: const EdgeInsets.only(left: 32, right: 32),
-        child: child);
-    showModalBottomSheet(context: context, builder: (context) => container);
+  Future _showSheet({
+    required BuildContext context,
+    required Widget Function(BuildContext) builder,
+  }) async {
+    showModalBottomSheet(context: context, builder: builder);
   }
 }

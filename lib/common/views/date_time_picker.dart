@@ -59,7 +59,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     );
   }
 
-  //todo change background color
+  //TODO change background color
   Future _handleSelectedDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
         context: context,
@@ -74,7 +74,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     }
   }
 
-//todo change background color
+//TODO change background color
   Future _handleSelectedTime(BuildContext context) async {
     final TimeOfDay? selected =
         await showTimePicker(context: context, initialTime: TimeOfDay.now());

@@ -24,7 +24,6 @@ class TransactionView extends StatefulWidget {
 
 class TransactionViewState extends State<TransactionView> {
   Transaction get transaction => widget.transaction;
-  //? need use Repository Provider
   final _repository = TransactionRepository();
 
   @override
@@ -36,7 +35,6 @@ class TransactionViewState extends State<TransactionView> {
     return AppBar(actions: [_getDeleteBarButton(context)]);
   }
 
-//? need present confirmation alert
   IconButton _getDeleteBarButton(BuildContext context) {
     return IconButton(
         onPressed: () {
@@ -68,6 +66,7 @@ class TransactionViewState extends State<TransactionView> {
   Widget _getDateButton() {
     var title = Text(
       "${transaction.date.formattedDate}, ${transaction.date.formattedTime}",
+      // TODO use textTheme
       style: const TextStyle(
         fontWeight: FontWeight.w100,
         fontSize: 24,
@@ -94,6 +93,7 @@ class TransactionViewState extends State<TransactionView> {
 
   Widget _getCategoryButton() {
     var title = transaction.category.target!.title;
+    // TODO use textTheme
     var text = Text(title,
         style: const TextStyle(
             fontWeight: FontWeight.w100,
@@ -119,26 +119,32 @@ class TransactionViewState extends State<TransactionView> {
 
     var textButton = _getPresentModallyButton(
       child: text,
-      contentFunc: selectCategoriesList,
+      builder: (context) => selectCategoriesList(context),
     );
     return textButton;
   }
 
-// todo move text to special class
+// TODO move text to special class
   Widget _getCommentButton() {
     var comment =
         transaction.comment.isEmpty ? "add Comment" : transaction.comment;
     var text = Text(comment,
+        //TODO use textTheme
         style: const TextStyle(
             fontWeight: FontWeight.w100,
             fontSize: 20,
             color: AppColors.appGreen));
-    var enterCommentSheet = EnterTextBottomSheet(
-        hintText: "add Comment",
-        callback: (comment) => _updateComment(comment));
+    enterTextBottomSheet(BuildContext builderContext) {
+      return EnterTextBottomSheet(
+          hintText: "add Comment",
+          bottomInsets: MediaQuery.of(context).viewInsets.bottom,
+          callback: (comment) => _updateComment(comment));
+    }
 
-    var textButton =
-        _getPresentModallyButton(child: text, content: enterCommentSheet);
+    var textButton = _getPresentModallyButton(
+      child: text,
+      builder: (context) => enterTextBottomSheet(context),
+    );
     return textButton;
   }
 
@@ -157,14 +163,16 @@ class TransactionViewState extends State<TransactionView> {
     }
 
     var text = Text(transaction.stringAmount,
+        //TODO use textTheme
         style: const TextStyle(
           fontSize: 50,
           fontWeight: FontWeight.w300,
           color: AppColors.appBlack,
         ));
+
     var textButton = _getPresentModallyButton(
       child: text,
-      contentFunc: keyboard,
+      builder: (context) => keyboard(context),
     );
     return textButton;
   }
@@ -200,21 +208,11 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   TextButton _getPresentModallyButton(
-      {required Widget child,
-      Function(BuildContext context)? contentFunc,
-      Widget? content}) {
+      {required Widget child, required Widget Function(BuildContext) builder}) {
     var textButton = TextButton(
         child: child,
-        onPressed: () => showModalBottomSheet(
-            context: context,
-            builder: (buildContext) {
-              var padding = Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: content ?? contentFunc!(buildContext),
-              );
-              return padding;
-            }));
+        onPressed: () =>
+            showModalBottomSheet(context: context, builder: builder));
     return textButton;
   }
 }

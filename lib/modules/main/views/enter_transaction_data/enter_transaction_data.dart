@@ -84,38 +84,34 @@ class EnterTransactionData extends StatelessWidget {
   }
 
   void _showCommentSheet(BuildContext context) {
-    var enterCommentSheet = EnterTextBottomSheet(
-        // todo move to special class
-        hintText: "добавить комментарий",
-        callback: (String comment) {
-          _getCubit(context).updateComment(comment);
-        });
+    addCommentSheet(BuildContext buildContext) {
+      return EnterTextBottomSheet(
+          // TODO move to special class
+          hintText: "добавить комментарий",
+          bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
+          callback: (String comment) {
+            _getCubit(context).updateComment(comment);
+          });
+    }
 
-    var askCommentSheet = RequestCommentSheet(callback: (needEnterComment) {
-      if (needEnterComment) {
-        _showSheet(context, enterCommentSheet);
-      }
-    });
-    
-    var height = MediaQuery.of(context).size.height * 0.123;
-    var container = Container(
-        height: height,
-        margin: const EdgeInsets.only(left: 32, right: 32),
-        child: askCommentSheet);
-    _showSheet(context, container);
+    requestCommentSheet() {
+      return RequestCommentSheet(callback: (needEnterComment) {
+        if (needEnterComment) {
+          _showSheetX(
+              context: context,
+              builder: (buildContext) => addCommentSheet(buildContext));
+        }
+      });
+    }
+
+    _showSheetX(
+        context: context, builder: (_) => requestCommentSheet());
   }
 
-  Future _showSheet(BuildContext context, Widget child) async {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          var bottomInsets = MediaQuery.of(context).viewInsets.bottom;
-          var padding = Padding(
-            padding: EdgeInsets.only(bottom: bottomInsets),
-            child: child,
-          );
-          return padding;
-          // return container;
-        });
+  Future _showSheetX({
+    required BuildContext context,
+    required Widget Function(BuildContext) builder,
+  }) async {
+    showModalBottomSheet(useSafeArea: true, context: context, builder: builder);
   }
 }
