@@ -1,3 +1,4 @@
+import 'package:expenso/common/views/done_button.dart';
 import "package:flutter/material.dart";
 
 class EnterTextBottomSheet extends StatefulWidget {
@@ -6,7 +7,7 @@ class EnterTextBottomSheet extends StatefulWidget {
   final double bottomInsets;
   final Function(String) callback;
 
-  EnterTextBottomSheet({
+  const EnterTextBottomSheet({
     Key? key,
     this.text,
     required this.hintText,
@@ -29,17 +30,14 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    var button = IconButton(
-        onPressed: () {
-          _doneButtonHandler();
-        },
-        icon: const Icon(Icons.done));
+    var onPressed = _controller.text.isNotEmpty ? _doneButtonHandler : null;
+    var button = DoneButton(isLargeButton: false, onPressed: onPressed);
+
     var textField = TextField(
       decoration: InputDecoration(hintText: widget.hintText),
       controller: _controller,
-      onSubmitted: (String value) async {
-        _doneButtonHandler();
-      },
+      onSubmitted: (String value) async => _doneButtonHandler(),
+      onChanged: (_) => setState(() {}),
     );
     var row = Row(children: [Expanded(child: textField), button]);
 

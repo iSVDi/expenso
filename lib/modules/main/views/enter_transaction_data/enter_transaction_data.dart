@@ -87,7 +87,7 @@ class EnterTransactionData extends StatelessWidget {
     addCommentSheet(BuildContext buildContext) {
       return EnterTextBottomSheet(
           // TODO move to special class
-          hintText: "добавить комментарий",
+          hintText: "введите комментарий",
           bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
           callback: (String comment) {
             _getCubit(context).updateComment(comment);
@@ -97,18 +97,17 @@ class EnterTransactionData extends StatelessWidget {
     requestCommentSheet() {
       return RequestCommentSheet(callback: (needEnterComment) {
         if (needEnterComment) {
-          _showSheetX(
+          _showSheet(
               context: context,
               builder: (buildContext) => addCommentSheet(buildContext));
         }
       });
     }
 
-    _showSheetX(
-        context: context, builder: (_) => requestCommentSheet());
+    _showSheet(context: context, builder: (_) => requestCommentSheet());
   }
 
-  Future _showSheetX({
+  Future _showSheet({
     required BuildContext context,
     required Widget Function(BuildContext) builder,
   }) async {

@@ -7,7 +7,7 @@ import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list_interactor.dart';
-import 'package:expenso/common/views/view_factory.dart';
+import 'package:expenso/common/views/done_button.dart';
 
 class SelectCategoriesList extends StatefulWidget {
   final bool isManagingCategories;
@@ -120,9 +120,9 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   Widget _getDoneButton(BuildContext context) {
-    return ViewFactory.getDoneButton(context, () {
-      widget.doneButtonCallback(_interactor.selectedCategory);
-    });
+    return DoneButton(
+      onPressed: () => widget.doneButtonCallback(_interactor.selectedCategory),
+    );
   }
 
   Widget _getCategoriesList(BuildContext context) {
