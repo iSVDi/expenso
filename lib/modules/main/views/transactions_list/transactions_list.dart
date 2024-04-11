@@ -1,3 +1,5 @@
+import 'package:expenso/common/views/rounded_button.dart';
+import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_states.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
@@ -34,14 +36,18 @@ class TransactionsList extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, Transaction transaction) {
+    var viewItem = FocusedMenuItem(
+        title: const Text("View"),
+        onPressed: () => _presentTransaction(context, transaction));
+
     var deleteItem = FocusedMenuItem(
         title: const Text("Delete"),
-        onPressed: () => _getCubit(context).deleteTransaction(transaction));
+        onPressed: () => _showAlert(context, transaction));
 
     var cell = TransactionCell(
         transaction: transaction,
         mode: TransactionCellMode.today,
-        menuItems: [deleteItem],
+        menuItems: [viewItem, deleteItem],
         onTap: () => _presentTransaction(context, transaction));
     return cell;
   }
@@ -52,5 +58,55 @@ class TransactionsList extends StatelessWidget {
       context,
       MaterialPageRoute(builder: ((context) => transactionView)),
     );
+  }
+
+//TODO localize
+  void _showAlert(BuildContext context, Transaction transaction) {
+    showDialog(
+        context: context,
+        builder: (buiderContext) {
+          var theme = Theme.of(context);
+
+          var title = RichText(
+              text: TextSpan(
+            text: "are you sure you want to delete ",
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: AppColors.appGreen,
+              fontWeight: FontWeight.w300,
+            ),
+            children: [
+              TextSpan(
+                text: transaction.category.target!.title,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const TextSpan(text: " ?"),
+            ],
+          ));
+
+          var cancelButton = RoundedButton(
+              text: "cancel",
+              textColor: theme.colorScheme.primary,
+              borderSide: BorderSide(color: theme.colorScheme.primary),
+              onPressed: () => Navigator.of(context).pop());
+
+          var deleteButton = RoundedButton(
+              text: "delete",
+              textColor: theme.colorScheme.background,
+              backgroundColor: theme.colorScheme.primary,
+              onPressed: () {
+                _getCubit(context).deleteTransaction(transaction);
+                Navigator.of(context).pop();
+              });
+
+          var row = Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [cancelButton, deleteButton]);
+
+          return AlertDialog(
+            surfaceTintColor: theme.colorScheme.background,
+            title: title,
+            content: row,
+          );
+        });
   }
 }

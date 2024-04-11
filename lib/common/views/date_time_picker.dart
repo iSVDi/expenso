@@ -1,3 +1,4 @@
+import 'package:expenso/common/views/rounded_button.dart';
 import "package:flutter/material.dart";
 
 import 'package:expenso/extensions/app_colors.dart';
@@ -24,13 +25,13 @@ class _DateTimePickerState extends State<DateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    var cancelButton = _getRoundedButton(
+    var cancelButton = RoundedButton(
         text: "cancel", //TODO: move text to special class
         textColor: AppColors.appGreen,
         borderSide: const BorderSide(color: AppColors.appGreen),
         onPressed: () => widget.callback(null));
 
-    var applyButton = _getRoundedButton(
+    var applyButton = RoundedButton(
       text: "apply", //TODO: move text to special class
       textColor: AppColors.appWhite,
       backgroundColor: AppColors.appGreen,
@@ -91,6 +92,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
           _handleSelectedDate(context);
         },
         child: Text(widget.selectedDate.formattedDate,
+        //TODO use textTheme
             style: const TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w400,
@@ -103,36 +105,10 @@ class _DateTimePickerState extends State<DateTimePicker> {
           _handleSelectedTime(context);
         },
         child: Text(widget.selectedDate.formattedTime,
+            //TODO use textTheme
             style: const TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w300,
                 color: AppColors.appGreen)));
-  }
-
-  ElevatedButton _getRoundedButton({
-    required String text,
-    required Color textColor,
-    BorderSide borderSide = BorderSide.none,
-    Color backgroundColor = AppColors.appWhite,
-    required Function() onPressed,
-  }) {
-    var buttonStyle = ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(backgroundColor),
-        shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), side: borderSide)));
-
-    var textStyle =
-        Theme.of(context).textTheme.headlineSmall?.copyWith(color: textColor);
-
-    double horizontalPadding = 5;
-    double verticalPadding = 12;
-    var child = Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: horizontalPadding, vertical: verticalPadding),
-        child: Text(text, style: textStyle));
-    var button =
-        ElevatedButton(onPressed: onPressed, style: buttonStyle, child: child);
-    return button;
   }
 }
