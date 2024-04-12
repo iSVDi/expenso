@@ -63,16 +63,12 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
 // TODO move text to special class
+  //TODO use textTheme
   Widget _getHeader(BuildContext context) {
     var textColor = AppColors.appGreen;
-    var plustText = Text(
-      "+",
-      //TODO use textTheme
-      style: TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        color: textColor,
-      ),
+    var plusIcon = Icon(
+      Icons.add,
+      color: textColor,
     );
     var addCategoryText = Text(
       "Создать категорию",
@@ -85,7 +81,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     var titlesRow = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          plustText,
+          plusIcon,
           const SizedBox(width: 8, height: 0),
           addCategoryText
         ]);

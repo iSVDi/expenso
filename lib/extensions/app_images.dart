@@ -1,19 +1,21 @@
 import "package:flutter/material.dart";
 
-enum AppImages { 
-  barChartIcon, settingsIcon }
+enum AppImages {
+  barChartIcon,
+  settingsIcon,
+  donutModeIcon,
+  barModeIcon,
+  calendarIcon,
+  refreshIcon,
+}
 
 extension AssetsImage on AppImages {
-  String get _getPath {
-    switch (this) {
-      case AppImages.barChartIcon:
-        return "barChartIcon.png";
-      case AppImages.settingsIcon:
-        return "settingsIcon.png";
-    }
-  }
-
-  Image get assetsImage {
-    return Image.asset("assets/$_getPath");
+  Image assetsImage({Color? color, double? width, double? height}) {
+    return Image.asset(
+      "assets/$name.png",
+      color: color,
+      width: width,
+      height: height,
+    );
   }
 }

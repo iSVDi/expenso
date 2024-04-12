@@ -77,15 +77,12 @@ class _MainViewState extends State<MainView> {
       child: const History(),
     );
     var button = IconButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: ((context) => bloc)));
-        },
-        icon: SizedBox(
-          width: 24,
-          height: 24,
-          child: AppImages.barChartIcon.assetsImage,
-        ));
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => bloc)));
+      },
+      icon: AppImages.barChartIcon.assetsImage(width: 24, height: 24),
+    );
     return button;
   }
 
@@ -95,11 +92,7 @@ class _MainViewState extends State<MainView> {
         Navigator.push(context,
             MaterialPageRoute(builder: ((context) => const Settings())));
       },
-      icon: SizedBox(
-        width: 24,
-        height: 24,
-        child: AppImages.settingsIcon.assetsImage,
-      ),
+      icon: AppImages.settingsIcon.assetsImage(width: 24, height: 24),
     );
   }
 

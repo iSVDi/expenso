@@ -43,6 +43,7 @@ class ThemeProvider {
   }
 
   ColorScheme _getDarkColorScheme() {
-    return const ColorScheme.dark(primary: AppColors.appDarkGreen);
+    return const ColorScheme.dark(
+        primary: AppColors.appDarkGreen, background: AppColors.appBlack);
   }
 }

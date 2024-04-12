@@ -35,6 +35,11 @@ flutter:
   assets:
     - assets/barChartIcon.png
     - assets/settingsIcon.png
+    - assets/barModeIcon.png
+    - assets/donutModeIcon.png
+    - assets/calendarIcon.png
+    - assets/refreshIcon.png
+
   fonts:
     - family: SF Pro
       fonts:

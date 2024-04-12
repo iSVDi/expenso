@@ -1,4 +1,6 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
+import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/views/chart.dart';
@@ -13,6 +15,10 @@ class History extends StatelessWidget {
   const History({super.key});
 
   HistoryCubit _getCubit(BuildContext context) => context.read<HistoryCubit>();
+
+  TextTheme _getTextTheme(BuildContext context) {
+    return Theme.of(context).textTheme;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +36,28 @@ class History extends StatelessWidget {
     var cubit = _getCubit(context);
     var dateRange = cubit.getCalendarTimeRange;
     var iconButton = IconButton(
-        onPressed: () async {
-          var newDateRange = await showDateRangePicker(
-              context: context,
-              firstDate: dateRange.start,
-              lastDate: dateRange.end);
-          if (newDateRange != null) {
-            cubit.updateDateRange(newDateRange);
-          }
-        },
-        icon: const Icon(Icons.calendar_month_rounded));
-    return AppBar(actions: [iconButton]);
+      onPressed: () async {
+        var newDateRange = await showDateRangePicker(
+            context: context,
+            firstDate: dateRange.start,
+            lastDate: dateRange.end);
+        if (newDateRange != null) {
+          cubit.updateDateRange(newDateRange);
+        }
+      },
+      icon: AppImages.calendarIcon.assetsImage(width: 30, height: 24),
+    );
+    return AppBar(
+      centerTitle: true,
+      title: Text("анализ расходов",
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(color: Theme.of(context).colorScheme.background)),
+      actions: [iconButton],
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      foregroundColor: Theme.of(context).colorScheme.background,
+    );
   }
 
   Widget _getChart(BuildContext context) {
@@ -53,58 +70,75 @@ class History extends StatelessWidget {
       changeChartModeHandler: () => cubit.changeModeHandler(),
       resetChartModeHandler: () => cubit.resetCategoriesHandler(),
     );
-    return chart;
+    var padding = Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32), child: chart);
+    // return chart;
+    return padding;
   }
 
   Widget _getList(BuildContext context) {
     var sectionsData = _getCubit(context).getHistoryListData();
     var list = GroupListView(
-        sectionsCount: sectionsData.length + 1,
-        countOfItemInSection: (sectionID) {
-          if (sectionID == 0) {
-            return 1;
-          }
-          return sectionsData[sectionID - 1].transactions.length;
-        },
-        itemBuilder: (itemBuilderContext, index) {
-          if (index.section == 0) {
-            return _getChart(context);
-          }
-          var transaction =
-              sectionsData[index.section - 1].transactions[index.index];
-          var item = _itemBuilder(itemBuilderContext, transaction);
-          return item;
-        },
-        groupHeaderBuilder: (context, sectionID) {
-          if (sectionID == 0) {
-            return _getChartHeader(context);
-          }
-          var sectionDate = sectionsData[sectionID - 1];
-          var header = _groupHeaderBuilder(
-            sectionDate.headerDate,
-            sectionDate.sum,
-          );
-          return header;
-        });
+      sectionsCount: sectionsData.length + 1,
+      countOfItemInSection: (sectionID) {
+        if (sectionID == 0) {
+          return 1;
+        }
+        return sectionsData[sectionID - 1].transactions.length;
+      },
+      itemBuilder: (itemBuilderContext, index) {
+        if (index.section == 0) {
+          return _getChart(context);
+        }
+        var transaction =
+            sectionsData[index.section - 1].transactions[index.index];
+        var item = _itemBuilder(itemBuilderContext, transaction);
+        return item;
+      },
+      groupHeaderBuilder: (context, sectionID) {
+        if (sectionID == 0) {
+          return _getChartHeader(context);
+        }
+        var sectionDate = sectionsData[sectionID - 1];
+        var header = _groupHeaderBuilder(
+          sectionDate.headerDate,
+          sectionDate.sum,
+        );
+        return header;
+      },
+      // separatorBuilder: (context, index) {
+      // return Divider(height: 1, color: AppColors.appBlack);
+      // },
+      sectionSeparatorBuilder: (context, section) {
+        return Divider(height: 1, color: AppColors.appBlack);
+      },
+    );
+
+    var padding = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: list,
+    );
     return list;
   }
 
   Widget _getChartHeader(BuildContext context) {
     var cubit = _getCubit(context);
     var dateTitle = cubit.getChartHeaderTitle();
-
+    var textTheme = _getTextTheme(context);
     var column = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(cubit.getSum().toStringAsFixed(2)),
-        Text(dateTitle),
+        Text(cubit.getSum().toStringAsFixed(2), style: textTheme.headlineLarge),
+        Text(dateTitle, style: textTheme.labelLarge),
       ],
     );
-    var icon = Icon(cubit.state.chartType == ChartType.bar
-        ? Icons.donut_large_outlined
-        : Icons.bar_chart_rounded);
-    var button =
-        IconButton(onPressed: () => cubit.changeModeHandler(), icon: icon);
+
+    var icon = cubit.state.chartType == ChartType.bar
+        ? AppImages.donutModeIcon
+        : AppImages.barModeIcon;
+    var button = IconButton(
+        onPressed: () => cubit.changeModeHandler(),
+        icon: icon.assetsImage(width: 36, height: 36));
     var row = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -112,7 +146,10 @@ class History extends StatelessWidget {
         button,
       ],
     );
-    return row;
+    var padding = Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32), child: row);
+    // return row;
+    return padding;
   }
 
 // TODO localize

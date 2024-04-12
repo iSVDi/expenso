@@ -1,5 +1,6 @@
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -30,19 +31,22 @@ class _ChartState extends State<Chart> {
     Widget chart;
     switch (widget.data.chartType) {
       case ChartType.bar:
-        chart = _getBarChart();
+        chart = _getBarChart(context);
       case ChartType.donut:
-        chart = _getPieChart();
+        chart = _getDonutChart();
     }
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       chart,
-      _getCategoriesButtons(),
+      _getCategoriesButtons(context),
     ]);
-    // return _getCategoriesButtonsX();
   }
 
-  Widget _getBarChart() {
+  Widget _getBarChart(BuildContext context) {
+    var theme = Theme.of(context);
+    var axisesStyle = theme.textTheme.labelMedium
+        ?.copyWith(color: theme.colorScheme.onBackground);
     var primaryYAxis = NumericAxis(
+      labelStyle: axisesStyle,
       minimum: 0,
       maximum: widget.data.sum,
       opposedPosition: true,
@@ -57,7 +61,9 @@ class _ChartState extends State<Chart> {
     ];
 
     var chart = SfCartesianChart(
-      primaryXAxis: const CategoryAxis(),
+      primaryXAxis: CategoryAxis(
+        labelStyle: axisesStyle,
+      ),
       primaryYAxis: primaryYAxis,
       series: series,
     );
@@ -72,7 +78,7 @@ class _ChartState extends State<Chart> {
     ]);
   }
 
-  Widget _getPieChart() {
+  Widget _getDonutChart() {
     var chart =
         SfCircularChart(series: <CircularSeries<SelectCategoryModel, String>>[
       DoughnutSeries<SelectCategoryModel, String>(
@@ -106,9 +112,11 @@ class _ChartState extends State<Chart> {
   }
 
 //TODO add percent for values on donut chart
-  Widget _getCategoriesButtons() {
+  Widget _getCategoriesButtons(BuildContext context) {
+    var textColor = Theme.of(context).colorScheme.background;
+    var textStyle =
+        Theme.of(context).textTheme.labelLarge?.copyWith(color: textColor);
     var buttons = widget.data.selectableCategories.map((e) {
-      var textStyle = const TextStyle(color: AppColors.appWhite, fontSize: 14);
       List<Widget> children = [Text(e.category.title, style: textStyle)];
 
       if (widget.data.chartCategories
@@ -126,12 +134,12 @@ class _ChartState extends State<Chart> {
           children: children);
 
       var button = TextButton(
-          style:
-              ButtonStyle(backgroundColor: MaterialStatePropertyAll(e.color)),
-          onPressed: () {
-            widget.selectCategoryHandler(e.category);
-          },
-          child: row);
+        style: TextButton.styleFrom(backgroundColor: e.color),
+        onPressed: () {
+          widget.selectCategoryHandler(e.category);
+        },
+        child: row,
+      );
       return button;
     }).toList();
 
@@ -141,12 +149,14 @@ class _ChartState extends State<Chart> {
       runSpacing: 10,
       children: buttons,
     );
+
+    var iconColor = Theme.of(context).colorScheme.primary;
     var resetButton = IconButton(
         onPressed: widget.resetChartModeHandler,
-        icon: const Icon(Icons.replay_outlined));
+        icon: AppImages.refreshIcon
+            .assetsImage(color: iconColor, width: 21, height: 24));
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [resetButton, wrap]);
-    // return wrap;
   }
 }
