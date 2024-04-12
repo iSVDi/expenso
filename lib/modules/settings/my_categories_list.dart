@@ -2,8 +2,8 @@ import "package:expenso/common/data_layer/models/category.dart";
 import "package:expenso/common/views/select_categories_list/select_categories_list.dart";
 import "package:flutter/material.dart";
 
-class SettingsView extends StatelessWidget {
-  const SettingsView({super.key});
+class MyCategoriesList extends StatelessWidget {
+  const MyCategoriesList({super.key});
 
   @override
   Widget build(BuildContext context) {

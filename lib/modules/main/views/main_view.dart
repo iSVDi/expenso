@@ -1,5 +1,6 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
+import 'package:expenso/modules/settings/settings.dart';
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -10,7 +11,6 @@ import 'package:expenso/modules/main/cubits/spend_today_amount_provider.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/views/enter_transaction_data/enter_transaction_data.dart';
 import 'package:expenso/modules/main/views/transactions_list/transactions_list.dart';
-import 'package:expenso/modules/settings/settings_view.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -93,7 +93,7 @@ class _MainViewState extends State<MainView> {
     return IconButton(
       onPressed: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => const SettingsView())));
+            MaterialPageRoute(builder: ((context) => const Settings())));
       },
       icon: SizedBox(
         width: 24,

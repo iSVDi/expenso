@@ -30,6 +30,9 @@ class SelectCategoriesList extends StatefulWidget {
 }
 
 class SelectCategoriesListState extends State<SelectCategoriesList> {
+  late final backgroundColor = widget.isManagingCategories
+      ? AppColors.appWhite
+      : AppColors.appNumericKeyboardColor;
   late final SelectCategoriesListInteractor _interactor =
       SelectCategoriesListInteractor(
           isManagingCategories: widget.isManagingCategories,
@@ -39,7 +42,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   @override
   Widget build(BuildContext context) {
     var body = _getBody(context);
-    return ColoredBox(color: AppColors.appNumericKeyboardColor, child: body);
+    return ColoredBox(color: backgroundColor, child: body);
   }
 
   Widget _getBody(BuildContext context) {
@@ -99,7 +102,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: rowChildren);
     EdgeInsets padding =
-        const EdgeInsets.only(left: 32, right: 32, top: 14, bottom: 4);
+        const EdgeInsets.only(left: 20, right: 32, top: 14, bottom: 4);
 
     return Container(
       padding: padding,
@@ -142,8 +145,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         title: cell);
 
     var coloredListTile = ColoredBox(
-      color:
-          isSelected ? AppColors.appWhite : AppColors.appNumericKeyboardColor,
+      color: backgroundColor,
       child: listTile,
     );
 
@@ -161,10 +163,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
       menuOffset: 10,
       menuWidth: MediaQuery.of(context).size.width * 0.34,
       onPressed: () {
-        if (_interactor.isFromSettings) {
-          // TODO implement show pop up
-          print("handler pop up");
-        } else {
+        if (!_interactor.isFromSettings) {
           _interactor.selectCategory(category);
         }
       },

@@ -21,6 +21,7 @@ dependencies:
   path_provider: ^2.1.2
   syncfusion_flutter_charts: ^25.1.37
   focused_menu: ^1.0.5
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
