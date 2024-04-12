@@ -34,7 +34,7 @@ class TransactionCell extends StatelessWidget {
     );
 
     var coloredListTile = ColoredBox(
-      color: AppColors.appWhite,
+      color: Theme.of(context).colorScheme.background,
       child: listTile,
     );
 
@@ -45,7 +45,7 @@ class TransactionCell extends StatelessWidget {
       menuItems: menuItems,
       child: coloredListTile,
     );
-    return menuHolder;
+    return SizedBox(height: 56, child: menuHolder);
   }
 
   Widget _getCell(BuildContext context) {
@@ -53,15 +53,21 @@ class TransactionCell extends StatelessWidget {
         ? transaction.stringAmount
         : transaction.date.formattedTime;
 
-    var leftWidget =
-        Text(title, style: Theme.of(context).textTheme.headlineSmall);
+    var textStyle = Theme.of(context)
+        .textTheme
+        .headlineSmall
+        ?.copyWith(fontWeight: FontWeight.w300);
+    var leftWidget = Text(title, style: textStyle);
     var column = _getTransactionsColumn(context);
 
     var children = [leftWidget, const SizedBox(width: 20, height: 0), column];
 
     if (mode == TransactionCellMode.history) {
       children.add(const Spacer(flex: 1));
-      children.add(Text(transaction.stringAmount));
+      children.add(Text(
+        transaction.stringAmount,
+        style: textStyle,
+      ));
     }
 
     var crossAxisAlignment = transaction.comment.isEmpty
@@ -69,7 +75,7 @@ class TransactionCell extends StatelessWidget {
         : CrossAxisAlignment.start;
 
     var row = Row(
-      crossAxisAlignment: crossAxisAlignment,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: children,
     );
     return row;
@@ -85,7 +91,7 @@ class TransactionCell extends StatelessWidget {
       var commentStyle = Theme.of(context).textTheme.labelMedium;
       var commentText = Text(transaction.comment, style: commentStyle);
       var column = Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [categoryText, commentText]);
       return column;
     }

@@ -1,5 +1,4 @@
 import 'package:expenso/common/data_layer/models/category.dart';
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
@@ -79,15 +78,17 @@ class _ChartState extends State<Chart> {
   }
 
   Widget _getDonutChart() {
-    var chart =
-        SfCircularChart(series: <CircularSeries<SelectCategoryModel, String>>[
-      DoughnutSeries<SelectCategoryModel, String>(
-        dataSource: widget.data.chartCategories.toList(),
-        xValueMapper: (SelectCategoryModel data, _) => data.category.title,
-        yValueMapper: (SelectCategoryModel data, _) => data.value,
-        pointColorMapper: (datum, index) => datum.color,
-      )
-    ]);
+    var chart = SfCircularChart(
+      series: <CircularSeries<SelectCategoryModel, String>>[
+        DoughnutSeries<SelectCategoryModel, String>(
+          dataSource: widget.data.chartCategories.toList(),
+          xValueMapper: (SelectCategoryModel data, _) => data.category.title,
+          yValueMapper: (SelectCategoryModel data, _) => data.value,
+          pointColorMapper: (datum, index) => datum.color,
+          innerRadius: "85%",
+        )
+      ],
+    );
 
     var buttons = _getNavigateTimeFrameButtons();
     var buttonsRow = Row(
@@ -129,12 +130,17 @@ class _ChartState extends State<Chart> {
             children;
       }
       var row = Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: children);
 
       var button = TextButton(
-        style: TextButton.styleFrom(backgroundColor: e.color),
+        style: TextButton.styleFrom(
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          minimumSize: Size.zero,
+          backgroundColor: e.color,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        ),
         onPressed: () {
           widget.selectCategoryHandler(e.category);
         },
@@ -152,10 +158,19 @@ class _ChartState extends State<Chart> {
 
     var iconColor = Theme.of(context).colorScheme.primary;
     var resetButton = IconButton(
-        onPressed: widget.resetChartModeHandler,
-        icon: AppImages.refreshIcon
-            .assetsImage(color: iconColor, width: 21, height: 24));
+      style: IconButton.styleFrom(
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: const EdgeInsets.only(bottom: 10)),
+      onPressed: widget.resetChartModeHandler,
+      icon: AppImages.refreshIcon.assetsImage(
+        color: iconColor,
+        width: 21,
+        height: 24,
+      ),
+    );
     return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [resetButton, wrap]);
   }

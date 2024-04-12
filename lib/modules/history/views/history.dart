@@ -101,23 +101,28 @@ class History extends StatelessWidget {
         }
         var sectionDate = sectionsData[sectionID - 1];
         var header = _groupHeaderBuilder(
+          context,
           sectionDate.headerDate,
           sectionDate.sum,
         );
         return header;
       },
-      // separatorBuilder: (context, index) {
-      // return Divider(height: 1, color: AppColors.appBlack);
       // },
       sectionSeparatorBuilder: (context, section) {
-        return Divider(height: 1, color: AppColors.appBlack);
+        var isFirstSection = section == 0;
+        var color = isFirstSection
+            ? const Color.fromRGBO(144, 144, 144, 1)
+            : Theme.of(context).dividerTheme.color;
+
+        var divider = Divider(thickness: 1, color: color);
+        var padding = Padding(
+          padding: EdgeInsets.symmetric(horizontal: isFirstSection ? 0 : 32),
+          child: divider,
+        );
+        return padding;
       },
     );
 
-    var padding = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: list,
-    );
     return list;
   }
 
@@ -180,23 +185,25 @@ class History extends StatelessWidget {
     );
   }
 
-  Widget _groupHeaderBuilder(String title, String sum) {
+//TODO need format amount's text
+  Widget _groupHeaderBuilder(BuildContext context, String title, String sum) {
+    var textTheme = Theme.of(context).textTheme;
     var row = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text(title),
-        Text(sum.toString()),
+        Text(
+          title,
+          style: textTheme.titleMedium,
+        ),
+        Text(sum, style: textTheme.headlineLarge),
       ],
     );
     var padding = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
       child: row,
     );
-    var coloredBox = ColoredBox(
-      //TODO change color
-      color: Colors.greenAccent[100]!,
-      child: padding,
-    );
-    return coloredBox;
+
+    return padding;
   }
 }

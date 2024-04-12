@@ -11,6 +11,7 @@ class ThemeProvider {
   ThemeData getTheme() {
     var textTheme = LightTextThemeProvider();
     return ThemeData(
+      dividerTheme: DividerThemeData(color: AppColors.appNumericKeyboardColor),
       bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: AppColors.appWhite,
       ),
@@ -26,6 +27,7 @@ class ThemeProvider {
   ThemeData getDarkTheme() {
     var textTheme = DarkTextThemeProvider();
     return ThemeData(
+      dividerTheme: DividerThemeData(color: Color.fromRGBO(34, 34, 34, 1)),
       bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: AppColors.appBlack,
       ),
