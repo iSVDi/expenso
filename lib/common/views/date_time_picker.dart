@@ -1,7 +1,6 @@
 import 'package:expenso/common/views/rounded_button.dart';
 import "package:flutter/material.dart";
 
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
 
 // ignore: must_be_immutable
@@ -25,16 +24,14 @@ class _DateTimePickerState extends State<DateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    var cancelButton = RoundedButton(
-        text: "cancel", //TODO: move text to special class
-        textColor: AppColors.appGreen,
-        borderSide: const BorderSide(color: AppColors.appGreen),
-        onPressed: () => widget.callback(null));
+    var cancelButton = RoundedButton.getCancelButton(
+      context: context,
+      onPressed: () => widget.callback(null),
+    );
 
-    var applyButton = RoundedButton(
-      text: "apply", //TODO: move text to special class
-      textColor: AppColors.appWhite,
-      backgroundColor: AppColors.appGreen,
+    var applyButton = RoundedButton.getActionButton(
+      context: context,
+      text: "apply", //todo localize
       onPressed: () => widget.callback(widget.selectedDate),
     );
 
@@ -42,8 +39,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _getDatePickerButton(),
-          _getTimePickerButton(),
+          _getDatePickerButton(context),
+          _getTimePickerButton(context),
           const SizedBox(height: 20),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,12 +52,11 @@ class _DateTimePickerState extends State<DateTimePicker> {
         width: MediaQuery.of(context).size.width * _screenWidthRatio,
         child: column);
     return AlertDialog(
-      surfaceTintColor: AppColors.appWhite,
+      surfaceTintColor: Theme.of(context).colorScheme.background,
       content: sizedBox,
     );
   }
 
-  //TODO change background color
   Future _handleSelectedDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
         context: context,
@@ -75,10 +71,11 @@ class _DateTimePickerState extends State<DateTimePicker> {
     }
   }
 
-//TODO change background color
   Future _handleSelectedTime(BuildContext context) async {
-    final TimeOfDay? selected =
-        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    final TimeOfDay? selected = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
     if (selected != null) {
       setState(() {
         widget.selectedDate = widget.selectedDate.updateTime(selected);
@@ -86,29 +83,23 @@ class _DateTimePickerState extends State<DateTimePicker> {
     }
   }
 
-  Widget _getDatePickerButton() {
+  Widget _getDatePickerButton(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
     return TextButton(
-        onPressed: () {
-          _handleSelectedDate(context);
-        },
-        child: Text(widget.selectedDate.formattedDate,
-        //TODO use textTheme
-            style: const TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.w400,
-                color: AppColors.appGreen)));
+        onPressed: () => _handleSelectedDate(context),
+        child: Text(
+          widget.selectedDate.formattedDate,
+          style: textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w400),
+        ));
   }
 
-  Widget _getTimePickerButton() {
+  Widget _getTimePickerButton(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
     return TextButton(
-        onPressed: () {
-          _handleSelectedTime(context);
-        },
-        child: Text(widget.selectedDate.formattedTime,
-            //TODO use textTheme
-            style: const TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.w300,
-                color: AppColors.appGreen)));
+        onPressed: () => _handleSelectedTime(context),
+        child: Text(
+          widget.selectedDate.formattedTime,
+          style: textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w300),
+        ));
   }
 }

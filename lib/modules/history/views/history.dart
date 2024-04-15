@@ -1,5 +1,4 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
@@ -185,7 +184,6 @@ class History extends StatelessWidget {
     );
   }
 
-//TODO need format amount's text
   Widget _groupHeaderBuilder(BuildContext context, String title, String sum) {
     var textTheme = Theme.of(context).textTheme;
     var row = Row(

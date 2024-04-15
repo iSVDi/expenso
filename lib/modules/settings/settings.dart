@@ -55,7 +55,7 @@ _SettingsItemModel _getAppearanceModel(BuildContext context) {
       showModalBottomSheet(
           context: context,
           builder: (builderContext) {
-            return SelectAppearance();
+            return const SelectAppearance();
           });
     },
   );

@@ -1,5 +1,4 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
@@ -70,10 +69,6 @@ class TransactionCell extends StatelessWidget {
       ));
     }
 
-    var crossAxisAlignment = transaction.comment.isEmpty
-        ? CrossAxisAlignment.center
-        : CrossAxisAlignment.start;
-
     var row = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: children,
@@ -81,7 +76,7 @@ class TransactionCell extends StatelessWidget {
     return row;
   }
 
-// TODO get text from special class
+//TODO localize
   Widget _getTransactionsColumn(BuildContext context) {
     var categoryStyle = Theme.of(context).textTheme.titleMedium;
     var categoryText =

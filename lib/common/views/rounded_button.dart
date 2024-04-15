@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
@@ -13,7 +12,7 @@ class RoundedButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.textColor,
-    this.backgroundColor = AppColors.appWhite,
+    required this.backgroundColor,
     this.borderSide = BorderSide.none,
     required this.onPressed,
   }) : super(key: key);
@@ -45,5 +44,34 @@ class RoundedButton extends StatelessWidget {
     var button =
         ElevatedButton(onPressed: onPressed, style: buttonStyle, child: child);
     return button;
+  }
+
+  static RoundedButton getCancelButton({
+    required BuildContext context,
+    required Function() onPressed,
+  }) {
+    var colorScheme = Theme.of(context).colorScheme;
+    var cancelButton = RoundedButton(
+        text: "cancel", //TODO localize
+        textColor: colorScheme.primary,
+        backgroundColor: colorScheme.background,
+        borderSide: BorderSide(color: colorScheme.primary),
+        onPressed: onPressed);
+    return cancelButton;
+  }
+
+  static RoundedButton getActionButton({
+    required BuildContext context,
+    required String text,
+    required Function() onPressed,
+  }) {
+    var colorScheme = Theme.of(context).colorScheme;
+    var cancelButton = RoundedButton(
+        text: text,
+        textColor: colorScheme.background,
+        backgroundColor: colorScheme.primary,
+        borderSide: BorderSide(color: colorScheme.primary),
+        onPressed: onPressed);
+    return cancelButton;
   }
 }

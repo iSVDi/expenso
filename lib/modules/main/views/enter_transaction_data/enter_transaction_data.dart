@@ -3,6 +3,7 @@ import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
 import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 
@@ -68,7 +69,7 @@ class EnterTransactionData extends StatelessWidget {
       );
     }
     var coloredKeyboard = ColoredBox(
-      color: AppColors.appNumericKeyboardColor,
+      color: Theme.of(context).extension<AdditionalColors>()!.background1,
       child: keyboard,
     );
 
@@ -86,7 +87,7 @@ class EnterTransactionData extends StatelessWidget {
   void _showCommentSheet(BuildContext context) {
     addCommentSheet(BuildContext buildContext) {
       return EnterTextBottomSheet(
-          // TODO move to special class
+          //TODO localize
           hintText: "введите комментарий",
           bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
           callback: (String comment) {

@@ -1,5 +1,4 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/done_button.dart';
@@ -84,12 +83,14 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
           };
 
     var doneButton = DoneButton(onPressed: doneButtonHandler);
-    var keyboard =
-        Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-      _getKeyboardHeader(context),
-      const Divider(height: 1, color: AppColors.appBlack),
-      _getNumericKeyboard(context)
-    ]);
+    var keyboard = Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        _getKeyboardHeader(context),
+        Divider(height: 1, color: Theme.of(context).dividerTheme.color),
+        _getNumericKeyboard(context),
+      ],
+    );
     var keyboardStack = Stack(
         alignment: AlignmentDirectional.bottomEnd,
         children: [keyboard, doneButton]);
@@ -185,7 +186,6 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
         icon: const Icon(
           Icons.arrow_back,
           size: 40,
-          color: AppColors.appBlack,
         ));
   }
 

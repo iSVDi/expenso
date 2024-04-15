@@ -1,4 +1,3 @@
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/theme/cubit/theme_mode_cubit.dart';
 import 'package:expenso/theme/cubit/theme_mode_state.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +39,7 @@ class SelectAppearance extends StatelessWidget {
           //TODO use colorScheme
           var color = mode == bloc.state.themeMode
               ? colorScheme.primary
-              : AppColors.appNumericKeyboardColor;
+              : colorScheme.background;
           var width = MediaQuery.of(context).size.width * 0.9;
 
           return Container(

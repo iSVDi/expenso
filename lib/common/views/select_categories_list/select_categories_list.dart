@@ -62,21 +62,15 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     return stack;
   }
 
-// TODO move text to special class
-  //TODO use textTheme
   Widget _getHeader(BuildContext context) {
-    var textColor = AppColors.appGreen;
+    var textColor = Theme.of(context).colorScheme.primary;
     var plusIcon = Icon(
       Icons.add,
       color: textColor,
     );
     var addCategoryText = Text(
-      "Создать категорию",
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w300,
-        color: textColor,
-      ),
+      "Создать категорию", // todo localize
+      style: Theme.of(context).textTheme.titleMedium,
     );
     var titlesRow = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +87,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
     var rowChildren = _interactor.isFromSettings
         ? [addCategoryButton]
-        : [addCategoryButton, _getBackButton()];
+        : [addCategoryButton, _getBackButton(context)];
     Row header = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: rowChildren);
@@ -107,13 +101,12 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     );
   }
 
-  IconButton _getBackButton() {
+  IconButton _getBackButton(BuildContext context) {
     return IconButton(
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_back_ios_new,
           size: 24,
-          // TODO use color scheme
-          color: AppColors.appBlack,
+          color: Theme.of(context).colorScheme.onBackground,
         ),
         onPressed: widget.backButtonCallback);
   }
@@ -173,7 +166,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   void _addCategoryButtonHandler(BuildContext context) {
     enterTextBottomSheet(BuildContext buildContext) {
       return EnterTextBottomSheet(
-        //TODO get text from special class
+        //TODO localize
         hintText: "Enter category name",
         bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
         callback: (categoryName) => _interactor.addCategory(categoryName),
@@ -188,7 +181,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   void _showEditCategorySheet(BuildContext context, Category category) {
     enterTextBottomSheet(BuildContext buildContext) {
       return EnterTextBottomSheet(
-          // TODO move to special class
+          //TODO localize
           text: category.title,
           hintText: "hintText",
           bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,

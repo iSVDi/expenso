@@ -1,5 +1,4 @@
 import 'package:expenso/common/views/rounded_button.dart';
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_states.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
@@ -61,6 +60,7 @@ class TransactionsList extends StatelessWidget {
   }
 
 //TODO localize
+//TODO use textTheme
   void _showAlert(BuildContext context, Transaction transaction) {
     showDialog(
         context: context,
@@ -71,7 +71,7 @@ class TransactionsList extends StatelessWidget {
               text: TextSpan(
             text: "are you sure you want to delete ",
             style: theme.textTheme.headlineSmall?.copyWith(
-              color: AppColors.appGreen,
+              color: theme.colorScheme.primary,
               fontWeight: FontWeight.w300,
             ),
             children: [
@@ -83,20 +83,19 @@ class TransactionsList extends StatelessWidget {
             ],
           ));
 
-          var cancelButton = RoundedButton(
-              text: "cancel",
-              textColor: theme.colorScheme.primary,
-              borderSide: BorderSide(color: theme.colorScheme.primary),
-              onPressed: () => Navigator.of(context).pop());
+          var cancelButton = RoundedButton.getCancelButton(
+            context: context,
+            onPressed: () => Navigator.of(context).pop(),
+          );
 
-          var deleteButton = RoundedButton(
-              text: "delete",
-              textColor: theme.colorScheme.background,
-              backgroundColor: theme.colorScheme.primary,
-              onPressed: () {
-                _getCubit(context).deleteTransaction(transaction);
-                Navigator.of(context).pop();
-              });
+          var deleteButton = RoundedButton.getActionButton(
+            context: context,
+            text: "delete",
+            onPressed: () {
+              _getCubit(context).deleteTransaction(transaction);
+              Navigator.of(context).pop();
+            },
+          );
 
           var row = Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

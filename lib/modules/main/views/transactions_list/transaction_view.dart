@@ -2,7 +2,6 @@ import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
-import 'package:expenso/extensions/app_colors.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
@@ -21,6 +20,8 @@ class TransactionView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => TransactionViewState();
 }
+
+ThemeData _getTheme(BuildContext context) => Theme.of(context);
 
 class TransactionViewState extends State<TransactionView> {
   Transaction get transaction => widget.transaction;
@@ -43,7 +44,6 @@ class TransactionViewState extends State<TransactionView> {
         },
         icon: const Icon(
           Icons.delete,
-          color: AppColors.appBlack,
         ));
   }
 
@@ -64,14 +64,11 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   Widget _getDateButton() {
+    var colorScheme = _getTheme(context).colorScheme;
+    var textStyle = _getTheme(context).textTheme.headlineSmall;
     var title = Text(
       "${transaction.date.formattedDate}, ${transaction.date.formattedTime}",
-      // TODO use textTheme
-      style: const TextStyle(
-        fontWeight: FontWeight.w100,
-        fontSize: 24,
-        color: AppColors.appBlack,
-      ),
+      style: textStyle?.copyWith(color: colorScheme.onBackground),
     );
     var dateTimePicker = DateTimePicker(
       selectedDate: transaction.date,
@@ -93,12 +90,8 @@ class TransactionViewState extends State<TransactionView> {
 
   Widget _getCategoryButton() {
     var title = transaction.category.target!.title;
-    // TODO use textTheme
-    var text = Text(title,
-        style: const TextStyle(
-            fontWeight: FontWeight.w100,
-            fontSize: 40,
-            color: AppColors.appGreen));
+    var textStyle = _getTheme(context).textTheme.displaySmall;
+    var text = Text(title, style: textStyle);
 
     selectCategoriesList(BuildContext builderContext) {
       return SelectCategoriesList(
@@ -124,16 +117,12 @@ class TransactionViewState extends State<TransactionView> {
     return textButton;
   }
 
-// TODO move text to special class
+//TODO localize
   Widget _getCommentButton() {
     var comment =
         transaction.comment.isEmpty ? "add Comment" : transaction.comment;
-    var text = Text(comment,
-        //TODO use textTheme
-        style: const TextStyle(
-            fontWeight: FontWeight.w100,
-            fontSize: 20,
-            color: AppColors.appGreen));
+    var textStyle = _getTheme(context).textTheme.titleMedium;
+    var text = Text(comment, style: textStyle);
     enterTextBottomSheet(BuildContext builderContext) {
       return EnterTextBottomSheet(
           hintText: "add Comment",
@@ -162,13 +151,8 @@ class TransactionViewState extends State<TransactionView> {
       );
     }
 
-    var text = Text(transaction.stringAmount,
-        //TODO use textTheme
-        style: const TextStyle(
-          fontSize: 50,
-          fontWeight: FontWeight.w300,
-          color: AppColors.appBlack,
-        ));
+    var textStyle = _getTheme(context).textTheme.displayMedium;
+    var text = Text(transaction.stringAmount, style: textStyle);
 
     var textButton = _getPresentModallyButton(
       child: text,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-// TODO check how need set colors in flutter docs
 class AppColors {
-  static const appBlack = Color.fromRGBO(43, 43, 43, 1);
+  static const appBlack = Color.fromRGBO(34, 34, 34, 1);
   static const appWhite = Colors.white;
 
   static const appGreen = Color.fromRGBO(0, 133, 150, 1);
