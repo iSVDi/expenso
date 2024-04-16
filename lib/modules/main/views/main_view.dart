@@ -81,7 +81,11 @@ class _MainViewState extends State<MainView> {
         Navigator.push(
             context, MaterialPageRoute(builder: ((context) => bloc)));
       },
-      icon: AppImages.barChartIcon.assetsImage(width: 24, height: 24),
+      icon: AppImages.barChartIcon.assetsImage(
+        width: 24,
+        height: 24,
+        color: Theme.of(context).colorScheme.primary,
+      ),
     );
     return button;
   }
@@ -92,7 +96,11 @@ class _MainViewState extends State<MainView> {
         Navigator.push(context,
             MaterialPageRoute(builder: ((context) => const Settings())));
       },
-      icon: AppImages.settingsIcon.assetsImage(width: 24, height: 24),
+      icon: AppImages.settingsIcon.assetsImage(
+        width: 24,
+        height: 24,
+        color: Theme.of(context).colorScheme.primary,
+      ),
     );
   }
 

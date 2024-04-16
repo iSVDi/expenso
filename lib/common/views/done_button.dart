@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:expenso/extensions/app_colors.dart';
 
+//TODO set colors for dark mode
 class DoneButton extends StatefulWidget {
   bool isLargeButton;
   Function()? onPressed;
@@ -19,13 +19,13 @@ class DoneButton extends StatefulWidget {
 class _DoneButtonState extends State<DoneButton> {
   @override
   Widget build(BuildContext context) {
-    var buttonColor = widget.onPressed == null
-        ? AppColors.appDisabledGreen
-        : AppColors.appGreen;
+    var colorScheme = Theme.of(context).colorScheme;
+    var buttonColor =
+        widget.onPressed == null ? colorScheme.onPrimary : colorScheme.primary;
 
     var icon = const Icon(
       Icons.done_sharp,
-      color: AppColors.appWhite,
+      color: Colors.white,
     );
 
     var ratio = widget.isLargeButton ? 0.235 : 0.106;
@@ -37,8 +37,8 @@ class _DoneButtonState extends State<DoneButton> {
         backgroundColor: MaterialStateProperty.all(buttonColor));
 
     var button = IconButton(
-        color: AppColors.appGreen,
-        disabledColor: AppColors.appDisabledGreen,
+        color: colorScheme.primary,
+        disabledColor: colorScheme.onPrimary,
         onPressed: widget.onPressed,
         icon: icon,
         iconSize: widget.isLargeButton ? 40 : 24,

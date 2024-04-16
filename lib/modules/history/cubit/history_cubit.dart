@@ -1,4 +1,4 @@
-import 'package:expenso/extensions/app_colors.dart';
+
 import 'package:expenso/modules/history/cubit/date_range_helper.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,16 @@ import 'package:expenso/modules/history/models/select_category_model.dart';
 class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   final _repository = TransactionRepository();
   final dateRangeHelper = DateRangeHelper();
+  final List<Color> _categoryColors = [
+    Colors.purple,
+    Colors.orange,
+    Colors.green,
+    Colors.red,
+    Colors.blue,
+    Colors.yellow,
+    Colors.lightBlue,
+    Colors.pink,
+  ];
 
   DateTimeRange get getCalendarTimeRange =>
       dateRangeHelper.getCalendarTimeRange();
@@ -223,7 +233,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   }
 
   Color _getCategoryColor(int id) {
-    var colors = AppColors.getCategoryColors();
-    return colors[id % colors.length];
+    var length = _categoryColors.length;
+    return _categoryColors[id % length];
   }
 }

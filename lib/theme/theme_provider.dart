@@ -3,8 +3,6 @@
 import 'package:expenso/theme/text_theme_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:expenso/extensions/app_colors.dart';
-
 //TODO setup dividers' themes (Check numeric keyboard divider color and history)
 //TODO implement func for get additionals colors for both themes
 class ThemeProvider {
@@ -20,10 +18,10 @@ class ThemeProvider {
       dividerTheme:
           const DividerThemeData(color: Color.fromARGB(255, 84, 31, 31)),
       bottomSheetTheme: const BottomSheetThemeData(
-        surfaceTintColor: AppColors.appWhite,
+        surfaceTintColor: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        surfaceTintColor: AppColors.appWhite,
+        surfaceTintColor: Colors.white,
       ),
       fontFamily: _fontFamily,
       colorScheme: colorScheme,
@@ -42,10 +40,10 @@ class ThemeProvider {
       dividerTheme:
           const DividerThemeData(color: Color.fromRGBO(34, 34, 34, 1)),
       bottomSheetTheme: const BottomSheetThemeData(
-        surfaceTintColor: AppColors.appBlack,
+        surfaceTintColor: Color.fromRGBO(34, 34, 34, 1),
       ),
       appBarTheme: const AppBarTheme(
-        surfaceTintColor: AppColors.appBlack,
+        surfaceTintColor: Color.fromRGBO(34, 34, 34, 1),
       ),
       fontFamily: _fontFamily,
       colorScheme: _getDarkColorScheme(),
@@ -56,18 +54,20 @@ class ThemeProvider {
 
   ColorScheme _getColorScheme() {
     return const ColorScheme.light(
-      primary: AppColors.appGreen,
-      surface: AppColors.appWhite,
-      surfaceTint: AppColors.appWhite,
+      primary: Color.fromRGBO(0, 133, 150, 1),
+      onPrimary: Color.fromRGBO(120, 186, 195, 1),
+      surface: Colors.white,
+      surfaceTint: Colors.white,
     );
   }
 
   ColorScheme _getDarkColorScheme() {
     return const ColorScheme.dark(
-      primary: AppColors.appDarkGreen,
-      surface: AppColors.appBlack,
-      surfaceTint: AppColors.appBlack,
-      background: AppColors.appBlack,
+      primary: Color.fromRGBO(32, 220, 217, 1),
+      onPrimary: Color.fromRGBO(0, 133, 150, 1),
+      surface: Color.fromRGBO(34, 34, 34, 1),
+      surfaceTint: Color.fromRGBO(34, 34, 34, 1),
+      background: Color.fromRGBO(34, 34, 34, 1),
     );
   }
 }

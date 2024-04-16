@@ -1,4 +1,4 @@
-import 'package:expenso/extensions/app_colors.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import "package:flutter/material.dart";
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -30,17 +30,24 @@ class SelectCategoriesList extends StatefulWidget {
 }
 
 class SelectCategoriesListState extends State<SelectCategoriesList> {
-  late final backgroundColor = widget.isManagingCategories
-      ? AppColors.appWhite
-      : AppColors.appNumericKeyboardColor;
   late final SelectCategoriesListInteractor _interactor =
       SelectCategoriesListInteractor(
           isManagingCategories: widget.isManagingCategories,
           selectedCategory: widget.selectedCategory,
           setState: () => setState(() {}));
 
+  Color _getBackgroundColor(BuildContext context) {
+    var colorScheme = Theme.of(context).colorScheme;
+    var keyboardColor =
+        Theme.of(context).extension<AdditionalColors>()!.background1;
+    var backgroundColor =
+        widget.isManagingCategories ? colorScheme.background : keyboardColor;
+    return backgroundColor;
+  }
+
   @override
   Widget build(BuildContext context) {
+    var backgroundColor = _getBackgroundColor(context);
     var body = _getBody(context);
     return ColoredBox(color: backgroundColor, child: body);
   }
@@ -48,7 +55,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   Widget _getBody(BuildContext context) {
     var columnChildren = [
       _getHeader(context),
-      const Divider(height: 1, color: AppColors.appBlack),
+      Divider(height: 1, color: Theme.of(context).dividerTheme.color),
       _getCategoriesList(context)
     ];
     var column = Column(
@@ -134,7 +141,9 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         title: cell);
 
     var coloredListTile = ColoredBox(
-      color: backgroundColor,
+      color: isSelected
+          ? Theme.of(context).colorScheme.background
+          : _getBackgroundColor(context),
       child: listTile,
     );
 
