@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 //TODO set colors for dark mode
 class DoneButton extends StatefulWidget {
-  bool isLargeButton;
-  Function()? onPressed;
+  final bool isLargeButton;
+  final Function()? onPressed;
 
-  DoneButton({
+  const DoneButton({
     Key? key,
     this.isLargeButton = true,
     this.onPressed,

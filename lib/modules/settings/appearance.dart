@@ -55,7 +55,6 @@ class SelectAppearance extends StatelessWidget {
       height: height,
       child: list,
     );
-
     return sizedBox;
   }
 }

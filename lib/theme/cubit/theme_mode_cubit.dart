@@ -1,13 +1,13 @@
-import 'package:expenso/theme/cubit/theme_mode_preferences.dart';
+import 'package:expenso/theme/cubit/app_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:expenso/theme/cubit/theme_mode_state.dart';
 
 class ThemeModeCubit extends Cubit<ThemeModeState> {
-  final themeModePreferences = ThemeModePreferences();
+  final themeModePreferences = AppPreferences();
   ThemeModeCubit()
-      : super(ThemeModeState(themeMode: ThemeModePreferences().getThemeMode()));
+      : super(ThemeModeState(themeMode: AppPreferences().getThemeMode()));
 
 // localize
   List<ThemeMode> getThemeModes() {
