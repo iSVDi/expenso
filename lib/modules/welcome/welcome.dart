@@ -101,8 +101,13 @@ class _WelcomeState extends State<Welcome> {
             .titleMedium!
             .copyWith(color: Theme.of(context).colorScheme.onBackground);
 
+        var checkBoxColor = Theme.of(context).colorScheme.onBackground;
         var listTile = ListTile(
           leading: Checkbox(
+              fillColor: const MaterialStatePropertyAll(Colors.transparent),
+              checkColor: checkBoxColor,
+              side: MaterialStateBorderSide.resolveWith(
+                  (states) => BorderSide(color: checkBoxColor)),
               value: categories[id].isSelected,
               onChanged: (value) {
                 _cubit.selectCategory(id);
