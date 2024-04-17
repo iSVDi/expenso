@@ -39,6 +39,16 @@ flutter:
     - assets/donutModeIcon.png
     - assets/calendarIcon.png
     - assets/refreshIcon.png
+    - assets/welcome/welcome1.png
+    - assets/welcome/welcome2.png
+    - assets/welcome/welcome3.png
+    - assets/welcome/welcome4.png
+    - assets/welcome/welcome6.png
+    - assets/welcome/welcomeDark1.png
+    - assets/welcome/welcomeDark2.png
+    - assets/welcome/welcomeDark3.png
+    - assets/welcome/welcomeDark4.png
+    - assets/welcome/welcomeDark6.png
 
   fonts:
     - family: SF Pro

@@ -12,7 +12,7 @@ class ThemeProvider {
     var colorScheme = _getColorScheme();
     var additionalColors = const AdditionalColors(
       background1: Color.fromRGBO(238, 238, 238, 1),
-      dotColor: Color.fromRGBO(221, 221, 221, 1),
+      dotInactiveColor: Color.fromRGBO(221, 221, 221, 1),
     );
     var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
     return ThemeData(
@@ -35,7 +35,7 @@ class ThemeProvider {
     var colorScheme = _getDarkColorScheme();
     var additionalColors = const AdditionalColors(
       background1: Color.fromRGBO(43, 43, 43, 1),
-      dotColor: Color.fromRGBO(221, 221, 221, 1),
+      dotInactiveColor: Color.fromRGBO(221, 221, 221, 1),
     );
     var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
     return ThemeData(
@@ -77,11 +77,11 @@ class ThemeProvider {
 class AdditionalColors extends ThemeExtension<AdditionalColors> {
   const AdditionalColors({
     required this.background1,
-    required this.dotColor,
+    required this.dotInactiveColor,
   });
 
   final Color background1;
-  final Color dotColor;
+  final Color dotInactiveColor;
 
   @override
   ThemeExtension<AdditionalColors> copyWith({
@@ -90,7 +90,7 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
   }) {
     return AdditionalColors(
       background1: background1 ?? this.background1,
-      dotColor: dotColor ?? this.dotColor,
+      dotInactiveColor: dotColor ?? this.dotInactiveColor,
     );
   }
 
@@ -102,7 +102,9 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
     }
     return AdditionalColors(
       background1: Color.lerp(background1, other.background1, t) ?? background1,
-      dotColor: Color.lerp(dotColor, other.dotColor, t) ?? dotColor,
+      dotInactiveColor:
+          Color.lerp(dotInactiveColor, other.dotInactiveColor, t) ??
+              dotInactiveColor,
     );
   }
 }

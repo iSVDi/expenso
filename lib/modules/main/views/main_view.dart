@@ -41,7 +41,6 @@ class _MainViewState extends State<MainView> {
 
   PreferredSizeWidget? _getAppBar(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
-    // var colorTheme = Theme.of(context).colorScheme;
     var column = Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: Column(
@@ -53,6 +52,7 @@ class _MainViewState extends State<MainView> {
       ),
     );
     var appBar = AppBar(
+      automaticallyImplyLeading: false,
       flexibleSpace: column,
       actions: [
         _getAnalyseBarButton(context),
@@ -106,8 +106,12 @@ class _MainViewState extends State<MainView> {
 
   Widget _getBody(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [_getTransactionListView(), _getKeyboard(context)]);
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        _getTransactionListView(),
+        _getKeyboard(context),
+      ],
+    );
   }
 
   Widget _getTransactionListView() {

@@ -1,6 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class AppTextThemeProvider {
+  final displayLarge = const TextStyle(
+    fontSize: 70,
+    fontWeight: FontWeight.w100,
+  );
+
   final displayMedium = const TextStyle(
     fontSize: 50,
     fontWeight: FontWeight.w300,
@@ -36,6 +43,7 @@ class AppTextThemeProvider {
 
   TextTheme getTextTheme() {
     var theme = TextTheme(
+        displayLarge: displayLarge,
         displayMedium: displayMedium,
         displaySmall: displaySmall,
         headlineLarge: headlineLarge,

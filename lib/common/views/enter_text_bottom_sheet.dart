@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 class EnterTextBottomSheet extends StatefulWidget {
   final String? text;
   final String hintText;
+  final bool isPresentedModally;
   final double bottomInsets;
   final Function(String) callback;
 
@@ -11,6 +12,7 @@ class EnterTextBottomSheet extends StatefulWidget {
     Key? key,
     this.text,
     required this.hintText,
+    this.isPresentedModally = true,
     required this.bottomInsets,
     required this.callback,
   }) : super(key: key);
@@ -56,6 +58,9 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
 
   void _doneButtonHandler() {
     widget.callback(_controller.text);
-    Navigator.pop(context);
+    _controller.text = "";
+    if (widget.isPresentedModally) {
+      Navigator.pop(context);
+    }
   }
 }

@@ -17,6 +17,10 @@ class CategoriesRepository {
     _categories.put(category);
   }
 
+  void insertCategories(List<Category> categories) {
+    _categories.putMany(categories);
+  }
+
   List<Category> readAllCategories() {
     var query = _categories
         .query()
