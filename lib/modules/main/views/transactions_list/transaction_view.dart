@@ -191,8 +191,10 @@ class TransactionViewState extends State<TransactionView> {
     });
   }
 
-  TextButton _getPresentModallyButton(
-      {required Widget child, required Widget Function(BuildContext) builder}) {
+  TextButton _getPresentModallyButton({
+    required Widget child,
+    required Widget Function(BuildContext) builder,
+  }) {
     var textButton = TextButton(
         child: child,
         onPressed: () =>

@@ -125,7 +125,7 @@ class _MainViewState extends State<MainView> {
   }
 
   Widget _getKeyboard(BuildContext context) {
-    var keyboardHeightRatio = 0.387;
+    var keyboardHeightRatio = 0.3748;
     var size = MediaQuery.of(context).size;
     var bloc = BlocProvider(
         create: (context) => KeyboardCubit(),

@@ -84,7 +84,8 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
 
     var doneButton = DoneButton(onPressed: doneButtonHandler);
     var keyboard = Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         _getKeyboardHeader(context),
         Divider(height: 1, color: Theme.of(context).dividerTheme.color),
