@@ -1,23 +1,28 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'package:expenso/theme/text_theme_provider.dart';
 import 'package:flutter/material.dart';
 
-//TODO setup dividers' themes (Check numeric keyboard divider color and history)
+import 'package:expenso/theme/text_theme_provider.dart';
+
 //TODO implement func for get additionals colors for both themes
 class ThemeProvider {
   final _fontFamily = "SF Pro";
 
   ThemeData getTheme() {
     var colorScheme = _getColorScheme();
+
+    var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
     var additionalColors = const AdditionalColors(
       background1: Color.fromRGBO(238, 238, 238, 1),
       dotInactiveColor: Color.fromRGBO(221, 221, 221, 1),
     );
-    var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
+
+    var dividerColors = const DividerColors(
+      keyboard: Color.fromRGBO(144, 144, 144, 1),
+      history: Color.fromRGBO(238, 238, 238, 1),
+      historyFirstSection: Color.fromRGBO(144, 144, 144, 1),
+      welcome: Color.fromRGBO(144, 144, 144, 1),
+    );
+
     return ThemeData(
-      dividerTheme:
-          const DividerThemeData(color: Color.fromARGB(255, 84, 31, 31)),
       bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: Colors.white,
       ),
@@ -27,20 +32,27 @@ class ThemeProvider {
       fontFamily: _fontFamily,
       colorScheme: colorScheme,
       textTheme: textTheme.getTextTheme(),
-      extensions: [additionalColors],
+      extensions: [additionalColors, dividerColors],
     );
   }
 
   ThemeData getDarkTheme() {
     var colorScheme = _getDarkColorScheme();
+
+    var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
     var additionalColors = const AdditionalColors(
       background1: Color.fromRGBO(43, 43, 43, 1),
       dotInactiveColor: Color.fromRGBO(221, 221, 221, 1),
     );
-    var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
+
+    var dividerColors = const DividerColors(
+      keyboard: Color.fromRGBO(34, 34, 34, 1),
+      history: Color.fromRGBO(30, 30, 30, 1),
+      historyFirstSection: Color.fromRGBO(144, 144, 144, 1),
+      welcome: Color.fromRGBO(144, 144, 144, 1),
+    );
+
     return ThemeData(
-      dividerTheme:
-          const DividerThemeData(color: Color.fromRGBO(34, 34, 34, 1)),
       bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: Color.fromRGBO(34, 34, 34, 1),
       ),
@@ -50,7 +62,10 @@ class ThemeProvider {
       fontFamily: _fontFamily,
       colorScheme: _getDarkColorScheme(),
       textTheme: textTheme.getTextTheme(),
-      extensions: [additionalColors],
+      extensions: [
+        additionalColors,
+        dividerColors,
+      ],
     );
   }
 
@@ -70,6 +85,51 @@ class ThemeProvider {
       surface: Color.fromRGBO(34, 34, 34, 1),
       surfaceTint: Color.fromRGBO(34, 34, 34, 1),
       background: Color.fromRGBO(34, 34, 34, 1),
+    );
+  }
+}
+
+class DividerColors extends ThemeExtension<DividerColors> {
+  const DividerColors({
+    required this.keyboard,
+    required this.history,
+    required this.historyFirstSection,
+    required this.welcome,
+  });
+
+  final Color keyboard;
+  final Color history;
+  final Color historyFirstSection;
+  final Color welcome;
+
+  @override
+  ThemeExtension<DividerColors> copyWith({
+    Color? keyboard,
+    Color? history,
+    Color? historyFirstSection,
+    Color? welcome,
+  }) {
+    return DividerColors(
+      keyboard: keyboard ?? this.keyboard,
+      history: history ?? this.history,
+      historyFirstSection: historyFirstSection ?? this.historyFirstSection,
+      welcome: welcome ?? this.welcome,
+    );
+  }
+
+  @override
+  ThemeExtension<DividerColors> lerp(
+      covariant ThemeExtension<DividerColors>? other, double t) {
+    if (other is! DividerColors) {
+      return this;
+    }
+    return DividerColors(
+      keyboard: Color.lerp(keyboard, other.keyboard, t) ?? keyboard,
+      history: Color.lerp(history, other.history, t) ?? history,
+      historyFirstSection:
+          Color.lerp(historyFirstSection, other.historyFirstSection, t) ??
+              historyFirstSection,
+      welcome: Color.lerp(welcome, other.welcome, t) ?? welcome,
     );
   }
 }

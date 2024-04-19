@@ -5,6 +5,7 @@ import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/views/chart.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focused_menu/modals.dart';
@@ -109,11 +110,13 @@ class History extends StatelessWidget {
       // },
       sectionSeparatorBuilder: (context, section) {
         var isFirstSection = section == 0;
-        var color = isFirstSection
-            ? const Color.fromRGBO(144, 144, 144, 1)
-            : Theme.of(context).dividerTheme.color;
-
-        var divider = Divider(thickness: 1, color: color);
+        var dividerExtension = Theme.of(context).extension<DividerColors>()!;
+        
+        var dividerColor = isFirstSection
+            ? dividerExtension.historyFirstSection
+            : dividerExtension.history;
+        var divider = Divider(thickness: 1, color: dividerColor);
+        
         var padding = Padding(
           padding: EdgeInsets.symmetric(horizontal: isFirstSection ? 0 : 32),
           child: divider,

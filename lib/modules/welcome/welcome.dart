@@ -91,8 +91,9 @@ class _WelcomeState extends State<Welcome> {
 
     var divider = Divider(
       height: 1,
-      color: Theme.of(context).dividerTheme.color,
+      color: Theme.of(context).extension<DividerColors>()!.welcome,
     );
+
     var list = ListView.builder(
       itemCount: categories.length,
       itemBuilder: (buildContext, id) {
@@ -140,7 +141,6 @@ class _WelcomeState extends State<Welcome> {
           height: listHeght,
           child: list,
         ),
-        // Expanded(child: Container(child: list)),
       ],
     );
 
@@ -168,12 +168,13 @@ class _WelcomeState extends State<Welcome> {
             _cubit.createCategoryHandler();
             setState(() {});
           });
-
-      var padding = Padding(
+      var container = Container(
         padding: const EdgeInsets.only(left: 20),
+        color: Theme.of(context).extension<AdditionalColors>()!.background1,
         child: addCategoryButton,
       );
-      header = padding;
+
+      header = container;
     } else {
       header = EnterTextBottomSheet(
         hintText: "category name", //TODO localize

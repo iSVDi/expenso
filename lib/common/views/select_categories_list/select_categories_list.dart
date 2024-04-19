@@ -53,9 +53,13 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   Widget _getBody(BuildContext context) {
+    var dividerExtension = Theme.of(context).extension<DividerColors>()!;
+    var dividerColor = widget.isManagingCategories
+        ? dividerExtension.history
+        : dividerExtension.keyboard;
     var columnChildren = [
       _getHeader(context),
-      Divider(height: 1, color: Theme.of(context).dividerTheme.color),
+      Divider(height: 1, color: dividerColor),
       _getCategoriesList(context)
     ];
     var column = Column(

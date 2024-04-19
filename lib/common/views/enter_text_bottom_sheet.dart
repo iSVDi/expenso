@@ -1,4 +1,5 @@
 import 'package:expenso/common/views/done_button.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import "package:flutter/material.dart";
 
 class EnterTextBottomSheet extends StatefulWidget {
@@ -34,9 +35,14 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
   Widget build(BuildContext context) {
     var onPressed = _controller.text.isNotEmpty ? _doneButtonHandler : null;
     var button = DoneButton(isLargeButton: false, onPressed: onPressed);
-
+    var decoration = InputDecoration(
+      hintText: widget.hintText,
+      border: InputBorder.none,
+      fillColor: Theme.of(context).extension<AdditionalColors>()!.background1,
+      filled: true,
+    );
     var textField = TextField(
-      decoration: InputDecoration(hintText: widget.hintText),
+      decoration: decoration,
       controller: _controller,
       onSubmitted: (String value) async => _doneButtonHandler(),
       onChanged: (_) => setState(() {}),

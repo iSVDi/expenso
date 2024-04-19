@@ -21,11 +21,11 @@ class TransactionRepository implements RepositorySubject {
     _transactions
         .query()
         .watch(triggerImmediately: true)
-        .listen(observersNotifier);
+        .listen(_notifyObservers);
   }
 
   //* Observer implementation
-  void observersNotifier(Query<Transaction> event) {
+  void _notifyObservers(Query<Transaction> event) {
     for (var observer in _observers) {
       observer.update();
     }

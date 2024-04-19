@@ -2,6 +2,7 @@ import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
 import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/done_button.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenso/extensions/date_time.dart';
@@ -78,17 +79,20 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
   Widget _getKeyboard(BuildContext context) {
     var doneButtonHandler = isDoneButtonDisabled
         ? null
-        : () {
-            widget.doneButtonCallback(widget.amount, widget.dateTime);
-          };
+        : () => widget.doneButtonCallback(widget.amount, widget.dateTime);
 
     var doneButton = DoneButton(onPressed: doneButtonHandler);
+
+    var divider = Divider(
+      height: 1,
+      color: Theme.of(context).extension<DividerColors>()!.keyboard,
+    );
     var keyboard = Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         _getKeyboardHeader(context),
-        Divider(height: 1, color: Theme.of(context).dividerTheme.color),
+        divider,
         _getNumericKeyboard(context),
       ],
     );
