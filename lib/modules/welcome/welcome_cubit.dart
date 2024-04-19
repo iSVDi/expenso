@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/categories_repository.dart';
-import 'package:expenso/theme/cubit/app_preferences.dart';
+import 'package:expenso/common/app_preferences.dart';
 import 'package:flutter/material.dart';
 
 class SlideModel {

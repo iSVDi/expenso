@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-//TODO set colors for dark mode
 class DoneButton extends StatefulWidget {
   final bool isLargeButton;
   final Function()? onPressed;

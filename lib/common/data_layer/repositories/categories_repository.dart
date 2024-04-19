@@ -4,7 +4,7 @@ import '../../../main.dart';
 
 class CategoriesRepository {
   static const _noCategoryId = 1;
-  final Box<Category> _categories = objectBoxStore.box<Category>();
+  final Box<Category> _categories = objectBoxStoreKeeper.getObjectBoxStore.box<Category>();
 
   CategoriesRepository() {
     if (_categories.isEmpty()) {

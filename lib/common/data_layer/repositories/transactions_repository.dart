@@ -14,7 +14,7 @@ abstract class RepositorySubject {
 }
 
 class TransactionRepository implements RepositorySubject {
-  final Box<Transaction> _transactions = objectBoxStore.box<Transaction>();
+  final Box<Transaction> _transactions = objectBoxStoreKeeper.getObjectBoxStore.box<Transaction>();
   final List<RepositoryObserver> _observers = [];
 
   TransactionRepository() {

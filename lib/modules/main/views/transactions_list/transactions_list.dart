@@ -60,7 +60,6 @@ class TransactionsList extends StatelessWidget {
   }
 
 //TODO localize
-//TODO use textTheme
   void _showAlert(BuildContext context, Transaction transaction) {
     showDialog(
         context: context,
