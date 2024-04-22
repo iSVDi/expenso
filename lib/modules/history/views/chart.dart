@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:expenso/modules/history/models/select_category_model.dart';
@@ -46,12 +49,18 @@ class _ChartState extends State<Chart> {
         ?.copyWith(color: theme.colorScheme.onBackground);
     var primaryYAxis = NumericAxis(
       labelStyle: axisesStyle,
+      axisLine: const AxisLine(width: 0),
+      majorTickLines: const MajorTickLines(width: 0),
+      majorGridLines: MajorGridLines(
+          color: Theme.of(context).colorScheme.onBackground,
+          dashArray: const [8]),
       minimum: 0,
       maximum: widget.data.sum,
       opposedPosition: true,
     );
     var series = <CartesianSeries<SelectCategoryModel, String>>[
       BarSeries<SelectCategoryModel, String>(
+        width: 0.3,
         dataSource: widget.data.chartCategories.reversed.toList(),
         xValueMapper: (SelectCategoryModel data, _) => data.category.title,
         yValueMapper: (SelectCategoryModel data, _) => data.value,
@@ -60,7 +69,11 @@ class _ChartState extends State<Chart> {
     ];
 
     var chart = SfCartesianChart(
+      plotAreaBorderWidth: 0,
       primaryXAxis: CategoryAxis(
+        axisLine: const AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         labelStyle: axisesStyle,
       ),
       primaryYAxis: primaryYAxis,
