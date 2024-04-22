@@ -36,7 +36,6 @@ class SelectAppearance extends StatelessWidget {
         children: themeModes.map((mode) {
           var text = Text(mode.name, textAlign: TextAlign.center);
 
-          //TODO use colorScheme
           var color = mode == bloc.state.themeMode
               ? colorScheme.primary
               : colorScheme.background;

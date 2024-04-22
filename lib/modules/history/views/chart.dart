@@ -112,7 +112,6 @@ class _ChartState extends State<Chart> {
     return (backButton, forwardButton);
   }
 
-//TODO add percent for values on donut chart
   Widget _getCategoriesWidget(BuildContext context) {
     var textColor = Theme.of(context).colorScheme.background;
     var data = widget.data;
@@ -120,20 +119,11 @@ class _ChartState extends State<Chart> {
         Theme.of(context).textTheme.labelLarge?.copyWith(color: textColor);
     var allCategories = data.selectedCategories + data.notSelectedCategories;
     var buttons = allCategories.map((e) {
-      List<Widget> children;
-      if (data.selectedCategories.contains(e)) {
-        children = [
-          Text(e.value.toStringAsFixed(0), style: textStyle),
-          const SizedBox(width: 10),
-          Text(e.category.title, style: textStyle),
-        ];
-      } else {
-        children = [Text(e.category.title, style: textStyle)];
-      }
-      return _getSelectCategoryButton(
-        rowChildren: children,
-        model: e,
-      );
+      var buttonsChild =
+          _getCategoryButtonChild(model: e, textStyle: textStyle);
+      var button =
+          _getSelectCategoryButton(buttonsChild: buttonsChild, model: e);
+      return button;
     }).toList();
 
     var wrap = Wrap(
@@ -162,15 +152,33 @@ class _ChartState extends State<Chart> {
         children: [resetButton, wrap]);
   }
 
-  Widget _getSelectCategoryButton({
-    required List<Widget> rowChildren,
+  Row _getCategoryButtonChild({
     required SelectCategoryModel model,
+    required TextStyle? textStyle,
   }) {
+    List<Widget> children = [Text(model.category.title, style: textStyle)];
+
+    if (widget.data.selectedCategories.contains(model)) {
+      var isDonutChart = widget.data.chartType == ChartType.donut;
+      var valueSign = isDonutChart ? "%" : "";
+      var value = isDonutChart && model.value < 1
+          ? "< 1$valueSign"
+          : model.value.toStringAsFixed(0) + valueSign;
+      children =
+          [Text(value, style: textStyle), const SizedBox(width: 10)] + children;
+    }
+
     var row = Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
-        children: rowChildren);
+        children: children);
+    return row;
+  }
 
+  Widget _getSelectCategoryButton({
+    required Row buttonsChild,
+    required SelectCategoryModel model,
+  }) {
     var button = TextButton(
       style: TextButton.styleFrom(
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -181,7 +189,7 @@ class _ChartState extends State<Chart> {
       onPressed: () {
         widget.selectCategoryHandler(model.category);
       },
-      child: row,
+      child: buttonsChild,
     );
     return button;
   }

@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
           darkTheme: themeProvider.getDarkTheme(),
           themeMode: state.themeMode,
           home: home,
-          routes: {"/home": (builderContext) => home},
         );
         return materialApp;
       },
