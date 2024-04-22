@@ -6,8 +6,6 @@ enum _AppPreferencesKeys {
   isFirstLaunch,
 }
 
-//TODO key must be private
-//? where should be this file
 class AppPreferences {
   Future<void> setThemeMode(ThemeMode themeMode) async {
     await sharedPreferencesKeeper.getSharedPreferences

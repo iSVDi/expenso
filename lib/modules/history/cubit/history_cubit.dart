@@ -1,4 +1,3 @@
-
 import 'package:expenso/modules/history/cubit/date_range_helper.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -113,14 +112,15 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     var allCategories = _getCategoriesByTransactions();
     List<SelectCategoryModel> chartCategories() {
       if (state.selectedCategories.isEmpty) {
-        return allCategories.toList();
+        return allCategories.reduce((value, element) => value + element);
       }
-      var res = allCategories.where((element) {
-        return state.selectedCategories.contains(element.category);
-      }).toList();
-      return res;
+      return allCategories[0];
     }
 
+    List<SelectCategoryModel> selectedCategories =
+        state.selectedCategories.isEmpty ? allCategories[1] : allCategories[0];
+    List<SelectCategoryModel> notSelectedCategories =
+        state.selectedCategories.isEmpty ? [] : allCategories[1];
     var needSetForwardHandler = dateRangeHelper.needSetForwardHandler(
         currentDateRange: state.dateRange);
 
@@ -131,7 +131,8 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
         sum: getSum(),
         chartType: state.chartType,
         chartCategories: chartCategories(),
-        selectableCategories: allCategories,
+        selectedCategories: selectedCategories,
+        notSelectedCategories: notSelectedCategories,
         forwardTimeFrameButtonHandler:
             needSetForwardHandler ? _forwardTimeFrameHandler : null,
         backTimeFrameButtonHandler:
@@ -170,7 +171,8 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
 
 //* Helpers
 //TODO need sort by value and selecting status, refactoring
-  List<SelectCategoryModel> _getCategoriesByTransactions() {
+  ///return: [selected categories, not selected categories]
+  List<List<SelectCategoryModel>> _getCategoriesByTransactions() {
     // Mapping of categories with zero spendings
     var categoriesMap = Map.fromEntries(
         state.transactions.map((e) => MapEntry(e.category.target!, 0.0)));
@@ -180,24 +182,34 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     }
 
     var sum = getSum();
+    List<SelectCategoryModel> selectedCategories = [];
+    List<SelectCategoryModel> notSelectedCategories = [];
 
-    var res = categoriesMap.entries.map((e) {
+    categoriesMap.entries.forEach((e) {
       var value =
           state.chartType == ChartType.bar ? e.value : (e.value * 100 / sum);
       var noNeedSetCustomOpacity = state.selectedCategories.contains(e.key) ||
           state.selectedCategories.isEmpty;
       var alphaColor = noNeedSetCustomOpacity ? 255 : 60;
 
-      return SelectCategoryModel(
+      var model = SelectCategoryModel(
         category: e.key,
-        value: noNeedSetCustomOpacity ? value : 0,
+        value: value,
         color: _getCategoryColor(e.key.id).withAlpha(alphaColor),
       );
-    }).toList();
+      if (state.selectedCategories.contains(e.key)) {
+        selectedCategories.add(model);
+      } else {
+        notSelectedCategories.add(model);
+      }
+    });
 
-    res.sort((a, b) => a.value > b.value ? -1 : 1);
-    // res.
+    selectedCategories.sort((a, b) => a.value > b.value ? -1 : 1);
+    notSelectedCategories.sort((a, b) => a.value > b.value ? -1 : 1);
+
+    var res = [selectedCategories, notSelectedCategories];
     return res;
+    
   }
 
   void _forwardTimeFrameHandler() {

@@ -5,7 +5,8 @@ class ChartModel {
   double sum;
   ChartType chartType;
   List<SelectCategoryModel> chartCategories;
-  List<SelectCategoryModel> selectableCategories;
+  List<SelectCategoryModel> selectedCategories;
+  List<SelectCategoryModel> notSelectedCategories;
   Function()? backTimeFrameButtonHandler;
   Function()? forwardTimeFrameButtonHandler;
 
@@ -13,7 +14,8 @@ class ChartModel {
       {required this.sum,
       required this.chartType,
       required this.chartCategories,
-      required this.selectableCategories,
+      required this.selectedCategories,
+      required this.notSelectedCategories,
       this.backTimeFrameButtonHandler,
       this.forwardTimeFrameButtonHandler});
 }

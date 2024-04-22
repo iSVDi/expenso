@@ -181,7 +181,6 @@ class _WelcomeState extends State<Welcome> {
         bottomInsets: 0,
         isPresentedModally: false,
         callback: (categoryName) {
-          //TODO implement
           _cubit.saveNewCategory(categoryName);
           setState(() {});
         },

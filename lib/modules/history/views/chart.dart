@@ -36,7 +36,7 @@ class _ChartState extends State<Chart> {
     }
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       chart,
-      _getCategoriesButtons(context),
+      _getCategoriesWidget(context),
     ]);
   }
 
@@ -113,40 +113,27 @@ class _ChartState extends State<Chart> {
   }
 
 //TODO add percent for values on donut chart
-  Widget _getCategoriesButtons(BuildContext context) {
+  Widget _getCategoriesWidget(BuildContext context) {
     var textColor = Theme.of(context).colorScheme.background;
+    var data = widget.data;
     var textStyle =
         Theme.of(context).textTheme.labelLarge?.copyWith(color: textColor);
-    var buttons = widget.data.selectableCategories.map((e) {
-      List<Widget> children = [Text(e.category.title, style: textStyle)];
-
-      if (widget.data.chartCategories
-          .map((e) => e.category)
-          .contains(e.category)) {
+    var allCategories = data.selectedCategories + data.notSelectedCategories;
+    var buttons = allCategories.map((e) {
+      List<Widget> children;
+      if (data.selectedCategories.contains(e)) {
         children = [
-              Text(e.value.toStringAsFixed(0), style: textStyle),
-              const SizedBox(width: 10)
-            ] +
-            children;
+          Text(e.value.toStringAsFixed(0), style: textStyle),
+          const SizedBox(width: 10),
+          Text(e.category.title, style: textStyle),
+        ];
+      } else {
+        children = [Text(e.category.title, style: textStyle)];
       }
-      var row = Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: children);
-
-      var button = TextButton(
-        style: TextButton.styleFrom(
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          minimumSize: Size.zero,
-          backgroundColor: e.color,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-        ),
-        onPressed: () {
-          widget.selectCategoryHandler(e.category);
-        },
-        child: row,
+      return _getSelectCategoryButton(
+        rowChildren: children,
+        model: e,
       );
-      return button;
     }).toList();
 
     var wrap = Wrap(
@@ -173,5 +160,29 @@ class _ChartState extends State<Chart> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [resetButton, wrap]);
+  }
+
+  Widget _getSelectCategoryButton({
+    required List<Widget> rowChildren,
+    required SelectCategoryModel model,
+  }) {
+    var row = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: rowChildren);
+
+    var button = TextButton(
+      style: TextButton.styleFrom(
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        minimumSize: Size.zero,
+        backgroundColor: model.color,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+      ),
+      onPressed: () {
+        widget.selectCategoryHandler(model.category);
+      },
+      child: row,
+    );
+    return button;
   }
 }

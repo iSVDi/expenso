@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:expenso/theme/text_theme_provider.dart';
 
 //TODO implement func for get additionals colors for both themes
+//TODO! refactoring
 class ThemeProvider {
   final _fontFamily = "SF Pro";
 
@@ -146,11 +147,11 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
   @override
   ThemeExtension<AdditionalColors> copyWith({
     Color? background1,
-    Color? dotColor,
+    Color? dotInactiveColor,
   }) {
     return AdditionalColors(
       background1: background1 ?? this.background1,
-      dotInactiveColor: dotColor ?? this.dotInactiveColor,
+      dotInactiveColor: dotInactiveColor ?? this.dotInactiveColor,
     );
   }
 
