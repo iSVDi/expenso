@@ -49,6 +49,7 @@ class History extends StatelessWidget {
     );
     return AppBar(
       centerTitle: true,
+      //TODO localize
       title: Text("анализ расходов",
           style: Theme.of(context)
               .textTheme
@@ -111,12 +112,12 @@ class History extends StatelessWidget {
       sectionSeparatorBuilder: (context, section) {
         var isFirstSection = section == 0;
         var dividerExtension = Theme.of(context).extension<DividerColors>()!;
-        
+
         var dividerColor = isFirstSection
             ? dividerExtension.historyFirstSection
             : dividerExtension.history;
         var divider = Divider(thickness: 1, color: dividerColor);
-        
+
         var padding = Padding(
           padding: EdgeInsets.symmetric(horizontal: isFirstSection ? 0 : 32),
           child: divider,
@@ -125,7 +126,7 @@ class History extends StatelessWidget {
       },
     );
 
-    return list;
+    return SafeArea(child: list);
   }
 
   Widget _getChartHeader(BuildContext context) {

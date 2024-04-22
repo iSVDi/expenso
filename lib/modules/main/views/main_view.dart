@@ -1,6 +1,7 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import 'package:expenso/modules/settings/settings.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -32,24 +33,23 @@ class _MainViewState extends State<MainView> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var scaffold = Scaffold(
       appBar: _getAppBar(context),
       body: _getBody(context),
       resizeToAvoidBottomInset: false,
     );
+    return scaffold;
   }
 
   PreferredSizeWidget? _getAppBar(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
-    var column = Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(sum, style: textTheme.displayMedium),
-          Text("spent today", style: textTheme.titleMedium),
-        ],
-      ),
+
+    var column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(sum, style: textTheme.displayMedium),
+        Text("spent today", style: textTheme.titleMedium), //TODO localize
+      ],
     );
     var appBar = AppBar(
       automaticallyImplyLeading: false,
@@ -66,7 +66,7 @@ class _MainViewState extends State<MainView> {
 
     var preferredSize = PreferredSize(
       preferredSize: const Size.fromHeight(100),
-      child: padding,
+      child: SafeArea(child: padding),
     );
     return preferredSize;
   }
@@ -109,7 +109,10 @@ class _MainViewState extends State<MainView> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         _getTransactionListView(),
-        _getKeyboard(context),
+        ColoredBox(
+          color: Theme.of(context).extension<AdditionalColors>()!.background1,
+          child: SafeArea(child: _getKeyboard(context)),
+        ),
       ],
     );
   }
@@ -125,12 +128,13 @@ class _MainViewState extends State<MainView> {
   }
 
   Widget _getKeyboard(BuildContext context) {
-    var keyboardHeightRatio = 0.3748;
+    var keyboardHeightRatio = 0.387;
     var size = MediaQuery.of(context).size;
+    var height = size.height - MediaQuery.of(context).padding.vertical;
     var bloc = BlocProvider(
         create: (context) => KeyboardCubit(),
         child: EnterTransactionData(
-          size: Size(size.width, size.height * keyboardHeightRatio),
+          size: Size(size.width, height * keyboardHeightRatio),
         ));
     return bloc;
   }
