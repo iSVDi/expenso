@@ -25,8 +25,12 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     Colors.pink,
   ];
 
-  DateTimeRange get getCalendarTimeRange =>
-      dateRangeHelper.getCalendarTimeRange();
+  DateTimeRange getCalendarTimeRange() {
+    var start = _repository.readEarliestTransactionDate() ?? DateTime.now();
+    var end = DateTime.now();
+    return DateTimeRange(start: start, end: end);
+  }
+
   // All transactions for current date range
   HistoryCubit()
       : super(HistoryState(
@@ -48,10 +52,9 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
 //* Interface
 
   void updateDateRange(DateTimeRange dateRange) {
-    var newTransactions = _repository.readByDateRange(
-        dateRange: dateRange, selectedCategories: state.selectedCategories);
-    _emitNewState(
-        dateRange, newTransactions, state.selectedCategories, state.chartType);
+    var newTransactions = _repository
+        .readByDateRange(dateRange: dateRange, selectedCategories: {});
+    _emitNewState(dateRange, newTransactions, {}, state.chartType);
   }
 
   double getSum() {
@@ -121,11 +124,6 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
         state.selectedCategories.isEmpty ? allCategories[1] : allCategories[0];
     List<SelectCategoryModel> notSelectedCategories =
         state.selectedCategories.isEmpty ? [] : allCategories[1];
-    var needSetForwardHandler = dateRangeHelper.needSetForwardHandler(
-        currentDateRange: state.dateRange);
-
-    var needSetBackHandler =
-        dateRangeHelper.needSetBackHandler(currentDateRange: state.dateRange);
 
     return ChartModel(
         sum: getSum(),
@@ -133,10 +131,63 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
         chartCategories: chartCategories(),
         selectedCategories: selectedCategories,
         notSelectedCategories: notSelectedCategories,
-        forwardTimeFrameButtonHandler:
-            needSetForwardHandler ? _forwardTimeFrameHandler : null,
-        backTimeFrameButtonHandler:
-            needSetBackHandler ? _backTimeFrameHandler : null);
+        forwardTimeFrameButtonHandler: _getForwardHandler(),
+        backTimeFrameButtonHandler: _getBackHandler());
+  }
+
+/*
+*OK
+rightLimit                              |
+calendarDateRange     |---------------------| 
+
+*OK
+rightLimit            |    
+calendarDateRange     |---------------------| 
+
+!BAD
+rightLimit           |
+calendarDateRange     |---------------------| 
+*/
+
+  Function()? _getForwardHandler() {
+    var rightLimit = _repository.readLatestTransactionDate();
+    if (rightLimit != null) {
+      var dateRange = dateRangeHelper.calculateNewDateRange(
+          currentDateRange: state.dateRange, toForward: true);
+      var canSetForwardHandler = rightLimit.compareTo(dateRange.start) >= 0;
+      if (canSetForwardHandler) {
+        handler() => updateDateRange(dateRange);
+        return handler;
+      }
+    }
+    return null;
+  }
+
+/*
+*OK
+leftLimit                     |
+calendarDateRange     |---------------------| 
+
+*OK
+leftLimit                                   |
+calendarDateRange     |---------------------| 
+
+!BAD
+leftLimit                                     |
+calendarDateRange     |---------------------| 
+*/
+  Function()? _getBackHandler() {
+    var leftLimit = _repository.readEarliestTransactionDate();
+    if (leftLimit != null) {
+      var dateRange = dateRangeHelper.calculateNewDateRange(
+          currentDateRange: state.dateRange, toForward: false);
+      var canSetBackHandler = leftLimit.compareTo(dateRange.end) <= 0;
+      if (canSetBackHandler) {
+        handler() => updateDateRange(dateRange);
+        return handler;
+      }
+    }
+    return null;
   }
 
   List<SectionHistory> getHistoryListData() {
@@ -210,25 +261,17 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     return res;
   }
 
-  void _forwardTimeFrameHandler() {
-    var newDateRange = dateRangeHelper.calculateNewDateRange(
-        currentDateRange: state.dateRange, toForward: true);
-    updateDateRange(newDateRange);
-  }
-
-  void _backTimeFrameHandler() {
-    var newDateRange = dateRangeHelper.calculateNewDateRange(
-        currentDateRange: state.dateRange, toForward: false);
-    updateDateRange(newDateRange);
-  }
-
   @override
   void update() {
     var newTransactions = _repository.readByDateRange(
         dateRange: state.dateRange,
         selectedCategories: state.selectedCategories);
-    _emitNewState(state.dateRange, newTransactions, state.selectedCategories,
-        state.chartType);
+    _emitNewState(
+      state.dateRange,
+      newTransactions,
+      state.selectedCategories,
+      state.chartType,
+    );
   }
 
   void _emitNewState(DateTimeRange dateRange, List<Transaction> transactions,

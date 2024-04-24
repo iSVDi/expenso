@@ -1,3 +1,5 @@
+import 'package:expenso/modules/main/views/main_view.dart';
+import 'package:expenso/modules/welcome/welcome.dart';
 import 'package:expenso/my_app/my_app_cubit.dart';
 import 'package:expenso/theme/cubit/theme_mode_cubit.dart';
 import 'package:expenso/theme/cubit/theme_mode_state.dart';
@@ -10,8 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = MyAppCubit();
-    var home = cubit.getHomeWidget();
+    var home = _getHomeWidget();
     var bloc = BlocBuilder<ThemeModeCubit, ThemeModeState>(
       builder: (builderContext, state) {
         var themeProvider = ThemeProvider();
@@ -27,5 +28,13 @@ class MyApp extends StatelessWidget {
     );
 
     return bloc;
+  }
+
+  Widget _getHomeWidget() {
+    var cubit = MyAppCubit();
+    if (cubit.needPresentOnBoarding()) {
+      return const Welcome();
+    }
+    return const MainView();
   }
 }

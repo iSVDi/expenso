@@ -33,10 +33,10 @@ class History extends StatelessWidget {
   }
 
   AppBar _getAppBar(BuildContext context) {
-    var cubit = _getCubit(context);
-    var dateRange = cubit.getCalendarTimeRange;
+    var cubit = _getCubit(context); 
     var iconButton = IconButton(
       onPressed: () async {
+        var dateRange = cubit.getCalendarTimeRange();
         var newDateRange = await showDateRangePicker(
             context: context,
             firstDate: dateRange.start,

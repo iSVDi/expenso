@@ -23,8 +23,7 @@ class DateRangeHelper {
     }
     var duration = currentDateRange.start.isAtSameMomentAs(currentDateRange.end)
         ? const Duration(days: 1)
-        : currentDateRange.duration;
-
+        : currentDateRange.duration + const Duration(days: 1);
     var start = toForward
         ? currentDateRange.start.add(duration)
         : currentDateRange.start.subtract(duration);
@@ -35,56 +34,6 @@ class DateRangeHelper {
     return newDateRange;
   }
 
-  /*
-*OK
-dateRange                                 |-------------|    
-calendarDateRange     |---------------------|                 
-
-*OK
-dateRange                                   |-------------|   
-calendarDateRange     |---------------------|                 
-
-!BAD
-dateRange                                   |-------------|   
-calendarDateRange     |---------------------|                 
-    */
-  bool needSetForwardHandler({required DateTimeRange currentDateRange}) {
-    var newDateRangeForwardDuration = calculateNewDateRange(
-            currentDateRange: currentDateRange, toForward: true)
-        .duration;
-
-    var res = currentDateRange.start
-            .add(newDateRangeForwardDuration)
-            .compareTo(getCalendarTimeRange().end) <=
-        0;
-    return res;
-  }
-
-  /*
-*OK
-dateRange               |-------------|
-calendarDateRange     |---------------------| 
-
-*OK
-dateRange             |-------------|
-calendarDateRange     |---------------------| 
-
-!BAD
-dateRange            |-------------|
-calendarDateRange     |---------------------| 
-    */
-  bool needSetBackHandler({required DateTimeRange currentDateRange}) {
-    var newDateRangeBackDuration = calculateNewDateRange(
-            currentDateRange: currentDateRange, toForward: false)
-        .duration;
-
-    var res = currentDateRange.start
-            .subtract(newDateRangeBackDuration)
-            .compareTo(getCalendarTimeRange().start) >=
-        0;
-    return res;
-  }
-
   bool _isCurrentDateRangeOneMonth(DateTimeRange currentDateRange) {
     var currentStart = currentDateRange.start;
     var monthStart = DateTime(currentStart.year, currentStart.month);
@@ -93,12 +42,5 @@ calendarDateRange     |---------------------|
     var monthDateRange = DateTimeRange(start: monthStart, end: monthEnd);
 
     return currentDateRange == monthDateRange;
-  }
-
-  DateTimeRange getCalendarTimeRange() {
-    var lastDate = DateTime.now();
-    var firstDate =
-        DateTime(lastDate.year - 1, lastDate.month, lastDate.day + 1);
-    return DateTimeRange(start: firstDate, end: lastDate);
   }
 }

@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
-import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:expenso/modules/history/models/select_category_model.dart';

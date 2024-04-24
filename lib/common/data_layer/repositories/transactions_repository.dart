@@ -14,7 +14,8 @@ abstract class RepositorySubject {
 }
 
 class TransactionRepository implements RepositorySubject {
-  final Box<Transaction> _transactions = objectBoxStoreKeeper.getObjectBoxStore.box<Transaction>();
+  final Box<Transaction> _transactions =
+      objectBoxStoreKeeper.getObjectBoxStore.box<Transaction>();
   final List<RepositoryObserver> _observers = [];
 
   TransactionRepository() {
@@ -79,6 +80,24 @@ class TransactionRepository implements RepositorySubject {
         .build();
     var res = query.find();
     return res;
+  }
+
+  DateTime? readEarliestTransactionDate() {
+    var transactions =
+        _transactions.query().order(Transaction_.date).build().find();
+    if (transactions.isNotEmpty) {
+      return transactions.first.date;
+    }
+    return null;
+  }
+
+  DateTime? readLatestTransactionDate() {
+    var transactions =
+        _transactions.query().order(Transaction_.date).build().find();
+    if (transactions.isNotEmpty) {
+      return transactions.last.date;
+    }
+    return null;
   }
 
   void updateLastTransactionsComment(String comment) {
