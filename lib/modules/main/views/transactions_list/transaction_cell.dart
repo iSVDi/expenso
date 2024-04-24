@@ -76,7 +76,6 @@ class TransactionCell extends StatelessWidget {
     return row;
   }
 
-//TODO localize
   Widget _getTransactionsColumn(BuildContext context) {
     var categoryStyle = Theme.of(context).textTheme.titleMedium;
     var categoryText =

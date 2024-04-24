@@ -7,6 +7,7 @@ import 'package:expenso/modules/main/views/transactions_list/transaction_view.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focused_menu/modals.dart';
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({super.key});
@@ -35,12 +36,13 @@ class TransactionsList extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, Transaction transaction) {
+    var localization = AppLocalizations.of(context)!;
     var viewItem = FocusedMenuItem(
-        title: const Text("View"),
+        title: Text(localization.view),
         onPressed: () => _presentTransaction(context, transaction));
 
     var deleteItem = FocusedMenuItem(
-        title: const Text("Delete"),
+        title: Text(localization.delete),
         onPressed: () => _showAlert(context, transaction));
 
     var cell = TransactionCell(
@@ -59,7 +61,7 @@ class TransactionsList extends StatelessWidget {
     );
   }
 
-//TODO localize
+//TODO fix layout
   void _showAlert(BuildContext context, Transaction transaction) {
     showDialog(
         context: context,
@@ -68,7 +70,7 @@ class TransactionsList extends StatelessWidget {
 
           var title = RichText(
               text: TextSpan(
-            text: "are you sure you want to delete ",
+            text: AppLocalizations.of(context)!.areYouSureTitle,
             style: theme.textTheme.headlineSmall?.copyWith(
               color: theme.colorScheme.primary,
               fontWeight: FontWeight.w300,
@@ -78,7 +80,7 @@ class TransactionsList extends StatelessWidget {
                 text: transaction.category.target!.title,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              const TextSpan(text: " ?"),
+              const TextSpan(text: "?"),
             ],
           ));
 

@@ -8,6 +8,7 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list_interactor.dart';
 import 'package:expenso/common/views/done_button.dart';
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class SelectCategoriesList extends StatefulWidget {
   final bool isManagingCategories;
@@ -80,7 +81,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
       color: textColor,
     );
     var addCategoryText = Text(
-      "Создать категорию", // todo localize
+      AppLocalizations.of(context)!.createCategory,
       style: Theme.of(context).textTheme.titleMedium,
     );
     var titlesRow = Row(
@@ -179,8 +180,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   void _addCategoryButtonHandler(BuildContext context) {
     enterTextBottomSheet(BuildContext buildContext) {
       return EnterTextBottomSheet(
-        //TODO localize
-        hintText: "Enter category name",
+        hintText: AppLocalizations.of(context)!.enterCategoryName,
         bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
         callback: (categoryName) => _interactor.addCategory(categoryName),
       );
@@ -194,9 +194,8 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   void _showEditCategorySheet(BuildContext context, Category category) {
     enterTextBottomSheet(BuildContext buildContext) {
       return EnterTextBottomSheet(
-          //TODO localize
           text: category.title,
-          hintText: "hintText",
+          hintText: AppLocalizations.of(context)!.enterCategoryName,
           bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
           callback: (String newCategoryName) {
             _interactor.editCategory(

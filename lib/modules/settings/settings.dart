@@ -1,6 +1,7 @@
 import 'package:expenso/modules/settings/appearance.dart';
 import 'package:expenso/modules/settings/my_categories_list.dart';
 import 'package:flutter/material.dart';
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -35,8 +36,8 @@ class Settings extends StatelessWidget {
 
   _SettingsItemModel _getMyCategoriesModel(BuildContext context) {
     return _SettingsItemModel(
-      child:
-          Text("мои категории", style: Theme.of(context).textTheme.titleMedium),
+      child: Text(AppLocalizations.of(context)!.myCategories,
+          style: Theme.of(context).textTheme.titleMedium),
       onTap: () {
         Navigator.push(
             context,
@@ -70,4 +71,3 @@ class _SettingsItemModel {
     required this.onTap,
   });
 }
-

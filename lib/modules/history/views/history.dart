@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:group_list_view/group_list_view.dart';
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class History extends StatelessWidget {
   const History({super.key});
@@ -49,8 +50,7 @@ class History extends StatelessWidget {
     );
     return AppBar(
       centerTitle: true,
-      //TODO localize
-      title: Text("анализ расходов",
+      title: Text(AppLocalizations.of(context)!.expensesAnalysis,
           style: Theme.of(context)
               .textTheme
               .titleLarge
@@ -141,9 +141,10 @@ class History extends StatelessWidget {
         .titleMedium!
         .copyWith(letterSpacing: 0.01, height: 1.2);
     var text = Text(
-      "начните вносить расходы и здесь появится статистика по категориям",
+      // "начните вносить расходы и здесь появится статистика по категориям"
+      AppLocalizations.of(context)!.historyPlugTitle,
       style: textStyle,
-    ); //TODO localize
+    );
 
     var column = Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -189,14 +190,13 @@ class History extends StatelessWidget {
     return padding;
   }
 
-// TODO localize
   Widget _itemBuilder(BuildContext context, Transaction transaction) {
     var viewItem = FocusedMenuItem(
-        title: const Text("View"),
+        title: Text(AppLocalizations.of(context)!.view),
         onPressed: () => _presentTransaction(context, transaction));
 
     var deleteItem = FocusedMenuItem(
-        title: const Text("Delete"),
+        title: Text(AppLocalizations.of(context)!.delete),
         onPressed: () => _getCubit(context).deleteTransaction(transaction));
 
     var cell = TransactionCell(

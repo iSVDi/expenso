@@ -1,5 +1,6 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class RequestCommentSheet extends StatefulWidget {
   final Function(bool) callback;
@@ -14,12 +15,12 @@ class RequestCommentSheet extends StatefulWidget {
 
 class RequestCommentSheetState extends State<RequestCommentSheet> {
   @override
-  //TODO localize
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var textStyle = theme.textTheme.titleMedium
         ?.copyWith(color: theme.colorScheme.onBackground);
-    var buttonsText = Text("добавить комментарий", style: textStyle);
+    var buttonsText =
+        Text(AppLocalizations.of(context)!.addComment, style: textStyle);
     var button = TextButton(
       onPressed: () => prepareForClose(true),
       child: buttonsText,
@@ -57,7 +58,7 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
       isReverse: true,
       isReverseAnimation: true,
       timeFormatterFunction: (defaultFormatterFunction, duration) {
-        return "${duration.inSeconds} c"; //TODO localize
+        return AppLocalizations.of(context)!.secondsTitle(duration.inSeconds);
       },
       onComplete: () {
         prepareForClose(false);

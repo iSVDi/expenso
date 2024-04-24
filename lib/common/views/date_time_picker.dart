@@ -2,6 +2,7 @@ import 'package:expenso/common/views/rounded_button.dart';
 import "package:flutter/material.dart";
 
 import 'package:expenso/extensions/date_time.dart';
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 // ignore: must_be_immutable
 class DateTimePicker extends StatefulWidget {
@@ -31,7 +32,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
 
     var applyButton = RoundedButton.getActionButton(
       context: context,
-      text: "apply", //todo localize
+      text: AppLocalizations.of(context)!.apply,
       onPressed: () => widget.callback(widget.selectedDate),
     );
 

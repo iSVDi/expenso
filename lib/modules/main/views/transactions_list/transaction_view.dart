@@ -6,7 +6,7 @@ import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
 import 'package:flutter/material.dart';
-
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import 'package:expenso/common/data_layer/models/transaction.dart';
 
 class TransactionView extends StatefulWidget {
@@ -117,15 +117,14 @@ class TransactionViewState extends State<TransactionView> {
     return textButton;
   }
 
-//TODO localize
   Widget _getCommentButton() {
     var comment =
-        transaction.comment.isEmpty ? "add Comment" : transaction.comment;
+        transaction.comment.isEmpty ? AppLocalizations.of(context)!.addComment : transaction.comment;
     var textStyle = _getTheme(context).textTheme.titleMedium;
     var text = Text(comment, style: textStyle);
     enterTextBottomSheet(BuildContext builderContext) {
       return EnterTextBottomSheet(
-          hintText: "add Comment",
+          hintText: AppLocalizations.of(context)!.addComment,
           bottomInsets: MediaQuery.of(context).viewInsets.bottom,
           callback: (comment) => _updateComment(comment));
     }

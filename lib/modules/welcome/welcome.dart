@@ -4,7 +4,7 @@ import 'package:expenso/common/views/rounded_button.dart';
 import 'package:expenso/modules/main/views/main_view.dart';
 import 'package:expenso/modules/welcome/welcome_cubit.dart';
 import 'package:flutter/material.dart';
-
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import 'package:expenso/theme/theme_provider.dart';
 
 class Welcome extends StatefulWidget {
@@ -24,7 +24,7 @@ class _WelcomeState extends State<Welcome> {
 
   @override
   Widget build(BuildContext context) {
-    var models = _cubit.getSlideModels(Theme.of(context).brightness);
+    var models = _cubit.getSlideModels(context, Theme.of(context).brightness);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(actions: const []),
@@ -156,7 +156,7 @@ class _WelcomeState extends State<Welcome> {
         color: textColor,
       );
       var addCategoryText = Text(
-        "Создать категорию", // todo localize
+        AppLocalizations.of(context)!.createCategory,
         style: Theme.of(context).textTheme.titleMedium,
       );
       var titlesRow =
@@ -177,7 +177,7 @@ class _WelcomeState extends State<Welcome> {
       header = container;
     } else {
       header = EnterTextBottomSheet(
-        hintText: "category name", //TODO localize
+        hintText: AppLocalizations.of(context)!.categoryName,
         bottomInsets: 0,
         isPresentedModally: false,
         callback: (categoryName) {
@@ -220,7 +220,7 @@ class _WelcomeState extends State<Welcome> {
   Widget _getButton(BuildContext context) {
     return RoundedButton.getActionButton(
         context: context,
-        text: _cubit.getButtonTitle(_currentSlideId),
+        text: _cubit.getButtonTitle(context, _currentSlideId),
         onPressed: () {
           if (_currentSlideId == _lastSlideId) {
             _cubit.lastSlidePresentedHander();

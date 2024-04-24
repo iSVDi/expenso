@@ -3,6 +3,7 @@ import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/categories_repository.dart';
 import 'package:expenso/common/app_preferences.dart';
 import 'package:flutter/material.dart';
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class SlideModel {
   final int number;
@@ -26,6 +27,8 @@ class SelectableCategory {
 class WelcomeCubit {
   final categoryRepository = CategoriesRepository();
   var _isEnteringNewCategory = false;
+
+  //TODO localize
   // ignore: prefer_final_fields
   var _categories = [
     SelectableCategory(name: "🏠 household"),
@@ -44,15 +47,15 @@ class WelcomeCubit {
     SelectableCategory(name: "❓ other"),
   ];
 
-  List<SlideModel> getSlideModels(Brightness brightness) {
-    //TODO localize
+  List<SlideModel> getSlideModels(BuildContext context, Brightness brightness) {
+    var localization = AppLocalizations.of(context)!;
     var titles = [
-      "введите\nпотраченную сумму",
-      "выберите дату и время,\nесли транзакция была\nсовершена ранее",
-      "выберите\nкатегорию расходов",
-      "создайте категорию,\nесли её нет в списке",
-      "выберите свои\nкатегории расходов",
-      "анализируйте свои\nрасходы",
+      localization.welcome1Title,
+      localization.welcome2Title,
+      localization.welcome3Title,
+      localization.welcome4Title,
+      localization.welcome5Title,
+      localization.welcome6Title,
     ];
     var res = titles.map((e) {
       var id = titles.indexOf(e) + 1;
@@ -82,15 +85,16 @@ class WelcomeCubit {
     _categories.insert(0, element);
   }
 
-  String getButtonTitle(int id) {
+  String getButtonTitle(BuildContext context, int id) {
+    var localization = AppLocalizations.of(context)!;
     var isSelectedCategory =
         _categories.indexWhere((element) => element.isSelected == true) != -1;
     if (id == 4 && isSelectedCategory) {
-      return "это мои категории";
+      return localization.itsMyCategories;
     } else if (id == 5) {
-      return "начать пользоваться";
+      return localization.startUsing;
     }
-    return "продолжить знакомство";
+    return localization.continueIntro;
   }
 
   void lastSlidePresentedHander() {

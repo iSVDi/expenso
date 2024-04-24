@@ -11,7 +11,7 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 
 import '../../cubits/keyboard/keyboard_cubit.dart';
 import '../../cubits/keyboard/keyboard_states.dart';
-
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 class EnterTransactionData extends StatelessWidget {
   final Size size;
 
@@ -86,8 +86,7 @@ class EnterTransactionData extends StatelessWidget {
   void _showCommentSheet(BuildContext context) {
     addCommentSheet(BuildContext buildContext) {
       return EnterTextBottomSheet(
-          //TODO localize
-          hintText: "введите комментарий",
+          hintText: AppLocalizations.of(context)!.enterComment,
           bottomInsets: MediaQuery.of(buildContext).viewInsets.bottom,
           callback: (String comment) {
             _getCubit(context).updateComment(comment);
