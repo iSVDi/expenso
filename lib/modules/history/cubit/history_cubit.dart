@@ -111,6 +111,8 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     return "${dateRange.start.formattedDate} - ${dateRange.end.formattedDate}";
   }
 
+  bool needPresentChartPlug() => _repository.readTransactionsCount() == 0;
+
   ChartModel getChartData() {
     var allCategories = _getCategoriesByTransactions();
     List<SelectCategoryModel> chartCategories() {
@@ -150,16 +152,16 @@ calendarDateRange     |---------------------|
 */
 
   Function()? _getForwardHandler() {
-    var rightLimit = _repository.readLatestTransactionDate();
-    if (rightLimit != null) {
-      var dateRange = dateRangeHelper.calculateNewDateRange(
-          currentDateRange: state.dateRange, toForward: true);
-      var canSetForwardHandler = rightLimit.compareTo(dateRange.start) >= 0;
-      if (canSetForwardHandler) {
-        handler() => updateDateRange(dateRange);
-        return handler;
-      }
+    var rightLimit = DateTime.now();
+
+    var dateRange = dateRangeHelper.calculateNewDateRange(
+        currentDateRange: state.dateRange, toForward: true);
+    var canSetForwardHandler = rightLimit.compareTo(dateRange.start) >= 0;
+    if (canSetForwardHandler) {
+      handler() => updateDateRange(dateRange);
+      return handler;
     }
+
     return null;
   }
 

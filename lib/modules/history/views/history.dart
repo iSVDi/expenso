@@ -33,7 +33,7 @@ class History extends StatelessWidget {
   }
 
   AppBar _getAppBar(BuildContext context) {
-    var cubit = _getCubit(context); 
+    var cubit = _getCubit(context);
     var iconButton = IconButton(
       onPressed: () async {
         var dateRange = cubit.getCalendarTimeRange();
@@ -78,6 +78,9 @@ class History extends StatelessWidget {
   }
 
   Widget _getList(BuildContext context) {
+    if (_getCubit(context).needPresentChartPlug()) {
+      return _getListPlug(context);
+    }
     var sectionsData = _getCubit(context).getHistoryListData();
     var list = GroupListView(
       sectionsCount: sectionsData.length + 1,
@@ -127,6 +130,32 @@ class History extends StatelessWidget {
     );
 
     return SafeArea(child: list);
+  }
+
+  Widget _getListPlug(BuildContext context) {
+    var sideSize = MediaQuery.of(context).size.width * 0.595;
+    var plug =
+        AppImages.donutChartPlug.assetsImage(height: sideSize, width: sideSize);
+    var textStyle = Theme.of(context)
+        .textTheme
+        .titleMedium!
+        .copyWith(letterSpacing: 0.01, height: 1.2);
+    var text = Text(
+      "начните вносить расходы и здесь появится статистика по категориям",
+      style: textStyle,
+    ); //TODO localize
+
+    var column = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        plug,
+        const SizedBox(height: 50),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32), child: text),
+      ],
+    );
+    // var center = ;
+    return SafeArea(child: Center(child: column));
   }
 
   Widget _getChartHeader(BuildContext context) {

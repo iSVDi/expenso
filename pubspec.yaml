@@ -36,7 +36,9 @@ flutter:
     - assets/barChartIcon.png
     - assets/settingsIcon.png
     - assets/barModeIcon.png
+    - assets/barChartPlug.png
     - assets/donutModeIcon.png
+    - assets/donutChartPlug.png
     - assets/calendarIcon.png
     - assets/refreshIcon.png
     - assets/welcome/welcome1.png

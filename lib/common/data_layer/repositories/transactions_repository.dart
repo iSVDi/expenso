@@ -91,14 +91,7 @@ class TransactionRepository implements RepositorySubject {
     return null;
   }
 
-  DateTime? readLatestTransactionDate() {
-    var transactions =
-        _transactions.query().order(Transaction_.date).build().find();
-    if (transactions.isNotEmpty) {
-      return transactions.last.date;
-    }
-    return null;
-  }
+  int readTransactionsCount() => _transactions.count();
 
   void updateLastTransactionsComment(String comment) {
     var id = _transactions.getAll().last.id;

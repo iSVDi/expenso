@@ -1,4 +1,3 @@
-
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
@@ -43,40 +42,45 @@ class _ChartState extends State<Chart> {
 
   Widget _getBarChart(BuildContext context) {
     var theme = Theme.of(context);
-    var axisesStyle = theme.textTheme.labelMedium
-        ?.copyWith(color: theme.colorScheme.onBackground);
-    var primaryYAxis = NumericAxis(
-      labelStyle: axisesStyle,
-      axisLine: const AxisLine(width: 0),
-      majorTickLines: const MajorTickLines(width: 0),
-      majorGridLines: MajorGridLines(
-          color: Theme.of(context).colorScheme.onBackground,
-          dashArray: const [8]),
-      minimum: 0,
-      maximum: widget.data.sum,
-      opposedPosition: true,
-    );
-    var series = <CartesianSeries<SelectCategoryModel, String>>[
-      BarSeries<SelectCategoryModel, String>(
-        width: 0.3,
-        dataSource: widget.data.chartCategories.reversed.toList(),
-        xValueMapper: (SelectCategoryModel data, _) => data.category.title,
-        yValueMapper: (SelectCategoryModel data, _) => data.value,
-        pointColorMapper: (datum, index) => datum.color,
-      )
-    ];
-
-    var chart = SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      primaryXAxis: CategoryAxis(
+    Widget chart;
+    if (widget.data.chartCategories.isEmpty) {
+      chart = _getChartPlug();
+    } else {
+      var axisesStyle = theme.textTheme.labelMedium
+          ?.copyWith(color: theme.colorScheme.onBackground);
+      var primaryYAxis = NumericAxis(
+        labelStyle: axisesStyle,
         axisLine: const AxisLine(width: 0),
         majorTickLines: const MajorTickLines(width: 0),
-        majorGridLines: const MajorGridLines(width: 0),
-        labelStyle: axisesStyle,
-      ),
-      primaryYAxis: primaryYAxis,
-      series: series,
-    );
+        majorGridLines: MajorGridLines(
+            color: Theme.of(context).colorScheme.onBackground,
+            dashArray: const [8]),
+        minimum: 0,
+        maximum: widget.data.sum,
+        opposedPosition: true,
+      );
+      var series = <CartesianSeries<SelectCategoryModel, String>>[
+        BarSeries<SelectCategoryModel, String>(
+          width: 0.3,
+          dataSource: widget.data.chartCategories.reversed.toList(),
+          xValueMapper: (SelectCategoryModel data, _) => data.category.title,
+          yValueMapper: (SelectCategoryModel data, _) => data.value,
+          pointColorMapper: (datum, index) => datum.color,
+        )
+      ];
+      chart = SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
+          labelStyle: axisesStyle,
+        ),
+        primaryYAxis: primaryYAxis,
+        series: series,
+      );
+    }
+
     var buttons = _getNavigateTimeFrameButtons();
     var row = Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       buttons.$1,
@@ -89,20 +93,27 @@ class _ChartState extends State<Chart> {
   }
 
   Widget _getDonutChart() {
-    var chart = SfCircularChart(
-      series: <CircularSeries<SelectCategoryModel, String>>[
-        DoughnutSeries<SelectCategoryModel, String>(
-          dataSource: widget.data.chartCategories.toList(),
-          xValueMapper: (SelectCategoryModel data, _) => data.category.title,
-          yValueMapper: (SelectCategoryModel data, _) => data.value,
-          pointColorMapper: (datum, index) => datum.color,
-          innerRadius: "85%",
-        )
-      ],
-    );
+    Widget chart;
+    if (widget.data.chartCategories.isEmpty) {
+      chart = _getChartPlug();
+    } else {
+      chart = SfCircularChart(
+        margin: const EdgeInsets.only(),
+        series: <CircularSeries<SelectCategoryModel, String>>[
+          DoughnutSeries<SelectCategoryModel, String>(
+            dataSource: widget.data.chartCategories.toList(),
+            xValueMapper: (SelectCategoryModel data, _) => data.category.title,
+            yValueMapper: (SelectCategoryModel data, _) => data.value,
+            pointColorMapper: (datum, index) => datum.color,
+            innerRadius: "85%",
+          )
+        ],
+      );
+    }
 
     var buttons = _getNavigateTimeFrameButtons();
     var buttonsRow = Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [buttons.$1, buttons.$2]);
 
@@ -110,6 +121,17 @@ class _ChartState extends State<Chart> {
       alignment: AlignmentDirectional.center,
       children: [chart, buttonsRow],
     );
+  }
+
+  Widget _getChartPlug() {
+    var chartName = widget.data.chartType == ChartType.bar
+        ? AppImages.barChartPlug
+        : AppImages.donutChartPlug;
+    var sideSize = MediaQuery.of(context).size.width * 0.595;
+    var plug = chartName.assetsImage(width: sideSize, height: sideSize);
+    var padding =
+        Padding(padding: const EdgeInsets.symmetric(vertical: 30), child: plug);
+    return padding;
   }
 
   (IconButton, IconButton) _getNavigateTimeFrameButtons() {
@@ -128,39 +150,46 @@ class _ChartState extends State<Chart> {
     var data = widget.data;
     var textStyle =
         Theme.of(context).textTheme.labelLarge?.copyWith(color: textColor);
-    var allCategories = data.selectedCategories + data.notSelectedCategories;
-    var buttons = allCategories.map((e) {
-      var buttonsChild =
-          _getCategoryButtonChild(model: e, textStyle: textStyle);
-      var button =
-          _getSelectCategoryButton(buttonsChild: buttonsChild, model: e);
-      return button;
-    }).toList();
+    List<Widget> children = [];
 
-    var wrap = Wrap(
-      direction: Axis.horizontal,
-      spacing: 10,
-      runSpacing: 10,
-      children: buttons,
-    );
+    if (widget.data.chartCategories.isNotEmpty) {
+      var allCategories = data.selectedCategories + data.notSelectedCategories;
+      var buttons = allCategories.map((e) {
+        var buttonsChild =
+            _getCategoryButtonChild(model: e, textStyle: textStyle);
+        var button =
+            _getSelectCategoryButton(buttonsChild: buttonsChild, model: e);
+        return button;
+      }).toList();
 
-    var iconColor = Theme.of(context).colorScheme.primary;
-    var resetButton = IconButton(
-      style: IconButton.styleFrom(
-          minimumSize: Size.zero,
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          padding: const EdgeInsets.only(bottom: 10)),
-      onPressed: widget.resetChartModeHandler,
-      icon: AppImages.refreshIcon.assetsImage(
-        color: iconColor,
-        width: 21,
-        height: 24,
-      ),
-    );
+      var wrap = Wrap(
+        direction: Axis.horizontal,
+        spacing: 10,
+        runSpacing: 10,
+        children: buttons,
+      );
+
+      var iconColor = Theme.of(context).colorScheme.primary;
+
+      var resetButton = IconButton(
+        style: IconButton.styleFrom(
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            padding: const EdgeInsets.only(bottom: 10)),
+        onPressed: widget.resetChartModeHandler,
+        icon: AppImages.refreshIcon.assetsImage(
+          color: iconColor,
+          width: 21,
+          height: 24,
+        ),
+      );
+      children = [resetButton, wrap];
+    }
+
     return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [resetButton, wrap]);
+        children: children);
   }
 
   Row _getCategoryButtonChild({

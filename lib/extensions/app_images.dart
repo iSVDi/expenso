@@ -7,6 +7,8 @@ enum AppImages {
   barModeIcon,
   calendarIcon,
   refreshIcon,
+  barChartPlug,
+  donutChartPlug
 }
 
 extension AssetsImage on AppImages {
