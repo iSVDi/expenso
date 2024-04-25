@@ -2,11 +2,12 @@ import 'package:expenso/theme/cubit/theme_mode_cubit.dart';
 import 'package:expenso/theme/cubit/theme_mode_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class SelectAppearance extends StatelessWidget {
   const SelectAppearance({super.key});
 
-  ThemeModeCubit _getBloc(BuildContext context) {
+  ThemeModeCubit _getCubit(BuildContext context) {
     return context.read<ThemeModeCubit>();
   }
 
@@ -20,23 +21,25 @@ class SelectAppearance extends StatelessWidget {
   }
 
   Widget getList(BuildContext context) {
-    var bloc = _getBloc(context);
-    var themeModes = bloc.getThemeModes();
-    var selectedId = themeModes.indexOf(bloc.state.themeMode);
+    var cubit = _getCubit(context);
+
+    var themeModes = cubit.getThemeModes(AppLocalizations.of(context)!);
     var itemExtent = MediaQuery.of(context).size.height * 0.04;
 
+    var selectedId =
+        themeModes.indexWhere((element) => element.$2 == cubit.state.themeMode);
     var colorScheme = Theme.of(context).colorScheme;
     var list = ListWheelScrollView(
         controller: FixedExtentScrollController(initialItem: selectedId),
         physics: const FixedExtentScrollPhysics(),
         onSelectedItemChanged: (id) {
-          bloc.setNewThemeMode(themeModes[id]);
+          cubit.setNewThemeMode(themeModes[id].$2);
         },
         itemExtent: itemExtent,
         children: themeModes.map((mode) {
-          var text = Text(mode.name, textAlign: TextAlign.center);
+          var text = Text(mode.$1, textAlign: TextAlign.center);
 
-          var color = mode == bloc.state.themeMode
+          var color = mode.$2 == cubit.state.themeMode
               ? colorScheme.primary
               : colorScheme.background;
           var width = MediaQuery.of(context).size.width * 0.9;

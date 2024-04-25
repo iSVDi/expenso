@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
@@ -12,6 +11,7 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import '../../cubits/keyboard/keyboard_cubit.dart';
 import '../../cubits/keyboard/keyboard_states.dart';
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
+
 class EnterTransactionData extends StatelessWidget {
   final Size size;
 

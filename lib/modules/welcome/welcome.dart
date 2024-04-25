@@ -23,8 +23,15 @@ class _WelcomeState extends State<Welcome> {
   var _currentSlideId = 0;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _cubit.prepareCategories(AppLocalizations.of(context)!);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var models = _cubit.getSlideModels(context, Theme.of(context).brightness);
+    var models = _cubit.getSlideModels(
+        AppLocalizations.of(context)!, Theme.of(context).brightness);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(actions: const []),

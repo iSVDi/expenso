@@ -44,6 +44,12 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
   }
 
   Widget _getTimer(BuildContext context) {
+    const Center(
+      child: ColoredBox(
+        color: Colors.red,
+        child: Text(""),
+      ),
+    );
     var theme = Theme.of(context);
     var textStyle = theme.textTheme.headlineSmall
         ?.copyWith(color: theme.colorScheme.primary);

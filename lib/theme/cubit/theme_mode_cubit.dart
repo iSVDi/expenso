@@ -1,7 +1,7 @@
 import 'package:expenso/common/app_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import 'package:expenso/theme/cubit/theme_mode_state.dart';
 
 class ThemeModeCubit extends Cubit<ThemeModeState> {
@@ -9,9 +9,13 @@ class ThemeModeCubit extends Cubit<ThemeModeState> {
   ThemeModeCubit()
       : super(ThemeModeState(themeMode: AppPreferences().getThemeMode()));
 
-// localize
-  List<ThemeMode> getThemeModes() {
-    return [ThemeMode.system, ThemeMode.dark, ThemeMode.light];
+  List<(String title, ThemeMode mode)> getThemeModes(
+      AppLocalizations localization) {
+    return [
+      (localization.systemThemeMode, ThemeMode.system),
+      (localization.darkThemeMode, ThemeMode.dark),
+      (localization.lightThemeMode, ThemeMode.light),
+    ];
   }
 
   void setNewThemeMode(ThemeMode themeModeName) async {

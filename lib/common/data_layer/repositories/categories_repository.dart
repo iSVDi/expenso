@@ -4,12 +4,12 @@ import '../../../main.dart';
 
 class CategoriesRepository {
   static const _noCategoryId = 1;
-  final Box<Category> _categories = objectBoxStoreKeeper.getObjectBoxStore.box<Category>();
+  final Box<Category> _categories =
+      objectBoxStoreKeeper.getObjectBoxStore.box<Category>();
 
   CategoriesRepository() {
     if (_categories.isEmpty()) {
-      //TODO localize?
-      insertCategory(Category(title: "no category"));
+      insertCategory(Category.emptyCategory());
     }
   }
 

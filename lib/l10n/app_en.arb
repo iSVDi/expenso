@@ -4,7 +4,6 @@
   "apply": "Apply",
   "cancel": "Cancel",
   "enterCategoryName": "Enter category name",
-  "hintText": "hint text",
   "expensesAnalysis": "expenses",
   "historyPlugTitle": "start making expenses and statistics by category will appear here",
   "view": "View",
@@ -25,5 +24,10 @@
   "continueIntro": "continue introduction",
   "itsMyCategories": "this's my categories",
   "startUsing": "start using",
-  "secondsTitle": "{numeric} s"
+  "secondsTitle": "{numeric} s",
+  "appearanceTitle": "appearance",
+  "systemThemeMode": "system",
+  "darkThemeMode": "dark",
+  "lightThemeMode": "light",
+  "startCategories": "🏠 household,⛽️ gas,🛒 groceries,🛍 shopping,🍽 food & dinning,🚕 transport,💊 health,💪 fitness,🎓 education,🍿 entertainment,💸 bills,🐱 🐶 pet,🎁 gifts,❓ other"
 }

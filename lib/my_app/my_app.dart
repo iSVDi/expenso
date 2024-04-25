@@ -1,3 +1,4 @@
+import 'package:expenso/l10n/category_localizator.dart';
 import 'package:expenso/modules/main/views/main_view.dart';
 import 'package:expenso/modules/welcome/welcome.dart';
 import 'package:expenso/my_app/my_app_cubit.dart';
@@ -13,11 +14,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var categoryLocalizator = CategoryLocalizator();
     var home = _getHomeWidget();
+
     var bloc = BlocBuilder<ThemeModeCubit, ThemeModeState>(
       builder: (builderContext, state) {
         var themeProvider = ThemeProvider();
         var materialApp = MaterialApp(
+          onGenerateTitle: (context) {
+            //* Don't use localeResolutionCallback() for updating.
+            //* AppLocalizations is not ready when callback is called
+            categoryLocalizator
+                .updateEmptyCategoryTitle(AppLocalizations.of(context)!);
+            return "";
+          },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: themeProvider.getTheme(),
@@ -33,6 +43,7 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _getHomeWidget() {
+    return const Welcome();
     var cubit = MyAppCubit();
     if (cubit.needPresentOnBoarding()) {
       return const Welcome();

@@ -60,7 +60,6 @@ class TransactionViewState extends State<TransactionView> {
         ],
       ),
     );
-    // return ;
   }
 
   Widget _getDateButton() {
@@ -118,8 +117,9 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   Widget _getCommentButton() {
-    var comment =
-        transaction.comment.isEmpty ? AppLocalizations.of(context)!.addComment : transaction.comment;
+    var comment = transaction.comment.isEmpty
+        ? AppLocalizations.of(context)!.addComment
+        : transaction.comment;
     var textStyle = _getTheme(context).textTheme.titleMedium;
     var text = Text(comment, style: textStyle);
     enterTextBottomSheet(BuildContext builderContext) {

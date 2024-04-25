@@ -12,7 +12,7 @@ class Category {
 
   Category.emptyCategory()
       : id = 1,
-        title = "No category"; // TODO localize?
+        title = "";
 
   @override
   bool operator ==(Object other) {

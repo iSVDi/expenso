@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import 'package:flutter/material.dart';
+
+import 'package:expenso/common/app_preferences.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/categories_repository.dart';
-import 'package:expenso/common/app_preferences.dart';
-import 'package:flutter/material.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class SlideModel {
   final int number;
@@ -27,28 +28,19 @@ class SelectableCategory {
 class WelcomeCubit {
   final categoryRepository = CategoriesRepository();
   var _isEnteringNewCategory = false;
+  List<SelectableCategory> _categories = [];
 
-  //TODO localize
   // ignore: prefer_final_fields
-  var _categories = [
-    SelectableCategory(name: "🏠 household"),
-    SelectableCategory(name: "⛽️ gas"),
-    SelectableCategory(name: "🛒 groceries"),
-    SelectableCategory(name: "🛍 shopping"),
-    SelectableCategory(name: "🍽 food & dinning"),
-    SelectableCategory(name: "🚕 transport"),
-    SelectableCategory(name: "💊 health"),
-    SelectableCategory(name: "💪 fitness"),
-    SelectableCategory(name: "🎓 education"),
-    SelectableCategory(name: "🍿 entertainment"),
-    SelectableCategory(name: "💸 bills"),
-    SelectableCategory(name: "🐱 🐶 pet"),
-    SelectableCategory(name: "🎁 gifts"),
-    SelectableCategory(name: "❓ other"),
-  ];
 
-  List<SlideModel> getSlideModels(BuildContext context, Brightness brightness) {
-    var localization = AppLocalizations.of(context)!;
+  void prepareCategories(AppLocalizations localization) {
+    _categories = localization.startCategories
+        .split(",")
+        .map((e) => SelectableCategory(name: e))
+        .toList();
+  }
+
+  List<SlideModel> getSlideModels(
+      AppLocalizations localization, Brightness brightness) {
     var titles = [
       localization.welcome1Title,
       localization.welcome2Title,
@@ -70,6 +62,7 @@ class WelcomeCubit {
   }
 
   List<SelectableCategory> get getCategories => _categories;
+
   bool get getIsInteringNewCategory => _isEnteringNewCategory;
 
   void createCategoryHandler() {

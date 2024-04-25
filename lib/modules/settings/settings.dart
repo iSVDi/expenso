@@ -51,7 +51,10 @@ class Settings extends StatelessWidget {
 
 _SettingsItemModel _getAppearanceModel(BuildContext context) {
   return _SettingsItemModel(
-    child: Text("appearance", style: Theme.of(context).textTheme.titleMedium),
+    child: Text(
+      AppLocalizations.of(context)!.appearanceTitle,
+      style: Theme.of(context).textTheme.titleMedium,
+    ),
     onTap: () {
       showModalBottomSheet(
           context: context,
