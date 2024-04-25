@@ -1,5 +1,6 @@
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
+import 'package:expenso/extensions/int.dart';
 
 class SpendTodayAmountProvider implements RepositoryObserver {
   final Function(String) _callback;
@@ -19,7 +20,7 @@ class SpendTodayAmountProvider implements RepositoryObserver {
       var sum = transactions
           .map((transaction) => transaction.amount)
           .reduce((value, element) => value + element);
-      var res = (sum % 1 == 0) ? "${sum.toInt()}" : "$sum";
+      var res = sum.toStringAmount;
       _callback(res);
     }
   }

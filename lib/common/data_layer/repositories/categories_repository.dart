@@ -9,7 +9,9 @@ class CategoriesRepository {
 
   CategoriesRepository() {
     if (_categories.isEmpty()) {
-      insertCategory(Category.emptyCategory());
+      var emptyCategory = Category.emptyCategory();
+      emptyCategory.id = 0;
+      insertCategory(emptyCategory);
     }
   }
 

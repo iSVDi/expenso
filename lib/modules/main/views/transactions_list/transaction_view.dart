@@ -5,6 +5,8 @@ import 'package:expenso/common/views/select_categories_list/select_categories_li
 import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
+import 'package:expenso/extensions/int.dart';
+import 'package:expenso/extensions/string.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import 'package:expenso/common/data_layer/models/transaction.dart';
@@ -140,7 +142,7 @@ class TransactionViewState extends State<TransactionView> {
     keyboard(BuildContext buildContext) {
       return SizedNumericKeyboard.sizedKeyboard(
         context: context,
-        amount: transaction.stringAmount,
+        amount: transaction.amount.toStringAmount,
         doneButtonCallback: (amountString, dateTime) {
           setState(() {
             _updateAmount(amountString);
@@ -151,7 +153,7 @@ class TransactionViewState extends State<TransactionView> {
     }
 
     var textStyle = _getTheme(context).textTheme.displayMedium;
-    var text = Text(transaction.stringAmount, style: textStyle);
+    var text = Text(transaction.amount.toStringAmount, style: textStyle);
 
     var textButton = _getPresentModallyButton(
       child: text,
@@ -178,7 +180,7 @@ class TransactionViewState extends State<TransactionView> {
 
   void _updateAmount(String amountString) {
     setState(() {
-      transaction.amount = double.parse(amountString);
+      transaction.amount = amountString.toIntAmount();
       _repository.insertTransaction(transaction);
     });
   }

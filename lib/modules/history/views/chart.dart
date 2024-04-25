@@ -1,5 +1,6 @@
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/extensions/app_images.dart';
+import 'package:expenso/extensions/int.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class _ChartState extends State<Chart> {
             color: Theme.of(context).colorScheme.onBackground,
             dashArray: const [8]),
         minimum: 0,
-        maximum: widget.data.sum,
+        maximum: double.parse(widget.data.sum.toStringAmount),
         opposedPosition: true,
       );
       var series = <CartesianSeries<SelectCategoryModel, String>>[

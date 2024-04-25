@@ -1,3 +1,4 @@
+import 'package:expenso/extensions/int.dart';
 import 'package:expenso/modules/history/cubit/date_range_helper.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     _emitNewState(dateRange, newTransactions, {}, state.chartType);
   }
 
-  double getSum() {
+  int getSum() {
     if (state.transactions.isEmpty) {
       return 0;
     }
@@ -192,11 +193,17 @@ calendarDateRange     |---------------------|
     return null;
   }
 
+//TODO! check correct work
   List<SectionHistory> getHistoryListData() {
     //Map <28.03.2024, [Transaction]>
     Map<String, List<Transaction>> transactionsMap = {};
-
-    for (var transaction in state.transactions) {
+    var transactions = state.selectedCategories.isEmpty
+        ? state.transactions
+        : state.transactions
+            .where((element) =>
+                state.selectedCategories.contains((element.category.target)))
+            .toList();
+    for (var transaction in transactions) {
       var dateString = transaction.date.formattedDate;
       var isNewDate = !transactionsMap.keys.toSet().contains(dateString);
       if (isNewDate) {
@@ -211,7 +218,7 @@ calendarDateRange     |---------------------|
           sum: sectionData.value
               .map((e) => e.amount)
               .reduce((value, element) => value + element)
-              .toString(),
+              .toStringAmount,
           transactions: sectionData.value);
       return sectionHistory;
     }).toList();

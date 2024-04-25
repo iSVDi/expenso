@@ -2,8 +2,6 @@ import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/theme/theme_provider.dart';
 import "package:flutter/material.dart";
 import 'package:focused_menu/focused_menu.dart';
-import 'package:focused_menu/modals.dart';
-
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/select_categories_list/category_cell.dart';
@@ -153,12 +151,15 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
       child: listTile,
     );
 
-    var editItem = CommonFocusedMenuItem(context: context,
+//TODO: localize
+    var editItem = CommonFocusedMenuItem(
+      context: context,
       title: const Text("Edit"),
-      onPressed: () => _showEditCategorySheet(context, category),
+      onPressed: () => _showEditCategorySheet(context, category)
     );
 
-    var deleteItem = CommonFocusedMenuItem(context: context,
+    var deleteItem = CommonFocusedMenuItem(
+      context: context,
       title: const Text("Delete"),
       onPressed: () => _interactor.deleteCategory(category: category),
     );

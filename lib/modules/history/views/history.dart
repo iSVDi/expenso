@@ -1,6 +1,7 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/extensions/app_images.dart';
+import 'package:expenso/extensions/int.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/views/chart.dart';
@@ -9,7 +10,6 @@ import 'package:expenso/modules/main/views/transactions_list/transaction_view.da
 import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:focused_menu/modals.dart';
 import 'package:group_list_view/group_list_view.dart';
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
@@ -167,7 +167,7 @@ class History extends StatelessWidget {
     var column = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(cubit.getSum().toStringAsFixed(2), style: textTheme.headlineLarge),
+        Text(cubit.getSum().toStringAmount, style: textTheme.headlineLarge),
         Text(dateTitle, style: textTheme.labelLarge),
       ],
     );

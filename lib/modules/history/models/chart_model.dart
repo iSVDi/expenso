@@ -2,7 +2,7 @@ import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/select_category_model.dart';
 
 class ChartModel {
-  double sum;
+  int sum;
   ChartType chartType;
   List<SelectCategoryModel> chartCategories;
   List<SelectCategoryModel> selectedCategories;

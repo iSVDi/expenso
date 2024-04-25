@@ -1,4 +1,5 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
+import 'package:expenso/extensions/string.dart';
 import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/done_button.dart';
@@ -61,7 +62,7 @@ class _NumericKeyboard extends StatefulWidget {
 
 class _NumericKeyboardState extends State<_NumericKeyboard> {
   final _amountUpdater = AmountStringUpdater();
-  bool get isDoneButtonDisabled => double.parse(widget.amount) == 0;
+  bool get isDoneButtonDisabled => widget.amount.toIntAmount() == 0;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,6 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     });
   }
 
-//TODO refactor
   Widget _getKeyboard(BuildContext context) {
     var doneButtonHandler = isDoneButtonDisabled
         ? null

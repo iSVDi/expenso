@@ -1,5 +1,6 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/extensions/date_time.dart';
+import 'package:expenso/extensions/int.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -49,7 +50,7 @@ class TransactionCell extends StatelessWidget {
 
   Widget _getCell(BuildContext context) {
     var title = mode == TransactionCellMode.today
-        ? transaction.stringAmount
+        ? transaction.amount.toStringAmount
         : transaction.date.formattedTime;
 
     var textStyle = Theme.of(context)
@@ -64,7 +65,7 @@ class TransactionCell extends StatelessWidget {
     if (mode == TransactionCellMode.history) {
       children.add(const Spacer(flex: 1));
       children.add(Text(
-        transaction.stringAmount,
+        transaction.amount.toStringAmount,
         style: textStyle,
       ));
     }

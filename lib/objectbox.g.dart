@@ -71,7 +71,7 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(5, 4518770727780961065),
             name: 'amount',
-            type: 8,
+            type: 6,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -102,7 +102,7 @@ Future<obx.Store> openStore(
       directory: directory ?? (await defaultStoreDirectory()).path,
       maxDBSizeInKB: maxDBSizeInKB,
       maxDataSizeInKB: maxDataSizeInKB,
-      fileMode: fileMode,
+      fileMode: fileMode, 
       maxReaders: maxReaders,
       queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
       macosApplicationGroup: macosApplicationGroup);
@@ -167,7 +167,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(1, object.date.millisecondsSinceEpoch);
           fbb.addOffset(2, commentOffset);
           fbb.addInt64(3, object.category.targetId);
-          fbb.addFloat64(4, object.amount);
+          fbb.addInt64(4, object.amount);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -179,7 +179,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final commentParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 8, '');
           final amountParam =
-              const fb.Float64Reader().vTableGet(buffer, rootOffset, 12, 0);
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
           final object = Transaction(
               date: dateParam, comment: commentParam, amount: amountParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
@@ -224,5 +224,5 @@ class Transaction_ {
 
   /// see [Transaction.amount]
   static final amount =
-      obx.QueryDoubleProperty<Transaction>(_entities[1].properties[4]);
+      obx.QueryIntegerProperty<Transaction>(_entities[1].properties[4]);
 }

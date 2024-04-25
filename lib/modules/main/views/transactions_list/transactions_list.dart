@@ -5,10 +5,8 @@ import 'package:expenso/modules/main/cubits/transactions/transactions_states.dar
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
-import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:focused_menu/modals.dart';
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class TransactionsList extends StatelessWidget {
@@ -65,7 +63,6 @@ class TransactionsList extends StatelessWidget {
     );
   }
 
-//TODO fix layout
   void _showAlert(BuildContext context, Transaction transaction) {
     showDialog(
         context: context,
