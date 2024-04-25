@@ -1,4 +1,5 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
+import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
@@ -191,11 +192,13 @@ class History extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, Transaction transaction) {
-    var viewItem = FocusedMenuItem(
+    var viewItem = CommonFocusedMenuItem(
+        context: context,
         title: Text(AppLocalizations.of(context)!.view),
         onPressed: () => _presentTransaction(context, transaction));
 
-    var deleteItem = FocusedMenuItem(
+    var deleteItem = CommonFocusedMenuItem(
+        context: context,
         title: Text(AppLocalizations.of(context)!.delete),
         onPressed: () => _getCubit(context).deleteTransaction(transaction));
 

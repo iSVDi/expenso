@@ -36,12 +36,15 @@ class RoundedButton extends StatelessWidget {
         .headlineSmall
         ?.copyWith(color: textColor, fontWeight: FontWeight.w300);
 
-    double horizontalPadding = 5;
     double verticalPadding = 12;
     var child = Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: horizontalPadding, vertical: verticalPadding),
-        child: Text(text, style: textStyle));
+      padding: EdgeInsets.symmetric(vertical: verticalPadding),
+      child: Text(
+        text,
+        textScaler: const TextScaler.linear(0.8),
+        style: textStyle,
+      ),
+    );
     var button =
         ElevatedButton(onPressed: onPressed, style: buttonStyle, child: child);
     return button;

@@ -1,9 +1,11 @@
+import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/common/views/rounded_button.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_states.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
+import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focused_menu/modals.dart';
@@ -30,18 +32,20 @@ class TransactionsList extends StatelessWidget {
     var transactions = cubit.getTodayTransactions();
     var listView = ListView.builder(
         itemCount: transactions.length,
-        itemBuilder: (context, index) =>
+        itemBuilder: (itemContext, index) =>
             _itemBuilder(context, transactions[index]));
     return Expanded(child: listView);
   }
 
   Widget _itemBuilder(BuildContext context, Transaction transaction) {
     var localization = AppLocalizations.of(context)!;
-    var viewItem = FocusedMenuItem(
+    var viewItem = CommonFocusedMenuItem(
+        context: context,
         title: Text(localization.view),
         onPressed: () => _presentTransaction(context, transaction));
 
-    var deleteItem = FocusedMenuItem(
+    var deleteItem = CommonFocusedMenuItem(
+        context: context,
         title: Text(localization.delete),
         onPressed: () => _showAlert(context, transaction));
 
@@ -91,7 +95,7 @@ class TransactionsList extends StatelessWidget {
 
           var deleteButton = RoundedButton.getActionButton(
             context: context,
-            text: "delete",
+            text: AppLocalizations.of(context)!.delete,
             onPressed: () {
               _getCubit(context).deleteTransaction(transaction);
               Navigator.of(context).pop();

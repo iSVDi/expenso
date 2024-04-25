@@ -1,3 +1,4 @@
+import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/theme/theme_provider.dart';
 import "package:flutter/material.dart";
 import 'package:focused_menu/focused_menu.dart';
@@ -152,12 +153,12 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
       child: listTile,
     );
 
-    var editItem = FocusedMenuItem(
+    var editItem = CommonFocusedMenuItem(context: context,
       title: const Text("Edit"),
       onPressed: () => _showEditCategorySheet(context, category),
     );
 
-    var deleteItem = FocusedMenuItem(
+    var deleteItem = CommonFocusedMenuItem(context: context,
       title: const Text("Delete"),
       onPressed: () => _interactor.deleteCategory(category: category),
     );
