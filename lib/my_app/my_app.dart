@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _getHomeWidget() {
-    return const Welcome();
     var cubit = MyAppCubit();
     if (cubit.needPresentOnBoarding()) {
       return const Welcome();
