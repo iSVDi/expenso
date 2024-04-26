@@ -278,6 +278,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'🏠 household,⛽️ gas,🛒 groceries,🛍 shopping,🍽 food & dinning,🚕 transport,💊 health,💪 fitness,🎓 education,🍿 entertainment,💸 bills,🐱 🐶 pet,🎁 gifts,❓ other'**
   String get startCategories;
+
+  /// No description provided for @spendInAWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'spend in a week'**
+  String get spendInAWeek;
+
+  /// No description provided for @spendInAMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'spend in a month'**
+  String get spendInAMonth;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

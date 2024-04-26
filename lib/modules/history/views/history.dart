@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_list_view/group_list_view.dart';
 
+//TODO remove localizations generated files from git
 class History extends StatelessWidget {
   const History({super.key});
 
@@ -50,6 +51,7 @@ class History extends StatelessWidget {
       icon: AppImages.calendarIcon.assetsImage(width: 30, height: 24),
     );
     return AppBar(
+      bottom: _getAppBarBottom(context),
       centerTitle: true,
       title: Text(AppLocalizations.of(context)!.expensesAnalysis,
           style: Theme.of(context)
@@ -60,6 +62,76 @@ class History extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primary,
       foregroundColor: Theme.of(context).colorScheme.background,
     );
+  }
+
+  PreferredSizeWidget _getAppBarBottom(BuildContext context) {
+    var weekButton = _getSetTimeRangeButton(
+        context: context,
+        title: AppLocalizations.of(context)!.spendInAWeek,
+        icon: AppImages.calendarWeekBackground.assetsImage(),
+        onPressed: () {
+          //TODO: implement
+          print("weekButtonHandler");
+        });
+
+    var monthButton = _getSetTimeRangeButton(
+      context: context,
+      icon: AppImages.calendarMonthBackground.assetsImage(),
+      title: AppLocalizations.of(context)!.spendInAMonth,
+      onPressed: () {
+        //TODO: implement
+        print("monthButtonHandler");
+      },
+    );
+    var prefferredSizeHeight = MediaQuery.of(context).size.height * 0.123;
+    var stack = Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+      SizedBox(
+          width: double.maxFinite,
+          height: prefferredSizeHeight / 1.7,
+          child: ColoredBox(color: Theme.of(context).colorScheme.background)),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [weekButton, monthButton],
+      )
+    ]);
+
+    var prefferredSize = PreferredSize(
+        preferredSize: Size.fromHeight(prefferredSizeHeight), child: stack);
+
+    return prefferredSize;
+  }
+
+  Widget _getSetTimeRangeButton(
+      {required BuildContext context,
+      required Widget icon,
+      required String title,
+      required Function()? onPressed}) {
+    var size = MediaQuery.of(context).size;
+
+    var width = size.width * 0.384;
+    var height = size.height * 0.127;
+    var textColor = Theme.of(context).colorScheme.onBackground;
+    var textStyle =
+        Theme.of(context).textTheme.labelLarge!.copyWith(color: textColor);
+    var button = IconButton(
+      onPressed: onPressed,
+      icon: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+          color: Theme.of(context).colorScheme.background,
+        ),
+        child: Stack(children: [
+          icon,
+          Padding(
+            padding: const EdgeInsets.only(top: 10, left: 10),
+            child: Text(title, style: textStyle),
+          ),
+        ]),
+      ),
+    );
+    return button;
   }
 
   Widget _getChart(BuildContext context) {
@@ -73,8 +145,9 @@ class History extends StatelessWidget {
       resetChartModeHandler: () => cubit.resetCategoriesHandler(),
     );
     var padding = Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32), child: chart);
-    // return chart;
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: chart,
+    );
     return padding;
   }
 

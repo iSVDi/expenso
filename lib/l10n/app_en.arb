@@ -30,5 +30,7 @@
   "systemThemeMode": "system",
   "darkThemeMode": "dark",
   "lightThemeMode": "light",
-  "startCategories": "🏠 household,⛽️ gas,🛒 groceries,🛍 shopping,🍽 food & dinning,🚕 transport,💊 health,💪 fitness,🎓 education,🍿 entertainment,💸 bills,🐱 🐶 pet,🎁 gifts,❓ other"
+  "startCategories": "🏠 household,⛽️ gas,🛒 groceries,🛍 shopping,🍽 food & dinning,🚕 transport,💊 health,💪 fitness,🎓 education,🍿 entertainment,💸 bills,🐱 🐶 pet,🎁 gifts,❓ other",
+  "spendInAWeek": "spend in a week",
+  "spendInAMonth": "spend in a month"
 }

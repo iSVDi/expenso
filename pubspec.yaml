@@ -55,6 +55,8 @@ flutter:
     - assets/welcome/welcomeDark3.png
     - assets/welcome/welcomeDark4.png
     - assets/welcome/welcomeDark6.png
+    - assets/calendarMonthBackground.png
+    - assets/calendarWeekBackground.png
 
   fonts:
     - family: SF Pro

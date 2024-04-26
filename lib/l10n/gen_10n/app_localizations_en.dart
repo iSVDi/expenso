@@ -98,4 +98,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get startCategories => '🏠 household,⛽️ gas,🛒 groceries,🛍 shopping,🍽 food & dinning,🚕 transport,💊 health,💪 fitness,🎓 education,🍿 entertainment,💸 bills,🐱 🐶 pet,🎁 gifts,❓ other';
+
+  @override
+  String get spendInAWeek => 'spend in a week';
+
+  @override
+  String get spendInAMonth => 'spend in a month';
 }

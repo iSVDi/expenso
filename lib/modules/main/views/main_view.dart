@@ -68,8 +68,9 @@ class _MainViewState extends State<MainView> {
       child: appBar,
     );
 
+    var height = MediaQuery.of(context).size.height * 0.111;
     var preferredSize = PreferredSize(
-      preferredSize: const Size.fromHeight(100),
+      preferredSize: Size.fromHeight(height),
       child: SafeArea(child: padding),
     );
     return preferredSize;

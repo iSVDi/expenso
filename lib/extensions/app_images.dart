@@ -8,7 +8,9 @@ enum AppImages {
   calendarIcon,
   refreshIcon,
   barChartPlug,
-  donutChartPlug
+  donutChartPlug,
+  calendarMonthBackground,
+  calendarWeekBackground
 }
 
 extension AssetsImage on AppImages {
