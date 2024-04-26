@@ -193,26 +193,24 @@ calendarDateRange     |---------------------|
     return null;
   }
 
-//TODO! check correct work
   List<SectionHistory> getHistoryListData() {
-    //Map <28.03.2024, [Transaction]>
-    Map<String, List<Transaction>> transactionsMap = {};
     var transactions = state.selectedCategories.isEmpty
         ? state.transactions
         : state.transactions
             .where((element) =>
                 state.selectedCategories.contains((element.category.target)))
             .toList();
+
+    //Map <28.03.2024, [Transaction]>
+    Map<String, List<Transaction>> transactionsMapX = Map.fromEntries(
+        transactions.map((e) => MapEntry(e.date.formattedDate, [])));
+
     for (var transaction in transactions) {
       var dateString = transaction.date.formattedDate;
-      var isNewDate = !transactionsMap.keys.toSet().contains(dateString);
-      if (isNewDate) {
-        transactionsMap[dateString] = [];
-      }
-      transactionsMap[dateString]?.add(transaction);
+      transactionsMapX[dateString]?.add(transaction);
     }
 
-    var res = transactionsMap.entries.map((sectionData) {
+    var res = transactionsMapX.entries.map((sectionData) {
       var sectionHistory = SectionHistory(
           headerDate: sectionData.value.first.date.formattedDate,
           sum: sectionData.value

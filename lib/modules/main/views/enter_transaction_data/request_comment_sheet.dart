@@ -1,6 +1,6 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class RequestCommentSheet extends StatefulWidget {
   final Function(bool) callback;
@@ -47,7 +47,6 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
     const Center(
       child: ColoredBox(
         color: Colors.red,
-        child: Text(""),
       ),
     );
     var theme = Theme.of(context);

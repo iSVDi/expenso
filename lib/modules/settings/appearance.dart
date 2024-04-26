@@ -1,8 +1,8 @@
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/theme/cubit/theme_mode_cubit.dart';
 import 'package:expenso/theme/cubit/theme_mode_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class SelectAppearance extends StatelessWidget {
   const SelectAppearance({super.key});

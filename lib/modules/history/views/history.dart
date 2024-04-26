@@ -2,6 +2,7 @@ import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/extensions/int.dart';
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/views/chart.dart';
@@ -11,7 +12,6 @@ import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_list_view/group_list_view.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class History extends StatelessWidget {
   const History({super.key});
@@ -142,7 +142,6 @@ class History extends StatelessWidget {
         .titleMedium!
         .copyWith(letterSpacing: 0.01, height: 1.2);
     var text = Text(
-      // "начните вносить расходы и здесь появится статистика по категориям"
       AppLocalizations.of(context)!.historyPlugTitle,
       style: textStyle,
     );

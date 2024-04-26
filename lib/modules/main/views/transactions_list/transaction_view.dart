@@ -7,8 +7,8 @@ import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
 import 'package:expenso/extensions/int.dart';
 import 'package:expenso/extensions/string.dart';
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import 'package:expenso/common/data_layer/models/transaction.dart';
 
 class TransactionView extends StatefulWidget {

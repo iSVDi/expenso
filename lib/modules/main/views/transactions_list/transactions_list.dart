@@ -1,5 +1,6 @@
 import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/common/views/rounded_button.dart';
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_states.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
@@ -7,7 +8,6 @@ import 'package:expenso/modules/main/views/transactions_list/transaction_cell.da
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({super.key});

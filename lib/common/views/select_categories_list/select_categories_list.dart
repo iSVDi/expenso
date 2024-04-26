@@ -1,4 +1,5 @@
 import 'package:expenso/common/views/common_focused_menu_item.dart';
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/theme/theme_provider.dart';
 import "package:flutter/material.dart";
 import 'package:focused_menu/focused_menu.dart';
@@ -7,7 +8,6 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list_interactor.dart';
 import 'package:expenso/common/views/done_button.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class SelectCategoriesList extends StatefulWidget {
   final bool isManagingCategories;
@@ -151,16 +151,15 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
       child: listTile,
     );
 
-//TODO: localize
+    var localization = AppLocalizations.of(context)!;
     var editItem = CommonFocusedMenuItem(
-      context: context,
-      title: const Text("Edit"),
-      onPressed: () => _showEditCategorySheet(context, category)
-    );
+        context: context,
+        title: Text(localization.edit),
+        onPressed: () => _showEditCategorySheet(context, category));
 
     var deleteItem = CommonFocusedMenuItem(
       context: context,
-      title: const Text("Delete"),
+      title: Text(localization.delete),
       onPressed: () => _interactor.deleteCategory(category: category),
     );
 

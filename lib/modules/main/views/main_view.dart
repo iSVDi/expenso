@@ -1,4 +1,5 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import 'package:expenso/modules/settings/settings.dart';
 import 'package:expenso/theme/theme_provider.dart';
@@ -12,7 +13,6 @@ import 'package:expenso/modules/main/cubits/spend_today_amount_provider.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/views/enter_transaction_data/enter_transaction_data.dart';
 import 'package:expenso/modules/main/views/transactions_list/transactions_list.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class MainView extends StatefulWidget {
   const MainView({super.key});

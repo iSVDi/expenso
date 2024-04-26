@@ -1,8 +1,8 @@
 import 'package:expenso/common/views/rounded_button.dart';
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import "package:flutter/material.dart";
 
 import 'package:expenso/extensions/date_time.dart';
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 // ignore: must_be_immutable
 class DateTimePicker extends StatefulWidget {
