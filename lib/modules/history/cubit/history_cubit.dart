@@ -58,6 +58,20 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     _emitNewState(dateRange, newTransactions, {}, state.chartType);
   }
 
+  void weekTimeRangeHandler() {
+    var dateRange = DateRangeHelper.getCurrentWeek();
+    var transactions = _repository
+        .readByDateRange(dateRange: dateRange, selectedCategories: {});
+    _emitNewState(dateRange, transactions, {}, state.chartType);
+  }
+
+  void monthTimeRangeHandler() {
+    var dateRange = DateRangeHelper.getCurrentMonth();
+    var transactions = _repository
+        .readByDateRange(dateRange: dateRange, selectedCategories: {});
+    _emitNewState(dateRange, transactions, {}, state.chartType);
+  }
+
   int getSum() {
     if (state.transactions.isEmpty) {
       return 0;

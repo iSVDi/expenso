@@ -66,22 +66,17 @@ class History extends StatelessWidget {
 
   PreferredSizeWidget _getAppBarBottom(BuildContext context) {
     var weekButton = _getSetTimeRangeButton(
-        context: context,
-        title: AppLocalizations.of(context)!.spendInAWeek,
-        icon: AppImages.calendarWeekBackground.assetsImage(),
-        onPressed: () {
-          //TODO: implement
-          print("weekButtonHandler");
-        });
+      context: context,
+      title: AppLocalizations.of(context)!.spendInAWeek,
+      icon: AppImages.calendarWeekBackground.assetsImage(),
+      onPressed: () => _getCubit(context).weekTimeRangeHandler(),
+    );
 
     var monthButton = _getSetTimeRangeButton(
       context: context,
       icon: AppImages.calendarMonthBackground.assetsImage(),
       title: AppLocalizations.of(context)!.spendInAMonth,
-      onPressed: () {
-        //TODO: implement
-        print("monthButtonHandler");
-      },
+      onPressed: () => _getCubit(context).monthTimeRangeHandler(),
     );
     var prefferredSizeHeight = MediaQuery.of(context).size.height * 0.123;
     var stack = Stack(alignment: AlignmentDirectional.bottomCenter, children: [

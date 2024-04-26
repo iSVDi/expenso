@@ -37,14 +37,14 @@ class _DateTimePickerState extends State<DateTimePicker> {
     );
 
     var column = Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _getDatePickerButton(context),
           _getTimePickerButton(context),
           const SizedBox(height: 20),
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [cancelButton, applyButton])
         ]);
 
