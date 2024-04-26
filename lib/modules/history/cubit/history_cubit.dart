@@ -232,7 +232,7 @@ calendarDateRange     |---------------------|
   List<List<SelectCategoryModel>> _getCategoriesByTransactions() {
     // Mapping of categories with zero spendings
     var categoriesMap = Map.fromEntries(
-        state.transactions.map((e) => MapEntry(e.category.target!, 0.0)));
+        state.transactions.map((e) => MapEntry(e.category.target!, 0)));
     for (var transaction in state.transactions) {
       var category = transaction.category.target!;
       categoriesMap[category] = categoriesMap[category]! + transaction.amount;
@@ -243,15 +243,16 @@ calendarDateRange     |---------------------|
     List<SelectCategoryModel> notSelectedCategories = [];
 
     for (var e in categoriesMap.entries) {
-      var value =
-          state.chartType == ChartType.bar ? e.value : (e.value * 100 / sum);
+      var value = state.chartType == ChartType.bar
+          ? e.value.toStringAmount
+          : "${e.value * 100 ~/ sum}";
       var noNeedSetCustomOpacity = state.selectedCategories.contains(e.key) ||
           state.selectedCategories.isEmpty;
       var alphaColor = noNeedSetCustomOpacity ? 255 : 60;
 
       var model = SelectCategoryModel(
         category: e.key,
-        value: value,
+        value: double.parse(value),
         color: _getCategoryColor(e.key.id).withAlpha(alphaColor),
       );
       if (state.selectedCategories.contains(e.key)) {

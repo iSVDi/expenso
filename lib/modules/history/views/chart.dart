@@ -204,7 +204,7 @@ class _ChartState extends State<Chart> {
       var valueSign = isDonutChart ? "%" : "";
       var value = isDonutChart && model.value < 1
           ? "< 1$valueSign"
-          : model.value.toStringAsFixed(0) + valueSign;
+          : "${(model.value % 1 == 0 ? model.value.toStringAsFixed(0) : model.value)}$valueSign";
       children =
           [Text(value, style: textStyle), const SizedBox(width: 10)] + children;
     }

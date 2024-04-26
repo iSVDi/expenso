@@ -2,4 +2,4 @@ arb-dir: lib/l10n
 output-dir: lib/l10n/gen_10n 
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
-synthetic-package: false // have to be false for custom output-dir
+synthetic-package: false # have to be false for custom output-dir
