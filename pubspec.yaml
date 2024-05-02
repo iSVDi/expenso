@@ -47,14 +47,20 @@ flutter:
     - assets/refreshIcon.png
     - assets/welcome/welcome1.png
     - assets/welcome/welcome2.png
-    - assets/welcome/welcome3.png
-    - assets/welcome/welcome4.png
-    - assets/welcome/welcome6.png
+    - assets/welcome/welcome3_ru.png
+    - assets/welcome/welcome4_ru.png
+    - assets/welcome/welcome6_ru.png
+    - assets/welcome/welcome3_en.png
+    - assets/welcome/welcome4_en.png
+    - assets/welcome/welcome6_en.png
     - assets/welcome/welcomeDark1.png
     - assets/welcome/welcomeDark2.png
-    - assets/welcome/welcomeDark3.png
-    - assets/welcome/welcomeDark4.png
-    - assets/welcome/welcomeDark6.png
+    - assets/welcome/welcomeDark3_ru.png
+    - assets/welcome/welcomeDark4_ru.png
+    - assets/welcome/welcomeDark6_ru.png
+    - assets/welcome/welcomeDark3_en.png
+    - assets/welcome/welcomeDark4_en.png
+    - assets/welcome/welcomeDark6_en.png
     - assets/calendarMonthBackground.png
     - assets/calendarWeekBackground.png
 

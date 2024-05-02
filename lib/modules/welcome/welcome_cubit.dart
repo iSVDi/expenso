@@ -51,7 +51,7 @@ class WelcomeCubit {
     ];
     var res = titles.map((e) {
       var id = titles.indexOf(e) + 1;
-      var image = _getImage(id, brightness);
+      var image = _getImage(id, brightness, localization.localeName);
       return SlideModel(
         number: id,
         title: e,
@@ -104,18 +104,21 @@ class WelcomeCubit {
   }
 
 //* ids must starts from 1
-  Image? _getImage(int id, Brightness brightness) {
+  Image? _getImage(int id, Brightness brightness, String localeName) {
     if (id == 5) {
       return null;
     }
 
-    String imageName;
-    if (brightness == Brightness.light) {
-      imageName = "welcome$id.png";
-    } else {
-      imageName = "welcomeDark$id.png";
-    }
+    String imageName = "welcome";
 
-    return Image.asset("assets/welcome/$imageName");
+    if (brightness == Brightness.dark) {
+      imageName += "Dark";
+    }
+    imageName += "$id";
+
+    if (id >= 3) {
+      imageName += "_$localeName";
+    }
+    return Image.asset("assets/welcome/$imageName.png");
   }
 }
