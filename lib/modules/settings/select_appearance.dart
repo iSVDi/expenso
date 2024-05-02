@@ -4,6 +4,7 @@ import 'package:expenso/theme/cubit/theme_mode_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//TODO set selecting theme via tap
 class SelectAppearance extends StatelessWidget {
   const SelectAppearance({super.key});
 

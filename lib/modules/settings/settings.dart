@@ -1,10 +1,20 @@
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
-import 'package:expenso/modules/settings/appearance.dart';
+import 'package:expenso/modules/settings/select_appearance.dart';
 import 'package:expenso/modules/settings/my_categories_list.dart';
+import 'package:expenso/modules/settings/settings_cubit.dart';
+import 'package:expenso/modules/settings/settings_list_Item_model.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  final _cubit = SettingsCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -17,25 +27,77 @@ class Settings extends StatelessWidget {
 
   Widget _getBody(BuildContext context) {
     var listItems = _getListItems(context);
-    return ListView.builder(
+    var list = ListView.builder(
       itemCount: listItems.length,
       itemBuilder: ((context, index) {
         var model = listItems[index];
-        var cell = ListTile(title: model.child, onTap: model.onTap);
+        var cell = ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 32),
+            title: model.child,
+            onTap: model.onTap);
         return cell;
       }),
     );
+
+    return list;
   }
 
-  List<_SettingsItemModel> _getListItems(BuildContext context) {
+  List<SettingsItemModel> _getListItems(BuildContext context) {
     return [
+      _getReminderModel(context),
       _getMyCategoriesModel(context),
       _getAppearanceModel(context),
     ];
   }
 
-  _SettingsItemModel _getMyCategoriesModel(BuildContext context) {
-    return _SettingsItemModel(
+  //TODO set switch style
+  SettingsItemModel _getReminderModel(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
+    var colorScheme = Theme.of(context).colorScheme;
+
+    var richTextChild = TextSpan(
+      text: _cubit.getForamttedTime(),
+      style: textTheme.headlineLarge!
+          .copyWith(color: colorScheme.primary, fontWeight: FontWeight.w300),
+      recognizer: TapGestureRecognizer()..onTap = () => _showTimePickerHander(),
+    );
+
+    var richText = RichText(
+      text: TextSpan(
+        text: AppLocalizations.of(context)!.reminderTitle,
+        style: textTheme.titleMedium!.copyWith(color: colorScheme.onBackground),
+        children: [richTextChild],
+      ),
+    );
+
+    var reminderSwitch = Switch(
+      value: (_cubit.getSwitchState()),
+      onChanged: (value) => setState(() {
+        _cubit.switchHandler(value);
+      }),
+    );
+
+    var child = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [richText, reminderSwitch],
+    );
+    return SettingsItemModel(child: child, onTap: null);
+  }
+
+  Future _showTimePickerHander() async {
+    var time = await showTimePicker(
+      context: context,
+      initialTime: _cubit.getTime(),
+    );
+    if (time != null) {
+      setState(() {
+        _cubit.setTime(time);
+      });
+    }
+  }
+
+  SettingsItemModel _getMyCategoriesModel(BuildContext context) {
+    return SettingsItemModel(
       child: Text(AppLocalizations.of(context)!.myCategories,
           style: Theme.of(context).textTheme.titleMedium),
       onTap: () {
@@ -49,8 +111,8 @@ class Settings extends StatelessWidget {
   }
 }
 
-_SettingsItemModel _getAppearanceModel(BuildContext context) {
-  return _SettingsItemModel(
+SettingsItemModel _getAppearanceModel(BuildContext context) {
+  return SettingsItemModel(
     child: Text(
       AppLocalizations.of(context)!.appearanceTitle,
       style: Theme.of(context).textTheme.titleMedium,
@@ -63,14 +125,4 @@ _SettingsItemModel _getAppearanceModel(BuildContext context) {
           });
     },
   );
-}
-
-class _SettingsItemModel {
-  final Widget child;
-  final Function()? onTap;
-
-  _SettingsItemModel({
-    required this.child,
-    required this.onTap,
-  });
 }
