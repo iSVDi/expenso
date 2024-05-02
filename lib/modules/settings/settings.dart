@@ -1,8 +1,8 @@
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
-import 'package:expenso/modules/settings/select_appearance.dart';
-import 'package:expenso/modules/settings/my_categories_list.dart';
 import 'package:expenso/modules/settings/settings_cubit.dart';
 import 'package:expenso/modules/settings/settings_list_Item_model.dart';
+import 'package:expenso/modules/settings/widgets/my_categories_list.dart';
+import 'package:expenso/modules/settings/widgets/select_appearance.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

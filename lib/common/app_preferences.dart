@@ -48,7 +48,7 @@ class AppPreferences {
     return res;
   }
 
-  void setRemindetState(bool state) =>
+  void setReminderState(bool state) =>
       _sharedPrefs.setBool(_PrefsKeys.reminderState.name, state);
 
   bool getReminderState() =>
