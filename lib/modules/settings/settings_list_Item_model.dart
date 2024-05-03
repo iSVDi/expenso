@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class SettingsItemModel {
+class SettingsListItemModel {
   final Widget child;
   final Function()? onTap;
 
-  SettingsItemModel({
+  SettingsListItemModel({
     required this.child,
     required this.onTap,
   });

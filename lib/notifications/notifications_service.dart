@@ -7,6 +7,10 @@ class NotificationsService {
       FlutterLocalNotificationsPlugin();
 
   Future<void> initNotification() async {
+    notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
     AndroidInitializationSettings initializationSettingsAndroid =
         const AndroidInitializationSettings("app_logo");
 
@@ -29,11 +33,8 @@ class NotificationsService {
   _notificationDetails() {
     return const NotificationDetails(
       //TODO setup details
-      android: AndroidNotificationDetails(
-        "channelId",
-        "channelName",
-        importance: Importance.max,
-      ),
+      android: AndroidNotificationDetails("channelId", "channelName",
+          importance: Importance.max, priority: Priority.high),
       iOS: DarwinNotificationDetails(),
     );
   }

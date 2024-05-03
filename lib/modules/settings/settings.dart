@@ -1,6 +1,6 @@
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/settings/settings_cubit.dart';
-import 'package:expenso/modules/settings/settings_list_Item_model.dart';
+import 'package:expenso/modules/settings/settings_list_item_model.dart';
 import 'package:expenso/modules/settings/widgets/my_categories_list.dart';
 import 'package:expenso/modules/settings/widgets/select_appearance.dart';
 import 'package:flutter/gestures.dart';
@@ -42,7 +42,7 @@ class _SettingsState extends State<Settings> {
     return list;
   }
 
-  List<SettingsItemModel> _getListItems(BuildContext context) {
+  List<SettingsListItemModel> _getListItems(BuildContext context) {
     return [
       _getReminderModel(context),
       _getMyCategoriesModel(context),
@@ -51,7 +51,7 @@ class _SettingsState extends State<Settings> {
   }
 
   //TODO set switch style
-  SettingsItemModel _getReminderModel(BuildContext context) {
+  SettingsListItemModel _getReminderModel(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     var colorScheme = Theme.of(context).colorScheme;
 
@@ -81,7 +81,7 @@ class _SettingsState extends State<Settings> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [richText, reminderSwitch],
     );
-    return SettingsItemModel(child: child, onTap: null);
+    return SettingsListItemModel(child: child, onTap: null);
   }
 
   Future _showTimePickerHander() async {
@@ -96,8 +96,8 @@ class _SettingsState extends State<Settings> {
     }
   }
 
-  SettingsItemModel _getMyCategoriesModel(BuildContext context) {
-    return SettingsItemModel(
+  SettingsListItemModel _getMyCategoriesModel(BuildContext context) {
+    return SettingsListItemModel(
       child: Text(AppLocalizations.of(context)!.myCategories,
           style: Theme.of(context).textTheme.titleMedium),
       onTap: () {
@@ -111,8 +111,8 @@ class _SettingsState extends State<Settings> {
   }
 }
 
-SettingsItemModel _getAppearanceModel(BuildContext context) {
-  return SettingsItemModel(
+SettingsListItemModel _getAppearanceModel(BuildContext context) {
+  return SettingsListItemModel(
     child: Text(
       AppLocalizations.of(context)!.appearanceTitle,
       style: Theme.of(context).textTheme.titleMedium,
