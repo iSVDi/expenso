@@ -73,7 +73,7 @@ class _SettingsState extends State<Settings> {
     var reminderSwitch = Switch(
       value: (_cubit.getSwitchState()),
       onChanged: (value) => setState(() {
-        _cubit.switchHandler(value);
+        _cubit.switchHandler(context, value);
       }),
     );
 
@@ -91,7 +91,7 @@ class _SettingsState extends State<Settings> {
     );
     if (time != null) {
       setState(() {
-        _cubit.setTime(time);
+        _cubit.setTime(context, time);
       });
     }
   }

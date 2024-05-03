@@ -1,4 +1,5 @@
 import 'package:expenso/common/app_preferences.dart';
+import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/notifications/notifications_service.dart';
 import 'package:flutter/material.dart';
 
@@ -16,34 +17,34 @@ class SettingsCubit {
     return res;
   }
 
-  void setTime(TimeOfDay time) {
+  void setTime(BuildContext context, TimeOfDay time) {
     _appPrefs.setReminderTime(time);
-    switchHandler(true);
+    switchHandler(context, true);
   }
 
   bool getSwitchState() => _appPrefs.getReminderState();
 
-  void switchHandler(bool value) {
+  void switchHandler(BuildContext context, bool value) {
     _appPrefs.setReminderState(value);
     if (value) {
       _notificationsService.initNotification();
-      _setupNotifications();
+      _setupNotifications(context);
     } else {
       _notificationsService.cancelNotifications();
     }
   }
 
-  void _setupNotifications() {
+  void _setupNotifications(BuildContext context) {
     var now = DateTime.now();
     var timeOfDay = _appPrefs.getReminderTime();
 
     var dateTime = DateTime(
         now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
 
-    //TODO localize
+    var localization = AppLocalizations.of(context)!;
     _notificationsService.scheduleNotifications(
-      title: "title",
-      body: "body",
+      title: localization.notificationTitle,
+      body: localization.notificationBody,
       scheduledNotificationDateTime: dateTime,
     );
   }

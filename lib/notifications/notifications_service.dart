@@ -5,6 +5,7 @@ import 'package:timezone/data/latest_all.dart' as tz;
 class NotificationsService {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  static const _reminderNotificationID = 0;
 
   Future<void> initNotification() async {
     notificationsPlugin
@@ -32,18 +33,20 @@ class NotificationsService {
 
   _notificationDetails() {
     return const NotificationDetails(
-      //TODO setup details
-      android: AndroidNotificationDetails("channelId", "channelName",
-          importance: Importance.max, priority: Priority.high),
+      android: AndroidNotificationDetails(
+        "reminder_$_reminderNotificationID",
+        "daily_reminder",
+        importance: Importance.max,
+        priority: Priority.high,
+      ),
       iOS: DarwinNotificationDetails(),
     );
   }
 
   Future scheduleNotifications(
-      {int id = 0,
-      String? title,
-      String? body,
-      DateTime? payload,
+      {int id = _reminderNotificationID,
+      required String title,
+      required String body,
       required DateTime scheduledNotificationDateTime}) async {
     tz.initializeTimeZones();
     return notificationsPlugin.zonedSchedule(
@@ -62,6 +65,6 @@ class NotificationsService {
   }
 
   Future cancelNotifications() async {
-    return notificationsPlugin.cancel(0);
+    return await notificationsPlugin.cancel(0);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:expenso/l10n/category_localizator.dart';
+import 'package:expenso/l10n/app_localizator.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/main/views/main_view.dart';
 import 'package:expenso/modules/welcome/welcome.dart';
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var categoryLocalizator = CategoryLocalizator();
+    var appLocalizator = AppLocalizator();
     var home = _getHomeWidget();
 
     var bloc = BlocBuilder<ThemeModeCubit, ThemeModeState>(
@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
           onGenerateTitle: (context) {
             //* Don't use localeResolutionCallback() for updating.
             //* AppLocalizations is not ready when callback is called
-            categoryLocalizator
-                .updateEmptyCategoryTitle(AppLocalizations.of(context)!);
+            appLocalizator.update(AppLocalizations.of(context)!);
             return "";
           },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
