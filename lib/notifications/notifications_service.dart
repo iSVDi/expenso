@@ -39,7 +39,6 @@ class NotificationsService {
     );
   }
 
-//TODO test on android
   Future scheduleNotifications(
       {int id = 0,
       String? title,

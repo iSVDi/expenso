@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   flutter:
-    
     sdk: flutter
   intl: ^0.18.1
   bloc: ^8.1.2
@@ -27,6 +26,7 @@ dependencies:
     sdk: flutter
   flutter_local_notifications: ^17.1.1
   timezone: ^0.9.3
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +34,13 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.4.8
   objectbox_generator: any
+
+flutter_launcher_icons:
+  android: 
+    adaptive_icon_background: "assets/app_logo.png"
+    adaptive_icon_foreground: "#ffffff"
+  ios: true
+  image_path: "assets/app_logo.png"
 
 flutter:
   generate: true
