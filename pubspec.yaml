@@ -25,6 +25,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
+  awesome_notifications: ^0.8.2
 
 dev_dependencies:
   flutter_test:

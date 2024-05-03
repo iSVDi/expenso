@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:expenso/common/app_preferences.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/notifications/notifications_service.dart';
@@ -27,7 +28,6 @@ class SettingsCubit {
   void switchHandler(BuildContext context, bool value) {
     _appPrefs.setReminderState(value);
     if (value) {
-      _notificationsService.initNotification();
       _setupNotifications(context);
     } else {
       _notificationsService.cancelNotifications();
@@ -35,17 +35,23 @@ class SettingsCubit {
   }
 
   void _setupNotifications(BuildContext context) {
-    var now = DateTime.now();
-    var timeOfDay = _appPrefs.getReminderTime();
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      } else {
+        var now = DateTime.now();
+        var timeOfDay = _appPrefs.getReminderTime();
 
-    var dateTime = DateTime(
-        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+        var dateTime = DateTime(
+            now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
 
-    var localization = AppLocalizations.of(context)!;
-    _notificationsService.scheduleNotifications(
-      title: localization.notificationTitle,
-      body: localization.notificationBody,
-      scheduledNotificationDateTime: dateTime,
-    );
+        var localization = AppLocalizations.of(context)!;
+        _notificationsService.scheduleNotifications(
+          title: localization.notificationTitle,
+          body: localization.notificationBody,
+          scheduledNotificationDateTime: dateTime,
+        );
+      }
+    });
   }
 }

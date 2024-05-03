@@ -1,3 +1,4 @@
+import 'package:expenso/notifications/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +9,7 @@ import 'package:expenso/theme/cubit/theme_mode_cubit.dart';
 
 final objectBoxStoreKeeper = ObjectBoxStoreKeeper();
 final sharedPreferencesKeeper = SharedPreferencesKeeper();
+final notificationService = NotificationsService();
 
 Future<void> main() async {
   // This is required so ObjectBox can get the application directory
@@ -15,6 +17,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await objectBoxStoreKeeper.prepareProperty();
   await sharedPreferencesKeeper.prepareProperty();
+  await notificationService.initialize();
+
   var cubit = BlocProvider(
     create: (context) => ThemeModeCubit(),
     child: const MyApp(),
