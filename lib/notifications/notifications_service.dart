@@ -15,8 +15,8 @@ class NotificationsService {
   final awesome = AwesomeNotifications();
   Future initialize() async {
     await awesome.initialize(
-        // null,
-        "assets/app_logo",
+        null,
+        // "assets/app_logo",
         [
           NotificationChannel(
               channelShowBadge: true,
