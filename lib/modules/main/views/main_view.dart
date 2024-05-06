@@ -32,6 +32,7 @@ class _MainViewState extends State<MainView> {
       });
     });
   }
+  
   @override
   Widget build(BuildContext context) {
     var scaffold = Scaffold(

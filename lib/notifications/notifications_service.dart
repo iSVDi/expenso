@@ -8,14 +8,18 @@ Connecting to VM Service at ws://127.0.0.1:57617/bh6oBrdMlUM=/ws
 See https://docs.flutter.dev/platform-integration/platform-channels#channels-and-platform-threading for more information.
 Lost connection to device.
 */
+//TODO test badges on real android device
 class NotificationsService {
   static const _reminderNotificationID = 0;
   static const _channelKey = 'basic_channel';
+  final awesome = AwesomeNotifications();
   Future initialize() async {
-    await AwesomeNotifications().initialize(
-        null,
+    await awesome.initialize(
+        // null,
+        "assets/app_logo",
         [
           NotificationChannel(
+              channelShowBadge: true,
               importance: NotificationImportance.Max,
               channelGroupKey: 'basic_channel_group',
               channelKey: _channelKey,
@@ -28,14 +32,13 @@ class NotificationsService {
               channelGroupName: 'Basic group')
         ],
         debug: true);
+    await resetGlobalBadge();
   }
 
   ///INFO: Only after setListeners being called, the notification events starts to be delivered.
   Future setListeners() async {
-    await AwesomeNotifications().setListeners(
-      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-      onNotificationDisplayedMethod:
-          NotificationController.onNotificationDisplayedMethod,
+    await awesome.setListeners(
+      onActionReceivedMethod: _NotificationController.onActionReceivedMethod,
     );
   }
 
@@ -43,17 +46,18 @@ class NotificationsService {
       {required String title,
       required String body,
       required DateTime scheduledNotificationDateTime}) async {
+    var badgeCounter = await awesome.getGlobalBadgeCounter() + 1;
     var notificationContent = NotificationContent(
         id: _reminderNotificationID,
         channelKey: _channelKey,
         title: title,
+        badge: badgeCounter,
         body: body,
         notificationLayout: NotificationLayout.BigPicture,
         bigPicture: 'asset://assets/app_logo.png');
 
-    var localTimeZone =
-        await AwesomeNotifications().getLocalTimeZoneIdentifier();
-    AwesomeNotifications().createNotification(
+    var localTimeZone = await awesome.getLocalTimeZoneIdentifier();
+    awesome.createNotification(
       content: notificationContent,
       schedule: NotificationCalendar(
         hour: scheduledNotificationDateTime.hour,
@@ -64,23 +68,17 @@ class NotificationsService {
   }
 
   Future cancelNotifications() async {
-    AwesomeNotifications().cancel(_reminderNotificationID);
+    await awesome.cancel(_reminderNotificationID);
+  }
+
+  Future resetGlobalBadge() async {
+    await awesome.resetGlobalBadge();
   }
 }
 
-class NotificationController {
-  /// Use this method to detect every time that a new notification is displayed
-  @pragma("vm:entry-point")
-  static Future<void> onNotificationDisplayedMethod(
-      ReceivedNotification receivedNotification) async {
-    //TODO! reminder implement show badges
-    print("onNotificationDisplayedMethod");
-  }
-
+class _NotificationController {
   /// Use this method to detect when the user taps on a notification or action button
   @pragma("vm:entry-point")
   static Future<void> onActionReceivedMethod(
-      ReceivedAction receivedAction) async {
-    // Your code goes here
-  }
+      ReceivedAction receivedAction) async {}
 }
