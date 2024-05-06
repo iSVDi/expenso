@@ -18,6 +18,7 @@ class SettingsCubit {
     return res;
   }
 
+// TODO replace context on localization
   void setTime(BuildContext context, TimeOfDay time) {
     _appPrefs.setReminderTime(time);
     switchHandler(context, true);
