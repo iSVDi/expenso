@@ -55,8 +55,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          theme: themeProvider.getTheme(),
-          darkTheme: themeProvider.getDarkTheme(),
+          theme: themeProvider.getTheme(true),
+          darkTheme: themeProvider.getTheme(false),
           themeMode: state.themeMode,
           home: home,
         );

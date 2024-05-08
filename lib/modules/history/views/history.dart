@@ -8,7 +8,7 @@ import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/views/chart.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
-import 'package:expenso/theme/theme_provider.dart';
+import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_list_view/group_list_view.dart';

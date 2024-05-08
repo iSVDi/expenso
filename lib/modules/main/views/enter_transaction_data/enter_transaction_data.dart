@@ -2,7 +2,7 @@ import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
-import 'package:expenso/theme/theme_provider.dart';
+import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter/material.dart';
 

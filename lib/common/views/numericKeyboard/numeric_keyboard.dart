@@ -3,7 +3,7 @@ import 'package:expenso/extensions/string.dart';
 import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/done_button.dart';
-import 'package:expenso/theme/theme_provider.dart';
+import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenso/extensions/date_time.dart';

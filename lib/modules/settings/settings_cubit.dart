@@ -18,24 +18,23 @@ class SettingsCubit {
     return res;
   }
 
-// TODO replace context on localization
-  void setTime(BuildContext context, TimeOfDay time) {
+  void setTime(AppLocalizations localization, TimeOfDay time) {
     _appPrefs.setReminderTime(time);
-    switchHandler(context, true);
+    switchHandler(localization, true);
   }
 
   bool getSwitchState() => _appPrefs.getReminderState();
 
-  void switchHandler(BuildContext context, bool value) {
+  void switchHandler(AppLocalizations localization, bool value) {
     _appPrefs.setReminderState(value);
     if (value) {
-      _setupNotifications(context);
+      _setupNotifications(localization);
     } else {
       _notificationsService.cancelNotifications();
     }
   }
 
-  void _setupNotifications(BuildContext context) {
+  void _setupNotifications(AppLocalizations localization) {
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         AwesomeNotifications().requestPermissionToSendNotifications();
@@ -46,7 +45,6 @@ class SettingsCubit {
         var dateTime = DateTime(
             now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
 
-        var localization = AppLocalizations.of(context)!;
         _notificationsService.scheduleNotifications(
           title: localization.notificationTitle,
           body: localization.notificationBody,

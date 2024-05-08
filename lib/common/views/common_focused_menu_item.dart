@@ -6,7 +6,7 @@ var viewItem = FocusedMenuItem(
         onPressed: () => _presentTransaction(context, transaction));
 */
 
-import 'package:expenso/theme/theme_provider.dart';
+import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/modals.dart';
 

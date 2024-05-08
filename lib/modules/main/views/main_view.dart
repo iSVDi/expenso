@@ -2,7 +2,7 @@ import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import 'package:expenso/modules/settings/settings.dart';
-import 'package:expenso/theme/theme_provider.dart';
+import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 

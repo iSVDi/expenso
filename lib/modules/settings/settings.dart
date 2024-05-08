@@ -77,7 +77,7 @@ class _SettingsState extends State<Settings> {
       trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
       value: (_cubit.getSwitchState()),
       onChanged: (value) => setState(() {
-        _cubit.switchHandler(context, value);
+        _cubit.switchHandler(AppLocalizations.of(context)!, value);
       }),
     );
 
@@ -95,7 +95,7 @@ class _SettingsState extends State<Settings> {
     );
     if (time != null) {
       setState(() {
-        _cubit.setTime(context, time);
+        _cubit.setTime(AppLocalizations.of(context)!, time);
       });
     }
   }

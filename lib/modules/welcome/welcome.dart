@@ -1,11 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, unused_import
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/rounded_button.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/main/views/main_view.dart';
 import 'package:expenso/modules/welcome/welcome_cubit.dart';
-import 'package:flutter/material.dart';
+import 'package:expenso/theme/theme_extensions/additional_colors.dart';
+import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import 'package:expenso/theme/theme_provider.dart';
+import 'package:flutter/material.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
