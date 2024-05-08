@@ -14,7 +14,6 @@ class Welcome extends StatefulWidget {
   State<StatefulWidget> createState() => _WelcomeState();
 }
 
-// TODO? move code for creating categories' list in separate file
 class _WelcomeState extends State<Welcome> {
   final _cubit = WelcomeCubit();
   final _pageController = PageController();
@@ -58,13 +57,16 @@ class _WelcomeState extends State<Welcome> {
           _currentSlideId = value;
         });
       },
-      itemBuilder: ((context, index) => _itemBuilder(context, models[index])),
+      itemBuilder: ((context, index) => _pageViewItemBuilder(
+            context,
+            models[index],
+          )),
     );
 
     return Expanded(child: pageView);
   }
 
-  Widget _itemBuilder(BuildContext context, SlideModel model) {
+  Widget _pageViewItemBuilder(BuildContext context, SlideModel model) {
     var theme = Theme.of(context);
     var numberStyle = theme.textTheme.displayLarge
         ?.copyWith(color: theme.colorScheme.primary);
@@ -103,38 +105,11 @@ class _WelcomeState extends State<Welcome> {
 
     var list = ListView.builder(
       itemCount: categories.length,
-      itemBuilder: (buildContext, id) {
-        var titleStyle = Theme.of(context)
-            .textTheme
-            .titleMedium!
-            .copyWith(color: Theme.of(context).colorScheme.onBackground);
-
-        var checkBoxColor = Theme.of(context).colorScheme.onBackground;
-        var listTile = ListTile(
-          leading: Checkbox(
-              fillColor: const MaterialStatePropertyAll(Colors.transparent),
-              checkColor: checkBoxColor,
-              side: MaterialStateBorderSide.resolveWith(
-                  (states) => BorderSide(color: checkBoxColor)),
-              value: categories[id].isSelected,
-              onChanged: (value) {
-                _cubit.selectCategory(id);
-                setState(() {});
-              }),
-          title: Text(
-            categories[id].name,
-            style: categories[id].isSelected
-                ? titleStyle.copyWith(fontWeight: FontWeight.w500)
-                : titleStyle,
-          ),
-          onTap: () {
-            _cubit.selectCategory(id);
-            setState(() {});
-          },
-        );
-
-        return SizedBox(height: 48, child: listTile);
-      },
+      itemBuilder: (builderContext, id) =>
+          _selectCategoriiesSlideItemBuilder(context, categories[id], () {
+        _cubit.selectCategory(id);
+        setState(() {});
+      }),
     );
 
     var listHeght = MediaQuery.of(context).size.height * 0.415;
@@ -198,6 +173,38 @@ class _WelcomeState extends State<Welcome> {
       width: double.maxFinite,
       child: header,
     );
+  }
+
+  Widget? _selectCategoriiesSlideItemBuilder(
+    BuildContext context,
+    SelectableCategory category,
+    Function()? onTap,
+  ) {
+    var titleStyle = Theme.of(context)
+        .textTheme
+        .titleMedium!
+        .copyWith(color: Theme.of(context).colorScheme.onBackground);
+
+    var checkBoxColor = Theme.of(context).colorScheme.onBackground;
+    var listTile = ListTile(
+      leading: Checkbox(
+        fillColor: const MaterialStatePropertyAll(Colors.transparent),
+        checkColor: checkBoxColor,
+        side: MaterialStateBorderSide.resolveWith(
+            (states) => BorderSide(color: checkBoxColor)),
+        value: category.isSelected,
+        onChanged: (value) => onTap?.call(),
+      ),
+      title: Text(
+        category.name,
+        style: category.isSelected
+            ? titleStyle.copyWith(fontWeight: FontWeight.w500)
+            : titleStyle,
+      ),
+      onTap: onTap,
+    );
+
+    return SizedBox(height: 48, child: listTile);
   }
 
   Widget _getPageIndicator(BuildContext context, int itemsCount) {
