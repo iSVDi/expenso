@@ -87,14 +87,24 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
       height: 1,
       color: Theme.of(context).extension<DividerColors>()!.keyboard,
     );
+
+    var keyboardChildren = widget.dateTime == null
+        ? [
+            _getKeyboardHeader(context),
+            divider,
+            _getNumericKeyboard(context),
+          ]
+        : [
+            _getKeyboardHeader(context),
+            divider,
+            const Spacer(),
+            _getNumericKeyboard(context),
+            const Spacer(),
+          ];
     var keyboard = Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        _getKeyboardHeader(context),
-        divider,
-        _getNumericKeyboard(context),
-      ],
+      children: keyboardChildren,
     );
     var keyboardStack = Stack(
         alignment: AlignmentDirectional.bottomEnd,
@@ -119,13 +129,12 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
 
     Row header = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: children,
     );
     EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 32);
     return Container(
       padding: padding,
-      height: 74,
+      height: MediaQuery.of(context).size.height * 0.1,
       child: header,
     );
   }

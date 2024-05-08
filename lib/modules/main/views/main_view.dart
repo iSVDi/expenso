@@ -32,7 +32,7 @@ class _MainViewState extends State<MainView> {
       });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     var scaffold = Scaffold(
@@ -134,7 +134,7 @@ class _MainViewState extends State<MainView> {
   }
 
   Widget _getKeyboard(BuildContext context) {
-    var keyboardHeightRatio = 0.387;
+    var keyboardHeightRatio = 0.398;
     var size = MediaQuery.of(context).size;
     var height = size.height - MediaQuery.of(context).padding.vertical;
     var bloc = BlocProvider(
