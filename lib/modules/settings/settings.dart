@@ -50,7 +50,6 @@ class _SettingsState extends State<Settings> {
     ];
   }
 
-  //TODO set switch style
   SettingsListItemModel _getReminderModel(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     var colorScheme = Theme.of(context).colorScheme;
@@ -70,7 +69,12 @@ class _SettingsState extends State<Settings> {
       ),
     );
 
+    var colorTheme = Theme.of(context).colorScheme;
     var reminderSwitch = Switch(
+      activeTrackColor: colorTheme.primary,
+      inactiveTrackColor: colorTheme.onPrimary,
+      thumbColor: MaterialStateProperty.all(Colors.white),
+      trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
       value: (_cubit.getSwitchState()),
       onChanged: (value) => setState(() {
         _cubit.switchHandler(context, value);
