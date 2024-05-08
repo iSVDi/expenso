@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/material.dart';
 
 /*
 TODO: need resolve for iOS
@@ -15,8 +16,7 @@ class NotificationsService {
   final awesome = AwesomeNotifications();
   Future initialize() async {
     await awesome.initialize(
-        null,
-        // "assets/app_logo",
+        "resource://drawable/ic_splash_white_logo",
         [
           NotificationChannel(
               channelShowBadge: true,
@@ -53,8 +53,7 @@ class NotificationsService {
         title: title,
         badge: badgeCounter,
         body: body,
-        notificationLayout: NotificationLayout.BigPicture,
-        bigPicture: 'asset://assets/app_logo.png');
+        largeIcon: 'asset://assets/app_logo.png');
 
     var localTimeZone = await awesome.getLocalTimeZoneIdentifier();
     awesome.createNotification(
