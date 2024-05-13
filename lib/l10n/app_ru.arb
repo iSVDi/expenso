@@ -35,5 +35,6 @@
   "spendInAMonth": "Потрачено за месяц",
   "reminderTitle": "Напоминать в ",
   "notificationTitle" : "eXpenso",
-  "notificationBody" : "Не забудьте внести свои траты за сегодня!"
+  "notificationBody" : "Не забудьте внести свои траты за сегодня!",
+  "settings": "Настройки"
 }

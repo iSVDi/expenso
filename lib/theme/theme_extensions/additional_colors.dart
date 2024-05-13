@@ -1,22 +1,31 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class AdditionalColors extends ThemeExtension<AdditionalColors> {
   const AdditionalColors({
     required this.background1,
     required this.dotInactiveColor,
+    required this.historyBarBackground,
+    required this.historyBarBottom,
   });
 
   final Color background1;
   final Color dotInactiveColor;
+  final Color historyBarBackground;
+  final Color historyBarBottom;
 
   @override
   ThemeExtension<AdditionalColors> copyWith({
     Color? background1,
     Color? dotInactiveColor,
+    Color? historyBarBackground,
+    Color? historyBarBottom,
   }) {
     return AdditionalColors(
       background1: background1 ?? this.background1,
       dotInactiveColor: dotInactiveColor ?? this.dotInactiveColor,
+      historyBarBackground: historyBarBackground ?? this.historyBarBackground,
+      historyBarBottom: historyBarBottom ?? this.historyBarBottom,
     );
   }
 
@@ -31,6 +40,12 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
       dotInactiveColor:
           Color.lerp(dotInactiveColor, other.dotInactiveColor, t) ??
               dotInactiveColor,
+      historyBarBackground:
+          Color.lerp(historyBarBackground, other.historyBarBackground, t) ??
+              historyBarBackground,
+      historyBarBottom:
+          Color.lerp(historyBarBottom, other.historyBarBottom, t) ??
+              historyBarBottom,
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/views/chart.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
+import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,16 +51,14 @@ class History extends StatelessWidget {
       icon: AppImages.calendarIcon.assetsImage(width: 30, height: 24),
     );
     return AppBar(
+      iconTheme: const IconThemeData(color: Colors.white),
       bottom: _getAppBarBottom(context),
       centerTitle: true,
       title: Text(AppLocalizations.of(context)!.expensesAnalysis,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge
-              ?.copyWith(color: Theme.of(context).colorScheme.background)),
+          style: const TextStyle(color: Colors.white)),
       actions: [iconButton],
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      foregroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor:
+          Theme.of(context).extension<AdditionalColors>()!.historyBarBackground,
     );
   }
 
@@ -82,7 +81,10 @@ class History extends StatelessWidget {
       SizedBox(
           width: double.maxFinite,
           height: prefferredSizeHeight / 1.7,
-          child: ColoredBox(color: Theme.of(context).colorScheme.background)),
+          child: ColoredBox(
+              color: Theme.of(context)
+                  .extension<AdditionalColors>()!
+                  .historyBarBottom)),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [weekButton, monthButton],

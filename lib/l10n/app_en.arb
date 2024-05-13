@@ -35,5 +35,6 @@
   "spendInAMonth": "Spend in a month",
   "reminderTitle": "Reminde me at ",
   "notificationTitle" : "eXpenso",
-  "notificationBody" : "Don't forget to enter your today expenses!"
+  "notificationBody" : "Don't forget to enter your today expenses!",
+  "settings": "Settings"
 }

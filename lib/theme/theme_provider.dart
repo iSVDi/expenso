@@ -53,10 +53,16 @@ class ThemeProvider {
 
   AdditionalColors _getAdditionalColors(bool isLightMode) {
     var additionalColors = AdditionalColors(
-        background1: isLightMode
-            ? const Color.fromRGBO(238, 238, 238, 1)
-            : const Color.fromRGBO(43, 43, 43, 1),
-        dotInactiveColor: const Color.fromRGBO(221, 221, 221, 1));
+      background1: isLightMode
+          ? const Color.fromRGBO(238, 238, 238, 1)
+          : const Color.fromRGBO(43, 43, 43, 1),
+      dotInactiveColor: const Color.fromRGBO(221, 221, 221, 1),
+      historyBarBackground: isLightMode
+          ? const Color.fromRGBO(0, 133, 150, 1)
+          : const Color.fromRGBO(25, 25, 25, 1),
+      historyBarBottom:
+          isLightMode ? Colors.white : const Color.fromRGBO(34, 34, 34, 1),
+    );
     return additionalColors;
   }
 
@@ -67,7 +73,7 @@ class ThemeProvider {
             : const Color.fromRGBO(34, 34, 34, 1),
         history: isLightMode
             ? const Color.fromRGBO(238, 238, 238, 1)
-            : const Color.fromRGBO(30, 30, 30, 1),
+            : const Color.fromRGBO(25, 25, 25, 1),
         historyFirstSection: const Color.fromRGBO(144, 144, 144, 1),
         welcome: const Color.fromRGBO(144, 144, 144, 1));
     return dividerColors;

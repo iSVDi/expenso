@@ -19,7 +19,10 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     var scaffold = Scaffold(
-      appBar: AppBar(actions: const []),
+      appBar: AppBar(
+        actions: const [],
+        title: Text(AppLocalizations.of(context)!.settings),
+      ),
       body: _getBody(context),
     );
     return scaffold;
