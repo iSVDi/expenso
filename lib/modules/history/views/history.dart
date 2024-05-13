@@ -181,7 +181,6 @@ class History extends StatelessWidget {
         );
         return header;
       },
-      // },
       sectionSeparatorBuilder: (context, section) {
         var isFirstSection = section == 0;
         var dividerExtension = Theme.of(context).extension<DividerColors>()!;
