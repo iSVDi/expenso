@@ -10,6 +10,7 @@ class Category {
     required this.title,
   });
 
+//TODO? use CategoriesRepository._noCategoryId instead straight out assign id
   Category.emptyCategory()
       : id = 1,
         title = "";

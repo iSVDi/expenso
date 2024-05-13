@@ -17,6 +17,7 @@ class AppLocalizator {
     _localizeNotification();
   }
 
+  //TODO use localization instead
   void _localizeEmptyCategoryTitle() {
     var emptyCategory = Category.emptyCategory();
     emptyCategory.title = _localizations.noCategory;
@@ -24,6 +25,7 @@ class AppLocalizator {
     repository.insertCategory(emptyCategory);
   }
 
+//TODO don't need. Set localizations inside _notificationService.scheduleNotifications (param of awesome.createNotification)
   void _localizeNotification() {
     if (_prefs.getReminderState()) {
       var time = _prefs.getReminderTime();

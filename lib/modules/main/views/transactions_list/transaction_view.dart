@@ -56,7 +56,7 @@ class TransactionViewState extends State<TransactionView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _getDateButton(),
-          _getCategoryButton(),
+          _getCategoryButton(AppLocalizations.of(context)!),
           _getCommentButton(),
           _getAmountButton()
         ],
@@ -89,8 +89,11 @@ class TransactionViewState extends State<TransactionView> {
     return textButton;
   }
 
-  Widget _getCategoryButton() {
+  Widget _getCategoryButton(AppLocalizations localization) {
     var title = transaction.category.target!.title;
+    if (title.isEmpty) {
+      title = localization.noCategory;
+    }
     var textStyle = _getTheme(context).textTheme.displaySmall;
     var text = Text(title, style: textStyle);
 

@@ -1,4 +1,4 @@
-import '../../data_layer/models/category.dart';
+import "package:expenso/common/data_layer/models/category.dart";
 import "package:flutter/material.dart";
 
 class CategoryCell extends StatelessWidget {
