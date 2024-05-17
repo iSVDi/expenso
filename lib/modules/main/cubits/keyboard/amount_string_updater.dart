@@ -4,9 +4,15 @@ class AmountStringUpdater {
   final int _partWhole = 3; // count of numeric with point
 
   String update(String oldValue, NumericKeyboardButtonType tappedButtonType) {
+    //TODO? remove after diploma
+    if (oldValue.length == 6 &&
+        tappedButtonType != NumericKeyboardButtonType.delete) {
+      return oldValue;
+    }
+
     switch (tappedButtonType) {
       case NumericKeyboardButtonType.delete:
-       oldValue = _deleteSymbol(oldValue);
+        oldValue = _deleteSymbol(oldValue);
       case NumericKeyboardButtonType.empty:
         break;
       case NumericKeyboardButtonType.point:
