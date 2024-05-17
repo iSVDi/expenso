@@ -1,7 +1,7 @@
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
+import 'package:expenso/gen/objectbox/objectbox.g.dart';
 import 'package:expenso/main.dart';
-import "package:expenso/objectbox.g.dart";
 import 'package:flutter/material.dart';
 
 abstract class RepositoryObserver {
@@ -74,6 +74,7 @@ class TransactionRepository implements RepositorySubject {
     var now = DateTime.now();
     var today = DateTime(now.year, now.month, now.day);
     var tommorrow = today.add(const Duration(days: 1));
+
     var query = _transactions
         .query(Transaction_.date.betweenDate(today, tommorrow))
         .order(Transaction_.id, flags: Order.descending)

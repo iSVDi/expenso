@@ -1,5 +1,5 @@
 import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
-import 'package:expenso/l10n/gen_10n/app_localizations.dart';
+import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/modules/settings/settings_cubit.dart';
 import 'package:expenso/modules/settings/settings_list_item_model.dart';
 import 'package:expenso/modules/settings/widgets/my_categories_list.dart';

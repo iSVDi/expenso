@@ -1,8 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:expenso/common/app_preferences.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/categories_repository.dart';
-import 'package:expenso/l10n/gen_10n/app_localizations.dart';
+import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/notifications/notifications_service.dart';
 
 ///INFO: using for update strings after changing locale

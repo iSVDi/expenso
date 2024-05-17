@@ -3,7 +3,7 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
 import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
-import 'package:expenso/l10n/gen_10n/app_localizations.dart';
+import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_states.dart';
 import 'package:expenso/modules/main/views/enter_transaction_data/request_comment_sheet.dart';

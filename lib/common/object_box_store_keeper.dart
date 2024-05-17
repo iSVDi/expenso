@@ -1,5 +1,5 @@
 import 'package:expenso/common/data_layer/repositories/storage_creator.dart';
-import 'package:expenso/objectbox.g.dart';
+import 'package:objectbox/objectbox.dart';
 
 class ObjectBoxStoreKeeper {
   late Store _objectBoxStore;

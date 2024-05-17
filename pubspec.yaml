@@ -31,7 +31,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  build_runner: ^2.4.8
+  build_runner: ^2.4.9
   objectbox_generator: any
   flutter_gen_runner: any
 
@@ -62,3 +62,6 @@ flutter:
 
 flutter_gen:
   output: lib/gen/ # Optional (default: lib/gen/)
+
+objectbox:
+  output_dir: gen/objectbox/

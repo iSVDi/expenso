@@ -10,7 +10,7 @@ import 'package:expenso/common/views/show_delete_alert.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/extensions/int.dart';
 import 'package:expenso/extensions/string.dart';
-import 'package:expenso/l10n/gen_10n/app_localizations.dart';
+import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class TransactionView extends StatefulWidget {

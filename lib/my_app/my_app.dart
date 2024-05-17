@@ -1,5 +1,5 @@
-import 'package:expenso/l10n/app_localizator.dart';
-import 'package:expenso/l10n/gen_10n/app_localizations.dart';
+import 'package:expenso/common/app_localizator.dart';
+import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/main.dart';
 import 'package:expenso/modules/main/views/main_view.dart';
 import 'package:expenso/modules/welcome/welcome.dart';

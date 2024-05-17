@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:expenso/l10n/gen_10n/app_localizations.dart';
+import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenso/common/app_preferences.dart';

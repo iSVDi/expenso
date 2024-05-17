@@ -1,7 +1,7 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/common/views/show_delete_alert.dart';
-import 'package:expenso/l10n/gen_10n/app_localizations.dart';
+import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_states.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';

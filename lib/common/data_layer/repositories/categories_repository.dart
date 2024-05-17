@@ -1,6 +1,7 @@
 import 'package:expenso/common/data_layer/models/category.dart';
-import "package:expenso/objectbox.g.dart";
-import '../../../main.dart';
+import 'package:expenso/gen/objectbox/objectbox.g.dart';
+import 'package:expenso/main.dart';
+
 
 class CategoriesRepository {
   static const _noCategoryId = 1;
