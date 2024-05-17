@@ -60,8 +60,6 @@ class ThemeProvider {
       historyBarBackground: isLightMode
           ? const Color.fromRGBO(0, 133, 150, 1)
           : const Color.fromRGBO(25, 25, 25, 1),
-      historyBarBottom:
-          isLightMode ? Colors.white : const Color.fromRGBO(34, 34, 34, 1),
     );
     return additionalColors;
   }

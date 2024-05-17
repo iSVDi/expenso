@@ -52,7 +52,6 @@ class History extends StatelessWidget {
     );
     return AppBar(
       iconTheme: const IconThemeData(color: Colors.white),
-      bottom: _getAppBarBottom(context),
       centerTitle: true,
       title: Text(AppLocalizations.of(context)!.expensesAnalysis,
           style: const TextStyle(color: Colors.white)),
@@ -60,74 +59,6 @@ class History extends StatelessWidget {
       backgroundColor:
           Theme.of(context).extension<AdditionalColors>()!.historyBarBackground,
     );
-  }
-
-  PreferredSizeWidget _getAppBarBottom(BuildContext context) {
-    var weekButton = _getSetTimeRangeButton(
-      context: context,
-      title: AppLocalizations.of(context)!.spendInAWeek,
-      icon: AppImages.calendarWeekBackground.assetsImage(),
-      onPressed: () => _getCubit(context).weekTimeRangeHandler(),
-    );
-
-    var monthButton = _getSetTimeRangeButton(
-      context: context,
-      icon: AppImages.calendarMonthBackground.assetsImage(),
-      title: AppLocalizations.of(context)!.spendInAMonth,
-      onPressed: () => _getCubit(context).monthTimeRangeHandler(),
-    );
-    var prefferredSizeHeight = MediaQuery.of(context).size.height * 0.123;
-    var stack = Stack(alignment: AlignmentDirectional.bottomCenter, children: [
-      SizedBox(
-          width: double.maxFinite,
-          height: prefferredSizeHeight / 1.7,
-          child: ColoredBox(
-              color: Theme.of(context)
-                  .extension<AdditionalColors>()!
-                  .historyBarBottom)),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [weekButton, monthButton],
-      )
-    ]);
-
-    var prefferredSize = PreferredSize(
-        preferredSize: Size.fromHeight(prefferredSizeHeight), child: stack);
-
-    return prefferredSize;
-  }
-
-  Widget _getSetTimeRangeButton(
-      {required BuildContext context,
-      required Widget icon,
-      required String title,
-      required Function()? onPressed}) {
-    var size = MediaQuery.of(context).size;
-
-    var width = size.width * 0.384;
-    var height = size.height * 0.127;
-    var textColor = Theme.of(context).colorScheme.onBackground;
-    var textStyle =
-        Theme.of(context).textTheme.labelLarge!.copyWith(color: textColor);
-    var button = IconButton(
-      onPressed: onPressed,
-      icon: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
-          color: Theme.of(context).colorScheme.background,
-        ),
-        child: Stack(children: [
-          icon,
-          Padding(
-            padding: const EdgeInsets.only(top: 10, left: 10),
-            child: Text(title, style: textStyle),
-          ),
-        ]),
-      ),
-    );
-    return button;
   }
 
   Widget _getChart(BuildContext context) {

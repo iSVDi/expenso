@@ -6,26 +6,22 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
     required this.background1,
     required this.dotInactiveColor,
     required this.historyBarBackground,
-    required this.historyBarBottom,
   });
 
   final Color background1;
   final Color dotInactiveColor;
   final Color historyBarBackground;
-  final Color historyBarBottom;
 
   @override
   ThemeExtension<AdditionalColors> copyWith({
     Color? background1,
     Color? dotInactiveColor,
     Color? historyBarBackground,
-    Color? historyBarBottom,
   }) {
     return AdditionalColors(
       background1: background1 ?? this.background1,
       dotInactiveColor: dotInactiveColor ?? this.dotInactiveColor,
       historyBarBackground: historyBarBackground ?? this.historyBarBackground,
-      historyBarBottom: historyBarBottom ?? this.historyBarBottom,
     );
   }
 
@@ -43,9 +39,6 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
       historyBarBackground:
           Color.lerp(historyBarBackground, other.historyBarBackground, t) ??
               historyBarBackground,
-      historyBarBottom:
-          Color.lerp(historyBarBottom, other.historyBarBottom, t) ??
-              historyBarBottom,
     );
   }
 }
