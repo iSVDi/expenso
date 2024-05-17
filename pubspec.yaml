@@ -25,6 +25,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   awesome_notifications: ^0.8.2
   dartdoc: ^6.3.0
+  flutter_gen: ^5.4.0
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +33,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.4.8
   objectbox_generator: any
+  flutter_gen_runner: any
 
 flutter_launcher_icons:
   android: true
@@ -42,30 +44,8 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - assets/barChartIcon.png
-    - assets/settingsIcon.png
-    - assets/barModeIcon.png
-    - assets/barChartPlug.png
-    - assets/donutModeIcon.png
-    - assets/donutChartPlug.png
-    - assets/calendarIcon.png
-    - assets/refreshIcon.png
-    - assets/welcome/welcome1.png
-    - assets/welcome/welcome2.png
-    - assets/welcome/welcome3_ru.png
-    - assets/welcome/welcome4_ru.png
-    - assets/welcome/welcome6_ru.png
-    - assets/welcome/welcome3_en.png
-    - assets/welcome/welcome4_en.png
-    - assets/welcome/welcome6_en.png
-    - assets/welcome/welcomeDark1.png
-    - assets/welcome/welcomeDark2.png
-    - assets/welcome/welcomeDark3_ru.png
-    - assets/welcome/welcomeDark4_ru.png
-    - assets/welcome/welcomeDark6_ru.png
-    - assets/welcome/welcomeDark3_en.png
-    - assets/welcome/welcomeDark4_en.png
-    - assets/welcome/welcomeDark6_en.png
+    - assets/
+    - assets/welcome/
 
   fonts:
     - family: SF Pro
@@ -79,3 +59,6 @@ flutter:
         - asset: assets/fonts/SF-Pro-Text-Semibold.otf
         - asset: assets/fonts/SF-Pro-Text-Thin.otf
         - asset: assets/fonts/SF-Pro-Text-Ultralight.otf
+
+flutter_gen:
+  output: lib/gen/ # Optional (default: lib/gen/)

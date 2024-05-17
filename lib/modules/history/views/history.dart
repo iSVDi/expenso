@@ -1,8 +1,8 @@
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/common/views/show_delete_alert.dart';
-import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/extensions/int.dart';
+import 'package:expenso/gen/assets.gen.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
@@ -49,7 +49,7 @@ class History extends StatelessWidget {
           cubit.updateDateRange(newDateRange);
         }
       },
-      icon: AppImages.calendarIcon.assetsImage(width: 30, height: 24),
+      icon: Assets.calendarIcon.image(width: 30, height: 24),
     );
     return AppBar(
       iconTheme: const IconThemeData(color: Colors.white),
@@ -136,7 +136,7 @@ class History extends StatelessWidget {
   Widget _getListPlug(BuildContext context) {
     var sideSize = MediaQuery.of(context).size.width * 0.595;
     var plug =
-        AppImages.donutChartPlug.assetsImage(height: sideSize, width: sideSize);
+        Assets.donutChartPlug.image(height: sideSize, width: sideSize);
     var textStyle = Theme.of(context)
         .textTheme
         .titleMedium!
@@ -172,11 +172,11 @@ class History extends StatelessWidget {
     );
 
     var icon = cubit.state.chartType == ChartType.bar
-        ? AppImages.donutModeIcon
-        : AppImages.barModeIcon;
+        ? Assets.donutModeIcon
+        : Assets.barModeIcon;
     var button = IconButton(
         onPressed: () => cubit.changeModeHandler(),
-        icon: icon.assetsImage(width: 36, height: 36));
+        icon: icon.image(width: 36, height: 36));
     var row = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

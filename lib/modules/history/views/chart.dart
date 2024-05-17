@@ -1,6 +1,6 @@
 import 'package:expenso/common/data_layer/models/category.dart';
-import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/extensions/int.dart';
+import 'package:expenso/gen/assets.gen.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
@@ -126,10 +126,10 @@ class _ChartState extends State<Chart> {
 
   Widget _getChartPlug() {
     var chartName = widget.data.chartType == ChartType.bar
-        ? AppImages.barChartPlug
-        : AppImages.donutChartPlug;
+        ? Assets.barChartPlug
+        : Assets.donutChartPlug;
     var sideSize = MediaQuery.of(context).size.width * 0.595;
-    var plug = chartName.assetsImage(width: sideSize, height: sideSize);
+    var plug = chartName.image(width: sideSize, height: sideSize);
     var padding =
         Padding(padding: const EdgeInsets.symmetric(vertical: 30), child: plug);
     return padding;
@@ -178,7 +178,7 @@ class _ChartState extends State<Chart> {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             padding: const EdgeInsets.only(bottom: 10)),
         onPressed: widget.resetChartModeHandler,
-        icon: AppImages.refreshIcon.assetsImage(
+        icon: Assets.refreshIcon.image(
           color: iconColor,
           width: 21,
           height: 24,

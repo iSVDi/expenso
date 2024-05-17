@@ -102,7 +102,7 @@ Future<obx.Store> openStore(
       directory: directory ?? (await defaultStoreDirectory()).path,
       maxDBSizeInKB: maxDBSizeInKB,
       maxDataSizeInKB: maxDataSizeInKB,
-      fileMode: fileMode, 
+      fileMode: fileMode,
       maxReaders: maxReaders,
       queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
       macosApplicationGroup: macosApplicationGroup);

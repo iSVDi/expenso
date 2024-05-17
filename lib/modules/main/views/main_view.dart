@@ -1,4 +1,5 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
+import 'package:expenso/gen/assets.gen.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import 'package:expenso/modules/settings/settings.dart';
@@ -6,7 +7,6 @@ import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import 'package:expenso/extensions/app_images.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/views/history.dart';
 import 'package:expenso/modules/main/cubits/spend_today_amount_provider.dart';
@@ -83,16 +83,15 @@ class _MainViewState extends State<MainView> {
       child: const History(),
     );
     var button = IconButton(
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: ((context) => bloc)));
-      },
-      icon: AppImages.barChartIcon.assetsImage(
-        width: 24,
-        height: 24,
-        color: Theme.of(context).colorScheme.primary,
-      ),
-    );
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: ((context) => bloc)));
+        },
+        icon: Assets.barChartIcon.image(
+          width: 24,
+          height: 24,
+          color: Theme.of(context).colorScheme.primary,
+        ));
     return button;
   }
 
@@ -102,7 +101,7 @@ class _MainViewState extends State<MainView> {
         Navigator.push(context,
             MaterialPageRoute(builder: ((context) => const Settings())));
       },
-      icon: AppImages.settingsIcon.assetsImage(
+      icon: Assets.settingsIcon.image(
         width: 24,
         height: 24,
         color: Theme.of(context).colorScheme.primary,

@@ -1,11 +1,10 @@
+import 'package:expenso/gen/fonts.gen.dart';
 import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:expenso/theme/text_theme_provider.dart';
 
 class ThemeProvider {
-  final _fontFamily = "SF Pro";
-
   ThemeData getTheme(bool isLightTheme) {
     var colorScheme = isLightTheme ? _getColorScheme() : _getDarkColorScheme();
     var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
@@ -27,7 +26,7 @@ class ThemeProvider {
       textTheme: textTheme.getTextTheme(),
       bottomSheetTheme: bottomSheetThemeData,
       appBarTheme: appBarTheme,
-      fontFamily: _fontFamily,
+      fontFamily: FontFamily.sFPro,
       extensions: [additionalColors, dividerColors],
     );
   }
