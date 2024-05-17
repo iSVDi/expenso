@@ -1,16 +1,15 @@
 import 'package:expenso/common/data_layer/models/category.dart';
+import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
+import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
-import 'package:expenso/theme/theme_extensions/additional_colors.dart';
-import "package:flutter_bloc/flutter_bloc.dart";
-import 'package:flutter/material.dart';
-
+import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
+import 'package:expenso/modules/main/cubits/keyboard/keyboard_states.dart';
 import 'package:expenso/modules/main/views/enter_transaction_data/request_comment_sheet.dart';
-import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
-
-import '../../cubits/keyboard/keyboard_cubit.dart';
-import '../../cubits/keyboard/keyboard_states.dart';
+import 'package:expenso/theme/theme_extensions/additional_colors.dart';
+import 'package:flutter/material.dart';
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class EnterTransactionData extends StatelessWidget {
   final Size size;
@@ -96,20 +95,19 @@ class EnterTransactionData extends StatelessWidget {
     requestCommentSheet() {
       return RequestCommentSheet(callback: (needEnterComment) {
         if (needEnterComment) {
-          _showSheet(
-              context: context,
-              builder: (buildContext) => addCommentSheet(buildContext));
+          showCommonModalBottomSheet(
+            useSafeArea: true,
+            context: context,
+            builder: (buildContext) => addCommentSheet(buildContext),
+          );
         }
       });
     }
 
-    _showSheet(context: context, builder: (_) => requestCommentSheet());
-  }
-
-  Future _showSheet({
-    required BuildContext context,
-    required Widget Function(BuildContext) builder,
-  }) async {
-    showModalBottomSheet(useSafeArea: true, context: context, builder: builder);
+    showCommonModalBottomSheet(
+      useSafeArea: true,
+      context: context,
+      builder: (_) => requestCommentSheet(),
+    );
   }
 }

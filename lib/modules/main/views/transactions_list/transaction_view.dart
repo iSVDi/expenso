@@ -2,6 +2,7 @@ import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
+import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
@@ -160,7 +161,7 @@ class TransactionViewState extends State<TransactionView> {
 
     var textButton = _getPresentModallyButton(
       child: text,
-      builder: (context) => keyboard(context),
+      builder: (context) => SafeArea(child: keyboard(context)),
     );
     return textButton;
   }
@@ -200,9 +201,12 @@ class TransactionViewState extends State<TransactionView> {
     required Widget Function(BuildContext) builder,
   }) {
     var textButton = TextButton(
-        child: child,
-        onPressed: () =>
-            showModalBottomSheet(context: context, builder: builder));
+      child: child,
+      onPressed: () => showCommonModalBottomSheet(
+        context: context,
+        builder: builder,
+      ),
+    );
     return textButton;
   }
 }

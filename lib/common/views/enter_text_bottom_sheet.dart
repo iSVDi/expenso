@@ -42,6 +42,7 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
       filled: true,
     );
     var textField = TextField(
+      autofocus: true,
       decoration: decoration,
       controller: _controller,
       onSubmitted: (String value) async => _doneButtonHandler(),

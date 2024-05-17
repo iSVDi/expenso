@@ -1,3 +1,4 @@
+import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/settings/settings_cubit.dart';
 import 'package:expenso/modules/settings/settings_list_item_model.dart';
@@ -124,12 +125,9 @@ SettingsListItemModel _getAppearanceModel(BuildContext context) {
       AppLocalizations.of(context)!.appearanceTitle,
       style: Theme.of(context).textTheme.titleMedium,
     ),
-    onTap: () {
-      showModalBottomSheet(
-          context: context,
-          builder: (builderContext) {
-            return const SelectAppearance();
-          });
-    },
+    onTap: () => showCommonModalBottomSheet(
+      context: context,
+      builder: (_) => const SelectAppearance(),
+    ),
   );
 }
