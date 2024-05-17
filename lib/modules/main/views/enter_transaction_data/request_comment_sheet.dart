@@ -54,7 +54,7 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
     var textStyle = theme.textTheme.headlineSmall
         ?.copyWith(color: theme.colorScheme.primary);
     var timer = CircularCountDownTimer(
-      duration: 4,
+      duration: 3,
       width: 60,
       strokeWidth: 2,
       height: 60,
@@ -64,7 +64,8 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
       isReverse: true,
       isReverseAnimation: true,
       timeFormatterFunction: (defaultFormatterFunction, duration) {
-        return AppLocalizations.of(context)!.secondsTitle(duration.inSeconds);
+        return AppLocalizations.of(context)!
+            .secondsTitle(duration.inSeconds + 1);
       },
       onComplete: () {
         prepareForClose(false);
