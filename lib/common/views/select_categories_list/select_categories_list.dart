@@ -5,6 +5,7 @@ import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/select_categories_list/category_cell.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list_interactor.dart';
 import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
+import 'package:expenso/common/views/show_delete_alert.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import 'package:expenso/theme/theme_extensions/divider_colors.dart';
@@ -162,7 +163,13 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
     var deleteItem = CommonFocusedMenuItem(
       context: context,
       title: Text(localization.delete),
-      onPressed: () => _interactor.deleteCategory(category: category),
+      onPressed: () {
+        showDeleteAlert(
+          context: context,
+          deletedItemName: category.title,
+          onDeletePressed: () => _interactor.deleteCategory(category: category),
+        );
+      },
     );
 
     var menuHolder = FocusedMenuHolder(

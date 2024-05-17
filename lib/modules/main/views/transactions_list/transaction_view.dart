@@ -1,16 +1,17 @@
+import 'package:expenso/common/data_layer/models/category.dart';
+import 'package:expenso/common/data_layer/models/transaction.dart';
+import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
 import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
+import 'package:expenso/common/views/show_delete_alert.dart';
 import 'package:expenso/extensions/date_time.dart';
-import 'package:expenso/common/data_layer/models/category.dart';
-import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
 import 'package:expenso/extensions/int.dart';
 import 'package:expenso/extensions/string.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:expenso/common/data_layer/models/transaction.dart';
 
 class TransactionView extends StatefulWidget {
   final Transaction transaction;
@@ -42,8 +43,14 @@ class TransactionViewState extends State<TransactionView> {
   IconButton _getDeleteBarButton(BuildContext context) {
     return IconButton(
         onPressed: () {
-          _repository.deleteTransaction(transaction);
-          Navigator.pop(context);
+          showDeleteAlert(
+            context: context,
+            deletedItemName: transaction.category.target!.title,
+            onDeletePressed: () {
+              _repository.deleteTransaction(transaction);
+              Navigator.pop(context);
+            },
+          );
         },
         icon: const Icon(
           Icons.delete,

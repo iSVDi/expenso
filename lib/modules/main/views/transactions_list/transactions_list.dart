@@ -1,9 +1,9 @@
+import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/views/common_focused_menu_item.dart';
-import 'package:expenso/common/views/rounded_button.dart';
+import 'package:expenso/common/views/show_delete_alert.dart';
 import 'package:expenso/l10n/gen_10n/app_localizations.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_states.dart';
-import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
 import 'package:flutter/material.dart';
@@ -43,9 +43,17 @@ class TransactionsList extends StatelessWidget {
         onPressed: () => _presentTransaction(context, transaction));
 
     var deleteItem = CommonFocusedMenuItem(
-        context: context,
-        title: Text(localization.delete),
-        onPressed: () => _showAlert(context, transaction));
+      context: context,
+      title: Text(localization.delete),
+      onPressed: () {
+        showDeleteAlert(
+          context: context,
+          deletedItemName: transaction.category.target!.title,
+          onDeletePressed: () =>
+              _getCubit(context).deleteTransaction(transaction),
+        );
+      },
+    );
 
     var cell = TransactionCell(
         transaction: transaction,
@@ -61,53 +69,5 @@ class TransactionsList extends StatelessWidget {
       context,
       MaterialPageRoute(builder: ((context) => transactionView)),
     );
-  }
-
-  void _showAlert(BuildContext context, Transaction transaction) {
-    showDialog(
-        context: context,
-        builder: (buiderContext) {
-          var theme = Theme.of(context);
-
-          var title = RichText(
-              text: TextSpan(
-            text: AppLocalizations.of(context)!.areYouSureTitle,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w300,
-            ),
-            children: [
-              TextSpan(
-                text: transaction.category.target!.title,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const TextSpan(text: "?"),
-            ],
-          ));
-
-          var cancelButton = RoundedButton.getCancelButton(
-            context: context,
-            onPressed: () => Navigator.of(context).pop(),
-          );
-
-          var deleteButton = RoundedButton.getActionButton(
-            context: context,
-            text: AppLocalizations.of(context)!.delete,
-            onPressed: () {
-              _getCubit(context).deleteTransaction(transaction);
-              Navigator.of(context).pop();
-            },
-          );
-
-          var row = Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [cancelButton, deleteButton]);
-
-          return AlertDialog(
-            surfaceTintColor: theme.colorScheme.background,
-            title: title,
-            content: row,
-          );
-        });
   }
 }
