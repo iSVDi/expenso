@@ -17,23 +17,29 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var textStyle = theme.textTheme.titleMedium
-        ?.copyWith(color: theme.colorScheme.onBackground);
-    var buttonsText =
-        Text(AppLocalizations.of(context)!.addComment, style: textStyle);
-    var button = TextButton(
-      onPressed: () => prepareForClose(true),
-      child: buttonsText,
+    var textStyle = theme.textTheme.titleMedium?.copyWith(
+      color: theme.colorScheme.onBackground,
+    );
+
+    var addCommentText = Text(
+      AppLocalizations.of(context)!.addComment,
+      style: textStyle,
     );
 
     var row = Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [button, _getTimer(context)],
+      children: [addCommentText, const SizedBox(width: 10), _getTimer(context)],
     );
+
+    var button = TextButton(
+      onPressed: () => prepareForClose(true),
+      child: row,
+    );
+
     var height = MediaQuery.of(context).size.height * 0.123;
     var sizedBox = SizedBox(
       height: height,
-      child: row,
+      child: button,
     );
     return sizedBox;
   }
