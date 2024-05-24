@@ -49,10 +49,7 @@ class TransactionRepository implements RepositorySubject {
 //* Data queries
   // dateRange = 01/04/2024 - 02/04/2024
   // result = [02/04/2024 10:45, 02/04/2024 10:00, 01/04/2024 09:34, 01/04/2024 09:01]
-  List<Transaction> readByDateRange({
-    required DateTimeRange dateRange,
-    required Set<Category> selectedCategories,
-  }) {
+  List<Transaction> readByDateRange({required DateTimeRange dateRange}) {
     var query = _transactions
         .query(Transaction_.date.betweenDate(
           dateRange.start,
@@ -62,11 +59,7 @@ class TransactionRepository implements RepositorySubject {
         .build();
 
     var res = query.find();
-    if (selectedCategories.isNotEmpty) {
-      res = res.where((element) {
-        return selectedCategories.contains(element.category.target);
-      }).toList();
-    }
+
     return res;
   }
 

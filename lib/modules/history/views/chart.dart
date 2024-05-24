@@ -187,10 +187,14 @@ class _ChartState extends State<Chart> {
       children = [resetButton, wrap];
     }
 
-    return Column(
+    var column = Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: children);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: column,
+    );
   }
 
   Row _getCategoryButtonChild({

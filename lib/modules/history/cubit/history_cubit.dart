@@ -22,7 +22,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     Colors.red,
     Colors.blue,
     Colors.yellow,
-    Colors.lightBlue,
+    Colors.cyanAccent,
     Colors.pink,
   ];
 
@@ -37,8 +37,8 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
       : super(HistoryState(
             dateRange: DateRangeHelper.getCurrentMonth(),
             transactions: TransactionRepository().readByDateRange(
-                dateRange: DateRangeHelper.getCurrentMonth(),
-                selectedCategories: {}),
+              dateRange: DateRangeHelper.getCurrentMonth(),
+            ),
             selectedCategories: {},
             chartType: ChartType.donut)) {
     _repository.registerObserver(this);
@@ -53,8 +53,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
 //* Interface
 
   void updateDateRange(DateTimeRange dateRange) {
-    var newTransactions = _repository
-        .readByDateRange(dateRange: dateRange, selectedCategories: {});
+    var newTransactions = _repository.readByDateRange(dateRange: dateRange);
     _emitNewState(dateRange, newTransactions, {}, state.chartType);
   }
 
@@ -78,8 +77,13 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
   void changeModeHandler() {
     var newMode =
         state.chartType == ChartType.bar ? ChartType.donut : ChartType.bar;
+
     _emitNewState(
-        state.dateRange, state.transactions, state.selectedCategories, newMode);
+      state.dateRange,
+      state.transactions,
+      state.selectedCategories,
+      newMode,
+    );
   }
 
   void selectCategoryHandler(Category category) {
@@ -91,10 +95,15 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
       newCategories.add(category);
     }
 
-    var newTransactions = _repository
-        .readByDateRange(dateRange: state.dateRange, selectedCategories: {});
+    var newTransactions = _repository.readByDateRange(
+      dateRange: state.dateRange,
+    );
     _emitNewState(
-        state.dateRange, newTransactions, newCategories, state.chartType);
+      state.dateRange,
+      newTransactions,
+      newCategories,
+      state.chartType,
+    );
   }
 
   void resetCategoriesHandler() {
@@ -271,13 +280,16 @@ calendarDateRange     |---------------------|
 
   @override
   void update() {
-    var newTransactions = _repository.readByDateRange(
-        dateRange: state.dateRange,
-        selectedCategories: state.selectedCategories);
+    var newTransactions =
+        _repository.readByDateRange(dateRange: state.dateRange);
+    var categories = newTransactions.map((e) => e.category.target!);
+    var newSelectedCategories = state.selectedCategories
+        .where((element) => categories.contains(element))
+        .toSet();
     _emitNewState(
       state.dateRange,
       newTransactions,
-      state.selectedCategories,
+      newSelectedCategories,
       state.chartType,
     );
   }

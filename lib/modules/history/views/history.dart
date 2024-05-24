@@ -72,11 +72,8 @@ class History extends StatelessWidget {
       changeChartModeHandler: () => cubit.changeModeHandler(),
       resetChartModeHandler: () => cubit.resetCategoriesHandler(),
     );
-    var padding = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: chart,
-    );
-    return padding;
+    return chart;
+    
   }
 
   Widget _getList(BuildContext context) {
