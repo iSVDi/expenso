@@ -3,6 +3,7 @@ import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 class AmountStringUpdater {
   final int _partWhole = 3; // count of numeric with point
 
+  //TODO? Must be old value returned if it is class
   String update(String oldValue, NumericKeyboardButtonType tappedButtonType) {
     //TODO? remove after diploma
     if (oldValue.length == 6 &&

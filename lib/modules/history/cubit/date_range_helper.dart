@@ -9,14 +9,6 @@ class DateRangeHelper {
     return DateTimeRange(start: startDate, end: endDate);
   }
 
-  static DateTimeRange getCurrentWeek() {
-    var now = DateTime.now();
-    var currentDateTime = DateTime(now.year, now.month, now.day);
-    var startWeek = currentDateTime.subtract(Duration(days: currentDateTime.weekday - 1));
-    var endWeek = startWeek.add(const Duration(days: 7));
-    return DateTimeRange(start: startWeek, end: endWeek);
-  }
-
   DateTimeRange calculateNewDateRange({
     required DateTimeRange currentDateRange,
     required bool toForward,
