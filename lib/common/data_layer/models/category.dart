@@ -10,7 +10,7 @@ class Category {
     required this.title,
   });
 
-//TODO? use CategoriesRepository._noCategoryId instead straight out assign id
+
   @override
   bool operator ==(Object other) {
     return other is Category && id == other.id;

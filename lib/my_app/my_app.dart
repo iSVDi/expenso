@@ -1,4 +1,3 @@
-import 'package:expenso/common/app_localizator.dart';
 import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/main.dart';
 import 'package:expenso/modules/main/views/main_view.dart';
@@ -40,19 +39,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalizator = AppLocalizator();
     var home = _getHomeWidget();
-
     var bloc = BlocBuilder<ThemeModeCubit, ThemeModeState>(
       builder: (builderContext, state) {
         var themeProvider = ThemeProvider();
         var materialApp = MaterialApp(
-          onGenerateTitle: (context) {
-            //* Don't use localeResolutionCallback() for updating.
-            //* AppLocalizations is not ready when callback is called
-            appLocalizator.update(AppLocalizations.of(context)!);
-            return "";
-          },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: themeProvider.getTheme(true),

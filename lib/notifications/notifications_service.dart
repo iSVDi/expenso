@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:expenso/gen/l10n/app_localizations.dart';
 
 /*
 TODO: need resolve for iOS
@@ -41,10 +42,11 @@ class NotificationsService {
     );
   }
 
-  Future scheduleNotifications(
-      {required String title,
-      required String body,
-      required DateTime scheduledNotificationDateTime}) async {
+  Future scheduleNotifications({
+    required String title,
+    required String body,
+    required DateTime scheduledNotificationDateTime,
+  }) async {
     var badgeCounter = await awesome.getGlobalBadgeCounter() + 1;
     var notificationContent = NotificationContent(
         id: _reminderNotificationID,
@@ -53,16 +55,38 @@ class NotificationsService {
         badge: badgeCounter,
         body: body,
         largeIcon: 'asset://assets/app_logo.png');
-
+    var notificationLocalizations = await _getNotificationLocalization();
     var localTimeZone = await awesome.getLocalTimeZoneIdentifier();
+
     awesome.createNotification(
       content: notificationContent,
+      localizations: notificationLocalizations,
       schedule: NotificationCalendar(
         hour: scheduledNotificationDateTime.hour,
         minute: scheduledNotificationDateTime.minute,
         timeZone: localTimeZone,
       ),
     );
+  }
+
+  Future<Map<String, NotificationLocalization>>
+      _getNotificationLocalization() async {
+    var locales = AppLocalizations.supportedLocales;
+    List<AppLocalizations> localizations = [];
+    for (var locale in locales) {
+      var localization = await AppLocalizations.delegate.load(locale);
+      localizations.add(localization);
+    }
+
+    Map<String, NotificationLocalization> map =
+        Map.fromEntries(localizations.map((loc) {
+      return MapEntry(
+          loc.localeName,
+          NotificationLocalization(
+              title: loc.notificationTitle, body: loc.notificationBody));
+    }));
+
+    return map;
   }
 
   Future cancelNotifications() async {

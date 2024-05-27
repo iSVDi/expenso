@@ -211,15 +211,15 @@ calendarDateRange     |---------------------|
             .toList();
 
     //Map <28.03.2024, [Transaction]>
-    Map<String, List<Transaction>> transactionsMapX = Map.fromEntries(
+    Map<String, List<Transaction>> transactionsMap = Map.fromEntries(
         transactions.map((e) => MapEntry(e.date.formattedDate, [])));
 
     for (var transaction in transactions) {
       var dateString = transaction.date.formattedDate;
-      transactionsMapX[dateString]?.add(transaction);
+      transactionsMap[dateString]?.add(transaction);
     }
 
-    var res = transactionsMapX.entries.map((sectionData) {
+    var res = transactionsMap.entries.map((sectionData) {
       var sectionHistory = SectionHistory(
           headerDate: sectionData.value.first.date.formattedDate,
           sum: sectionData.value
