@@ -14,10 +14,10 @@ import 'package:focused_menu/focused_menu.dart';
 
 class SelectCategoriesList extends StatefulWidget {
   final bool isManagingCategories;
-  final Category selectedCategory;
-  final Function(Category) doneButtonCallback;
+  final Category? selectedCategory;
+  final Function(Category?) doneButtonCallback;
   final Function() backButtonCallback;
-  final Function(Category)? categoryUpdatedCallback;
+  final Function(Category?)? categoryUpdatedCallback;
 
   const SelectCategoriesList({
     Key? key,

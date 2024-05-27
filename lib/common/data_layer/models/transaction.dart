@@ -17,6 +17,9 @@ class Transaction {
     required this.amount,
   });
 
-  Transaction.empty({required this.date, this.comment = "", this.amount = 0})
-      : category = ToOne<Category>()..target = Category.emptyCategory();
+  Transaction.empty({
+    required this.date,
+    this.comment = "",
+    this.amount = 0,
+  });
 }

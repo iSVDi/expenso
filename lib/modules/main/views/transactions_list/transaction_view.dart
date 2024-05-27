@@ -1,3 +1,4 @@
+import 'package:expenso/common/data_layer/category_title_provider.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
@@ -41,11 +42,13 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   IconButton _getDeleteBarButton(BuildContext context) {
+    var deletedItemName =
+        CategoryTitleProvider.getTitle(context, transaction.category.target);
     return IconButton(
         onPressed: () {
           showDeleteAlert(
             context: context,
-            deletedItemName: transaction.category.target!.title,
+            deletedItemName: deletedItemName,
             onDeletePressed: () {
               _repository.deleteTransaction(transaction);
               Navigator.pop(context);
@@ -98,17 +101,15 @@ class TransactionViewState extends State<TransactionView> {
   }
 
   Widget _getCategoryButton(AppLocalizations localization) {
-    var title = transaction.category.target!.title;
-    if (title.isEmpty) {
-      title = localization.noCategory;
-    }
+    var title =
+        CategoryTitleProvider.getTitle(context, transaction.category.target);
     var textStyle = _getTheme(context).textTheme.displaySmall;
     var text = Text(title, style: textStyle);
 
     selectCategoriesList(BuildContext builderContext) {
       return SelectCategoriesList(
         isManagingCategories: false,
-        selectedCategory: transaction.category.target!,
+        selectedCategory: transaction.category.target,
         doneButtonCallback: (category) {
           _updateCategory(category);
           Navigator.pop(builderContext);
@@ -196,7 +197,7 @@ class TransactionViewState extends State<TransactionView> {
     });
   }
 
-  void _updateCategory(Category category) {
+  void _updateCategory(Category? category) {
     setState(() {
       transaction.category.target = category;
       _repository.insertTransaction(transaction);

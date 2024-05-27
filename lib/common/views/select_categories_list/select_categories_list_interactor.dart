@@ -8,19 +8,19 @@ class SelectCategoriesListInteractor {
   final TransactionRepository _transactionRepository = TransactionRepository();
 
   final bool _isManagingCategories;
-  Category _selectedCategory;
+  Category? _selectedCategory;
   final Function() _setState;
 
   SelectCategoriesListInteractor({
     required bool isManagingCategories,
-    required Category selectedCategory,
+    required Category? selectedCategory,
     required dynamic Function() setState,
   })  : _setState = setState,
         _selectedCategory = selectedCategory,
         _isManagingCategories = isManagingCategories;
 
   bool get isFromSettings => _isManagingCategories;
-  Category get selectedCategory => _selectedCategory;
+  Category? get selectedCategory => _selectedCategory;
   List<Category> get readAllCategories =>
       _categoriesRepository.readAllCategories();
 
@@ -35,13 +35,11 @@ class SelectCategoriesListInteractor {
   }
 
   void selectCategory(Category category) {
-    Category currentCategory = _selectedCategory;
-    Category newCategory = category;
-    bool areCategoriesSame = currentCategory != Category.emptyCategory() &&
-        currentCategory.id == category.id;
+    Category? currentCategory = _selectedCategory;
+    Category? newCategory = category;
 
-    if (areCategoriesSame) {
-      newCategory = Category.emptyCategory();
+    if (currentCategory == category) {
+      newCategory = null;
     }
 
     _selectedCategory = newCategory;
@@ -51,7 +49,7 @@ class SelectCategoriesListInteractor {
   void editCategory({
     required Category category,
     required String newCategoryName,
-    Function(Category)? categoryUpdatedCallback,
+    Function(Category?)? categoryUpdatedCallback,
   }) {
     category.title = newCategoryName;
     _categoriesRepository.insertCategory(category);
@@ -59,7 +57,7 @@ class SelectCategoriesListInteractor {
     if (!_isManagingCategories) {
       _selectedCategory = category;
     }
-    if (_selectedCategory.id == category.id) {
+    if (selectedCategory == category) {
       categoryUpdatedCallback?.call(_selectedCategory);
     }
     _setState();
@@ -67,16 +65,16 @@ class SelectCategoriesListInteractor {
 
   void deleteCategory({
     required Category category,
-    Function(Category)? categoryUpdatedCallback,
+    Function(Category?)? categoryUpdatedCallback,
   }) {
     if (_selectedCategory == category) {
-      _selectedCategory = Category.emptyCategory();
+      _selectedCategory = null;
       categoryUpdatedCallback?.call(_selectedCategory);
     }
 
     _transactionRepository.replaceCategories(
       from: category,
-      to: Category.emptyCategory(),
+      to: null,
     );
 
     _categoriesRepository.deleteCategory(category);
@@ -84,7 +82,7 @@ class SelectCategoriesListInteractor {
   }
 
   bool isNeedSetBoldCategoryTitle(Category newCategory) {
-    var res = newCategory.id == _selectedCategory.id;
+    var res = newCategory == _selectedCategory;
     return res;
   }
 }

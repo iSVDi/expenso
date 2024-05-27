@@ -4,14 +4,15 @@
 // With a Dart package, run `dart run build_runner build`.
 // See also https://docs.objectbox.io/getting-started#generate-objectbox-code
 
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, depend_on_referenced_packages
 // coverage:ignore-file
 
 import 'dart:typed_data';
 
 import 'package:flat_buffers/flat_buffers.dart' as fb;
-import 'package:objectbox/internal.dart'; // generated code can access "internal" functionality
-import 'package:objectbox/objectbox.dart';
+import 'package:objectbox/internal.dart'
+    as obx_int; // generated code can access "internal" functionality
+import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import '../../common/data_layer/models/category.dart';
@@ -19,88 +20,103 @@ import '../../common/data_layer/models/transaction.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
-final _entities = <ModelEntity>[
-  ModelEntity(
-      id: const IdUid(1, 877567663658703757),
+final _entities = <obx_int.ModelEntity>[
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(1, 4183914637612957430),
       name: 'Category',
-      lastPropertyId: const IdUid(2, 6204149604537044641),
+      lastPropertyId: const obx_int.IdUid(2, 2385448058301088463),
       flags: 0,
-      properties: <ModelProperty>[
-        ModelProperty(
-            id: const IdUid(1, 2551087536179355752),
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 4036264201353239326),
             name: 'id',
             type: 6,
             flags: 1),
-        ModelProperty(
-            id: const IdUid(2, 6204149604537044641),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 2385448058301088463),
             name: 'title',
             type: 9,
             flags: 0)
       ],
-      relations: <ModelRelation>[],
-      backlinks: <ModelBacklink>[]),
-  ModelEntity(
-      id: const IdUid(2, 5721445861441418283),
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(2, 2043464709592807510),
       name: 'Transaction',
-      lastPropertyId: const IdUid(5, 9084072119100240625),
+      lastPropertyId: const obx_int.IdUid(5, 8554874499019744531),
       flags: 0,
-      properties: <ModelProperty>[
-        ModelProperty(
-            id: const IdUid(1, 7234886552883053312),
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 8585722493562259818),
             name: 'id',
             type: 6,
             flags: 1),
-        ModelProperty(
-            id: const IdUid(2, 40607309818830385),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 3794958888235836574),
             name: 'date',
             type: 10,
             flags: 0),
-        ModelProperty(
-            id: const IdUid(3, 8163066825621203228),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 3227875031438923499),
             name: 'comment',
             type: 9,
             flags: 0),
-        ModelProperty(
-            id: const IdUid(4, 7323739538639324540),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 1760415620694555195),
             name: 'categoryId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(1, 1384238238405353461),
+            indexId: const obx_int.IdUid(1, 2063773366843792673),
             relationTarget: 'Category'),
-        ModelProperty(
-            id: const IdUid(5, 9084072119100240625),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 8554874499019744531),
             name: 'amount',
             type: 6,
             flags: 0)
       ],
-      relations: <ModelRelation>[],
-      backlinks: <ModelBacklink>[])
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[])
 ];
 
-/// Open an ObjectBox store with the model declared in this file.
-Future<Store> openStore(
-        {String? directory,
-        int? maxDBSizeInKB,
-        int? fileMode,
-        int? maxReaders,
-        bool queriesCaseSensitiveDefault = true,
-        String? macosApplicationGroup}) async =>
-    Store(getObjectBoxModel(),
-        directory: directory ?? (await defaultStoreDirectory()).path,
-        maxDBSizeInKB: maxDBSizeInKB,
-        fileMode: fileMode,
-        maxReaders: maxReaders,
-        queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
-        macosApplicationGroup: macosApplicationGroup);
+/// Shortcut for [Store.new] that passes [getObjectBoxModel] and for Flutter
+/// apps by default a [directory] using `defaultStoreDirectory()` from the
+/// ObjectBox Flutter library.
+///
+/// Note: for desktop apps it is recommended to specify a unique [directory].
+///
+/// See [Store.new] for an explanation of all parameters.
+///
+/// For Flutter apps, also calls `loadObjectBoxLibraryAndroidCompat()` from
+/// the ObjectBox Flutter library to fix loading the native ObjectBox library
+/// on Android 6 and older.
+Future<obx.Store> openStore(
+    {String? directory,
+    int? maxDBSizeInKB,
+    int? maxDataSizeInKB,
+    int? fileMode,
+    int? maxReaders,
+    bool queriesCaseSensitiveDefault = true,
+    String? macosApplicationGroup}) async {
+  await loadObjectBoxLibraryAndroidCompat();
+  return obx.Store(getObjectBoxModel(),
+      directory: directory ?? (await defaultStoreDirectory()).path,
+      maxDBSizeInKB: maxDBSizeInKB,
+      maxDataSizeInKB: maxDataSizeInKB,
+      fileMode: fileMode,
+      maxReaders: maxReaders,
+      queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
+      macosApplicationGroup: macosApplicationGroup);
+}
 
-/// ObjectBox model definition, pass it to [Store] - Store(getObjectBoxModel())
-ModelDefinition getObjectBoxModel() {
-  final model = ModelInfo(
+/// Returns the ObjectBox model definition for this project for use with
+/// [Store.new].
+obx_int.ModelDefinition getObjectBoxModel() {
+  final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(2, 5721445861441418283),
-      lastIndexId: const IdUid(1, 1384238238405353461),
-      lastRelationId: const IdUid(0, 0),
-      lastSequenceId: const IdUid(0, 0),
+      lastEntityId: const obx_int.IdUid(2, 2043464709592807510),
+      lastIndexId: const obx_int.IdUid(1, 2063773366843792673),
+      lastRelationId: const obx_int.IdUid(0, 0),
+      lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
       retiredPropertyUids: const [],
@@ -109,8 +125,8 @@ ModelDefinition getObjectBoxModel() {
       modelVersionParserMinimum: 5,
       version: 1);
 
-  final bindings = <Type, EntityDefinition>{
-    Category: EntityDefinition<Category>(
+  final bindings = <Type, obx_int.EntityDefinition>{
+    Category: obx_int.EntityDefinition<Category>(
         model: _entities[0],
         toOneRelations: (Category object) => [],
         toManyRelations: (Category object) => {},
@@ -126,18 +142,17 @@ ModelDefinition getObjectBoxModel() {
           fbb.finish(fbb.endTable());
           return object.id;
         },
-        objectFromFB: (Store store, ByteData fbData) {
+        objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
-
-          final object = Category(
-              title: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 6, ''))
+          final titleParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final object = Category(title: titleParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
         }),
-    Transaction: EntityDefinition<Transaction>(
+    Transaction: obx_int.EntityDefinition<Transaction>(
         model: _entities[1],
         toOneRelations: (Transaction object) => [object.category],
         toManyRelations: (Transaction object) => {},
@@ -156,57 +171,58 @@ ModelDefinition getObjectBoxModel() {
           fbb.finish(fbb.endTable());
           return object.id;
         },
-        objectFromFB: (Store store, ByteData fbData) {
+        objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
-
+          final dateParam = DateTime.fromMillisecondsSinceEpoch(
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0));
+          final commentParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final amountParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
           final object = Transaction(
-              date: DateTime.fromMillisecondsSinceEpoch(
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0)),
-              comment: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 8, ''),
-              amount:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0))
+              date: dateParam, comment: commentParam, amount: amountParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           object.category.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
           object.category.attach(store);
           return object;
         })
   };
 
-  return ModelDefinition(model, bindings);
+  return obx_int.ModelDefinition(model, bindings);
 }
 
 /// [Category] entity fields to define ObjectBox queries.
 class Category_ {
   /// see [Category.id]
-  static final id = QueryIntegerProperty<Category>(_entities[0].properties[0]);
+  static final id =
+      obx.QueryIntegerProperty<Category>(_entities[0].properties[0]);
 
   /// see [Category.title]
   static final title =
-      QueryStringProperty<Category>(_entities[0].properties[1]);
+      obx.QueryStringProperty<Category>(_entities[0].properties[1]);
 }
 
 /// [Transaction] entity fields to define ObjectBox queries.
 class Transaction_ {
   /// see [Transaction.id]
   static final id =
-      QueryIntegerProperty<Transaction>(_entities[1].properties[0]);
+      obx.QueryIntegerProperty<Transaction>(_entities[1].properties[0]);
 
   /// see [Transaction.date]
   static final date =
-      QueryDateProperty<Transaction>(_entities[1].properties[1]);
+      obx.QueryDateProperty<Transaction>(_entities[1].properties[1]);
 
   /// see [Transaction.comment]
   static final comment =
-      QueryStringProperty<Transaction>(_entities[1].properties[2]);
+      obx.QueryStringProperty<Transaction>(_entities[1].properties[2]);
 
   /// see [Transaction.category]
   static final category =
-      QueryRelationToOne<Transaction, Category>(_entities[1].properties[3]);
+      obx.QueryRelationToOne<Transaction, Category>(_entities[1].properties[3]);
 
   /// see [Transaction.amount]
   static final amount =
-      QueryIntegerProperty<Transaction>(_entities[1].properties[4]);
+      obx.QueryIntegerProperty<Transaction>(_entities[1].properties[4]);
 }

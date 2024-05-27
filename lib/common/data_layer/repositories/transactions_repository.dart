@@ -100,10 +100,10 @@ class TransactionRepository implements RepositorySubject {
     _transactions.remove(transaction.id);
   }
 
-  void replaceCategories({required Category from, required Category to}) {
+  void replaceCategories({required Category from, required Category? to}) {
     var transactions = _transactions.query().build().find();
     var transactionsWithCategory = transactions
-        .where((element) => element.category.target!.id == from.id)
+        .where((element) => element.category.target?.id == from.id)
         .toList();
 
     for (var element in transactionsWithCategory) {

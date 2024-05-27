@@ -1,6 +1,4 @@
 import 'package:expenso/common/app_preferences.dart';
-import 'package:expenso/common/data_layer/models/category.dart';
-import 'package:expenso/common/data_layer/repositories/categories_repository.dart';
 import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/notifications/notifications_service.dart';
 
@@ -12,16 +10,7 @@ class AppLocalizator {
 
   void update(AppLocalizations localizations) {
     _localizations = localizations;
-    _localizeEmptyCategoryTitle();
     _localizeNotification();
-  }
-
-  //TODO use localization instead
-  void _localizeEmptyCategoryTitle() {
-    var emptyCategory = Category.emptyCategory();
-    emptyCategory.title = _localizations.noCategory;
-    var repository = CategoriesRepository();
-    repository.insertCategory(emptyCategory);
   }
 
 //TODO don't need. Set localizations inside _notificationService.scheduleNotifications (param of awesome.createNotification)

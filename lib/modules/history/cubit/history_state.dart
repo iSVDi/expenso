@@ -8,7 +8,7 @@ class HistoryState {
   DateTimeRange dateRange;
   // All transactions for current date range
   List<Transaction> transactions;
-  Set<Category> selectedCategories = {};
+  Set<Category?> selectedCategories = {};
   ChartType chartType;
 
   HistoryState(

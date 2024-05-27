@@ -1,3 +1,4 @@
+import 'package:expenso/common/data_layer/category_title_provider.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/extensions/date_time.dart';
 import 'package:expenso/extensions/int.dart';
@@ -79,8 +80,9 @@ class TransactionCell extends StatelessWidget {
 
   Widget _getTransactionsColumn(BuildContext context) {
     var categoryStyle = Theme.of(context).textTheme.titleMedium;
-    var categoryText =
-        Text(transaction.category.target!.title, style: categoryStyle);
+    var categoryTitle =
+        CategoryTitleProvider.getTitle(context, transaction.category.target);
+    var categoryText = Text(categoryTitle, style: categoryStyle);
 
     if (transaction.comment.isNotEmpty) {
       var commentStyle = Theme.of(context).textTheme.labelMedium;

@@ -1,3 +1,4 @@
+import 'package:expenso/common/data_layer/category_title_provider.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/common/views/show_delete_alert.dart';
@@ -73,7 +74,6 @@ class History extends StatelessWidget {
       resetChartModeHandler: () => cubit.resetCategoriesHandler(),
     );
     return chart;
-    
   }
 
   Widget _getList(BuildContext context) {
@@ -198,7 +198,8 @@ class History extends StatelessWidget {
         onPressed: () {
           showDeleteAlert(
             context: context,
-            deletedItemName: transaction.category.target!.title,
+            deletedItemName: CategoryTitleProvider.getTitle(
+                context, transaction.category.target),
             onDeletePressed: () =>
                 _getCubit(context).deleteTransaction(transaction),
           );

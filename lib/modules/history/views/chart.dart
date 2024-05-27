@@ -1,3 +1,4 @@
+import 'package:expenso/common/data_layer/category_title_provider.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/extensions/int.dart';
 import 'package:expenso/gen/assets.gen.dart';
@@ -9,7 +10,7 @@ import 'package:expenso/modules/history/models/select_category_model.dart';
 
 class Chart extends StatefulWidget {
   final ChartModel data;
-  final Function(Category category) selectCategoryHandler;
+  final Function(Category? category) selectCategoryHandler;
   final Function() changeChartModeHandler;
   final Function() resetChartModeHandler;
 
@@ -60,11 +61,13 @@ class _ChartState extends State<Chart> {
         maximum: double.parse(widget.data.sum.toStringAmount),
         opposedPosition: true,
       );
+
       var series = <CartesianSeries<SelectCategoryModel, String>>[
         BarSeries<SelectCategoryModel, String>(
           width: 0.3,
           dataSource: widget.data.chartCategories.reversed.toList(),
-          xValueMapper: (SelectCategoryModel data, _) => data.category.title,
+          xValueMapper: (SelectCategoryModel data, _) =>
+              CategoryTitleProvider.getTitle(context, data.category),
           yValueMapper: (SelectCategoryModel data, _) => data.value,
           pointColorMapper: (datum, index) => datum.color,
         )
@@ -103,7 +106,8 @@ class _ChartState extends State<Chart> {
         series: <CircularSeries<SelectCategoryModel, String>>[
           DoughnutSeries<SelectCategoryModel, String>(
             dataSource: widget.data.chartCategories.toList(),
-            xValueMapper: (SelectCategoryModel data, _) => data.category.title,
+            xValueMapper: (SelectCategoryModel data, _) =>
+                CategoryTitleProvider.getTitle(context, data.category),
             yValueMapper: (SelectCategoryModel data, _) => data.value,
             pointColorMapper: (datum, index) => datum.color,
             innerRadius: "85%",
@@ -201,7 +205,8 @@ class _ChartState extends State<Chart> {
     required SelectCategoryModel model,
     required TextStyle? textStyle,
   }) {
-    List<Widget> children = [Text(model.category.title, style: textStyle)];
+    var title = CategoryTitleProvider.getTitle(context, model.category);
+    List<Widget> children = [Text(title, style: textStyle)];
 
     if (widget.data.selectedCategories.contains(model)) {
       var isDonutChart = widget.data.chartType == ChartType.donut;

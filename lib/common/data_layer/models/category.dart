@@ -11,13 +11,9 @@ class Category {
   });
 
 //TODO? use CategoriesRepository._noCategoryId instead straight out assign id
-  Category.emptyCategory()
-      : id = 1,
-        title = "";
-
   @override
   bool operator ==(Object other) {
-    return other is Category && id == other.id && title == other.title;
+    return other is Category && id == other.id;
   }
 
   @override

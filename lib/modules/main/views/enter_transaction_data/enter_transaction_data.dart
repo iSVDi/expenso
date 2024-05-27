@@ -1,4 +1,3 @@
-import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/views/enter_text_bottom_sheet.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
@@ -63,7 +62,7 @@ class EnterTransactionData extends StatelessWidget {
           cubit.setCategory(category);
           doneButtonHandler(context);
         },
-        selectedCategory: Category.emptyCategory(),
+        selectedCategory: null,
       );
     }
     var coloredKeyboard = ColoredBox(

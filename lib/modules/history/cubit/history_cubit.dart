@@ -86,7 +86,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     );
   }
 
-  void selectCategoryHandler(Category category) {
+  void selectCategoryHandler(Category? category) {
     var newCategories = {...state.selectedCategories};
 
     if (newCategories.contains(category)) {
@@ -241,9 +241,9 @@ calendarDateRange     |---------------------|
   List<List<SelectCategoryModel>> _getCategoriesByTransactions() {
     // Mapping of categories with zero spendings
     var categoriesMap = Map.fromEntries(
-        state.transactions.map((e) => MapEntry(e.category.target!, 0)));
+        state.transactions.map((e) => MapEntry(e.category.target, 0)));
     for (var transaction in state.transactions) {
-      var category = transaction.category.target!;
+      var category = transaction.category.target;
       categoriesMap[category] = categoriesMap[category]! + transaction.amount;
     }
 
@@ -262,7 +262,7 @@ calendarDateRange     |---------------------|
       var model = SelectCategoryModel(
         category: e.key,
         value: double.parse(value),
-        color: _getCategoryColor(e.key.id).withAlpha(alphaColor),
+        color: _getCategoryColor(e.key?.id).withAlpha(alphaColor),
       );
       if (state.selectedCategories.contains(e.key)) {
         selectedCategories.add(model);
@@ -282,7 +282,7 @@ calendarDateRange     |---------------------|
   void update() {
     var newTransactions =
         _repository.readByDateRange(dateRange: state.dateRange);
-    var categories = newTransactions.map((e) => e.category.target!);
+    var categories = newTransactions.map((e) => e.category.target);
     var newSelectedCategories = state.selectedCategories
         .where((element) => categories.contains(element))
         .toSet();
@@ -295,7 +295,7 @@ calendarDateRange     |---------------------|
   }
 
   void _emitNewState(DateTimeRange dateRange, List<Transaction> transactions,
-      Set<Category> selectedCategories, ChartType chartType) {
+      Set<Category?> selectedCategories, ChartType chartType) {
     emit(
       HistoryState(
           dateRange: dateRange,
@@ -305,7 +305,11 @@ calendarDateRange     |---------------------|
     );
   }
 
-  Color _getCategoryColor(int id) {
+  Color _getCategoryColor(int? id) {
+    if (id == null) {
+      return _categoryColors[0];
+    }
+
     var length = _categoryColors.length;
     return _categoryColors[id % length];
   }

@@ -1,3 +1,4 @@
+import 'package:expenso/common/data_layer/category_title_provider.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/common/views/show_delete_alert.dart';
@@ -42,13 +43,15 @@ class TransactionsList extends StatelessWidget {
         title: Text(localization.view),
         onPressed: () => _presentTransaction(context, transaction));
 
+    var deletedItemName =
+        CategoryTitleProvider.getTitle(context, transaction.category.target);
     var deleteItem = CommonFocusedMenuItem(
       context: context,
       title: Text(localization.delete),
       onPressed: () {
         showDeleteAlert(
           context: context,
-          deletedItemName: transaction.category.target!.title,
+          deletedItemName: deletedItemName,
           onDeletePressed: () =>
               _getCubit(context).deleteTransaction(transaction),
         );
