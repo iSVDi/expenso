@@ -6,7 +6,6 @@ import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import 'package:expenso/modules/main/cubits/keyboard/keyboard_states.dart';
 import 'package:expenso/modules/main/views/enter_transaction_data/request_comment_sheet.dart';
-import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -66,7 +65,7 @@ class EnterTransactionData extends StatelessWidget {
       );
     }
     var coloredKeyboard = ColoredBox(
-      color: Theme.of(context).extension<AdditionalColors>()!.background1,
+      color: Theme.of(context).colorScheme.surfaceVariant,
       child: keyboard,
     );
 

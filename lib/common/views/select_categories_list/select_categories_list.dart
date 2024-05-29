@@ -7,7 +7,6 @@ import 'package:expenso/common/views/select_categories_list/select_categories_li
 import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
 import 'package:expenso/common/views/show_delete_alert.dart';
 import 'package:expenso/gen/l10n/app_localizations.dart';
-import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import "package:flutter/material.dart";
 import 'package:focused_menu/focused_menu.dart';
@@ -41,8 +40,7 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
   Color _getBackgroundColor(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    var keyboardColor =
-        Theme.of(context).extension<AdditionalColors>()!.background1;
+    var keyboardColor = Theme.of(context).colorScheme.surfaceVariant;
     var backgroundColor =
         widget.isManagingCategories ? colorScheme.background : keyboardColor;
     return backgroundColor;

@@ -1,5 +1,4 @@
 import 'package:expenso/common/views/done_button.dart';
-import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import "package:flutter/material.dart";
 
 class EnterTextBottomSheet extends StatefulWidget {
@@ -38,7 +37,7 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
     var decoration = InputDecoration(
       hintText: widget.hintText,
       border: InputBorder.none,
-      fillColor: Theme.of(context).extension<AdditionalColors>()!.background1,
+      fillColor: Theme.of(context).colorScheme.surfaceVariant,
       filled: true,
     );
     var textField = TextField(

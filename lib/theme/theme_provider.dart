@@ -34,7 +34,6 @@ class ThemeProvider {
         surfaceTintColor: Color.fromRGBO(34, 34, 34, 1));
     var appBarTheme =
         const AppBarTheme(surfaceTintColor: Color.fromRGBO(34, 34, 34, 1));
-
     var additionalColors = _getAdditionalColors(forLightMode: false);
     var dividerColors = _getDividerColors(forLightMode: false);
 
@@ -54,6 +53,7 @@ class ThemeProvider {
       onPrimary: Color.fromRGBO(120, 186, 195, 1),
       surface: Colors.white,
       surfaceTint: Colors.white,
+      surfaceVariant: Color.fromRGBO(238, 238, 238, 1),
     );
   }
 
@@ -63,15 +63,13 @@ class ThemeProvider {
       onPrimary: Color.fromRGBO(0, 133, 150, 1),
       surface: Color.fromRGBO(34, 34, 34, 1),
       surfaceTint: Color.fromRGBO(34, 34, 34, 1),
+      surfaceVariant: Color.fromRGBO(43, 43, 43, 1),
       background: Color.fromRGBO(34, 34, 34, 1),
     );
   }
 
   AdditionalColors _getAdditionalColors({required bool forLightMode}) {
     var additionalColors = AdditionalColors(
-      background1: forLightMode
-          ? const Color.fromRGBO(238, 238, 238, 1)
-          : const Color.fromRGBO(43, 43, 43, 1),
       dotInactiveColor: const Color.fromRGBO(221, 221, 221, 1),
       historyBarBackground: forLightMode
           ? const Color.fromRGBO(0, 133, 150, 1)

@@ -154,7 +154,7 @@ class _WelcomeState extends State<Welcome> {
           });
       var container = Container(
         padding: const EdgeInsets.only(left: 20),
-        color: Theme.of(context).extension<AdditionalColors>()!.background1,
+        color: Theme.of(context).colorScheme.surfaceVariant,
         child: addCategoryButton,
       );
 

@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 
 class AdditionalColors extends ThemeExtension<AdditionalColors> {
   const AdditionalColors({
-    required this.background1,
     required this.dotInactiveColor,
     required this.historyBarBackground,
   });
 
-  final Color background1;
   final Color dotInactiveColor;
   final Color historyBarBackground;
 
@@ -19,7 +17,6 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
     Color? historyBarBackground,
   }) {
     return AdditionalColors(
-      background1: background1 ?? this.background1,
       dotInactiveColor: dotInactiveColor ?? this.dotInactiveColor,
       historyBarBackground: historyBarBackground ?? this.historyBarBackground,
     );
@@ -32,7 +29,6 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
       return this;
     }
     return AdditionalColors(
-      background1: Color.lerp(background1, other.background1, t) ?? background1,
       dotInactiveColor:
           Color.lerp(dotInactiveColor, other.dotInactiveColor, t) ??
               dotInactiveColor,

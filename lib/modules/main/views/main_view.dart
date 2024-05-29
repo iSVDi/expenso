@@ -1,18 +1,16 @@
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/gen/assets.gen.dart';
 import 'package:expenso/gen/l10n/app_localizations.dart';
-import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
-import 'package:expenso/modules/settings/settings.dart';
-import 'package:expenso/theme/theme_extensions/additional_colors.dart';
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-
 import 'package:expenso/modules/history/cubit/history_cubit.dart';
 import 'package:expenso/modules/history/views/history.dart';
+import 'package:expenso/modules/main/cubits/keyboard/keyboard_cubit.dart';
 import 'package:expenso/modules/main/cubits/spend_today_amount_provider.dart';
 import 'package:expenso/modules/main/cubits/transactions/transactions_cubit.dart';
 import 'package:expenso/modules/main/views/enter_transaction_data/enter_transaction_data.dart';
 import 'package:expenso/modules/main/views/transactions_list/transactions_list.dart';
+import 'package:expenso/modules/settings/settings.dart';
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -115,7 +113,7 @@ class _MainViewState extends State<MainView> {
       children: [
         _getTransactionListView(),
         ColoredBox(
-          color: Theme.of(context).extension<AdditionalColors>()!.background1,
+          color: Theme.of(context).colorScheme.surfaceVariant,
           child: SafeArea(child: _getKeyboard(context)),
         ),
       ],
