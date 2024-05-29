@@ -26,8 +26,8 @@ class SelectAppearance extends StatelessWidget {
     var themeModes = cubit.getThemeModes(AppLocalizations.of(context)!);
     var itemExtent = MediaQuery.of(context).size.height * 0.04;
 
-    var selectedId =
-        themeModes.indexWhere((element) => element.$2 == cubit.state.themeMode);
+    var selectedId = themeModes
+        .indexWhere((element) => element.mode == cubit.state.themeMode);
     var colorScheme = Theme.of(context).colorScheme;
     var textTheme = Theme.of(context).textTheme;
     var controller = FixedExtentScrollController(initialItem: selectedId);
@@ -35,16 +35,16 @@ class SelectAppearance extends StatelessWidget {
         controller: controller,
         physics: const FixedExtentScrollPhysics(),
         onSelectedItemChanged: (id) {
-          cubit.setNewThemeMode(themeModes[id].$2);
+          cubit.setNewThemeMode(themeModes[id].mode);
         },
         itemExtent: itemExtent,
         children: themeModes.map((mode) {
-          var text = Text(mode.$1,
+          var text = Text(mode.title,
               textAlign: TextAlign.center,
               style: textTheme.titleMedium!
                   .copyWith(color: colorScheme.onBackground));
 
-          var color = mode.$2 == cubit.state.themeMode
+          var color = mode.mode == cubit.state.themeMode
               ? colorScheme.primary
               : colorScheme.background;
           var width = MediaQuery.of(context).size.width * 0.9;
@@ -64,7 +64,7 @@ class SelectAppearance extends StatelessWidget {
           var gestureDetector = GestureDetector(
             onTapUp: (_) {
               var id = themeModes.indexOf(mode);
-              cubit.setNewThemeMode(themeModes[id].$2);
+              cubit.setNewThemeMode(themeModes[id].mode);
               controller.animateToItem(id,
                   duration: const Duration(milliseconds: 400),
                   curve: Curves.bounceIn);

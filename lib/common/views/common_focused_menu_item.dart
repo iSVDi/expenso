@@ -5,7 +5,6 @@ class CommonFocusedMenuItem extends FocusedMenuItem {
   CommonFocusedMenuItem(
       {required BuildContext context,
       required super.title,
-      required super.onPressed}) {
-    backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
-  }
+      required super.onPressed})
+      : super(backgroundColor: Theme.of(context).colorScheme.surfaceVariant);
 }

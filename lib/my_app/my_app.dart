@@ -1,8 +1,8 @@
+import 'package:expenso/common/app_preferences.dart';
 import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/main.dart';
 import 'package:expenso/modules/main/views/main_view.dart';
 import 'package:expenso/modules/welcome/welcome.dart';
-import 'package:expenso/my_app/my_app_cubit.dart';
 import 'package:expenso/theme/cubit/theme_mode_cubit.dart';
 import 'package:expenso/theme/cubit/theme_mode_state.dart';
 import 'package:expenso/theme/theme_provider.dart';
@@ -59,8 +59,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   Widget _getHomeWidget() {
-    var cubit = MyAppCubit();
-    if (cubit.needPresentOnBoarding()) {
+    var needPresentOnBoarding = AppPreferences().getIsFirstLaunch();
+    if (needPresentOnBoarding) {
       return const Welcome();
     }
     return const MainView();

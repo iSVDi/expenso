@@ -21,10 +21,10 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   String sum = NumericKeyboardButtonType.zero.value;
-  late SpendTodayAmountProvider cubit;
+  late SpendTodayAmountProvider amountProvider;
 
   _MainViewState() {
-    cubit = SpendTodayAmountProvider(callback: (String amountString) {
+    amountProvider = SpendTodayAmountProvider(callback: (String amountString) {
       setState(() {
         sum = amountString;
       });

@@ -19,9 +19,10 @@ Future<void> main() async {
   await sharedPreferencesKeeper.prepareProperty();
   await notificationService.initialize();
 
-  var cubit = BlocProvider(
-    create: (context) => ThemeModeCubit(),
-    child: const MyApp(),
+  runApp(
+    BlocProvider(
+      create: (context) => ThemeModeCubit(),
+      child: const MyApp(),
+    ),
   );
-  runApp(cubit);
 }
