@@ -46,8 +46,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         var materialApp = MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          theme: themeProvider.getTheme(true),
-          darkTheme: themeProvider.getTheme(false),
+          theme: themeProvider.getTheme(),
+          darkTheme: themeProvider.getDarkTheme(),
           themeMode: state.themeMode,
           home: home,
         );

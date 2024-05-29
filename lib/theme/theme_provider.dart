@@ -5,21 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:expenso/theme/text_theme_provider.dart';
 
 class ThemeProvider {
-  ThemeData getTheme(bool isLightTheme) {
-    var colorScheme = isLightTheme ? _getColorScheme() : _getDarkColorScheme();
+  ThemeData getTheme() {
+    var colorScheme = _getColorScheme();
     var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
 
-    var bottomSheetThemeData = BottomSheetThemeData(
-      surfaceTintColor:
-          isLightTheme ? Colors.white : const Color.fromRGBO(34, 34, 34, 1),
-    );
-    var appBarTheme = AppBarTheme(
-      surfaceTintColor:
-          isLightTheme ? Colors.white : const Color.fromRGBO(34, 34, 34, 1),
-    );
+    var bottomSheetThemeData =
+        const BottomSheetThemeData(surfaceTintColor: Colors.white);
+    var appBarTheme = const AppBarTheme(surfaceTintColor: Colors.white);
 
-    var additionalColors = _getAdditionalColors(isLightTheme);
-    var dividerColors = _getDividerColors(isLightTheme);
+    var additionalColors = _getAdditionalColors(forLightMode: true);
+    var dividerColors = _getDividerColors(forLightMode: true);
+
+    return ThemeData(
+      colorScheme: colorScheme,
+      textTheme: textTheme.getTextTheme(),
+      bottomSheetTheme: bottomSheetThemeData,
+      appBarTheme: appBarTheme,
+      fontFamily: FontFamily.sFPro,
+      extensions: [additionalColors, dividerColors],
+    );
+  }
+
+  ThemeData getDarkTheme() {
+    var colorScheme = _getDarkColorScheme();
+    var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
+
+    var bottomSheetThemeData = const BottomSheetThemeData(
+        surfaceTintColor: Color.fromRGBO(34, 34, 34, 1));
+    var appBarTheme =
+        const AppBarTheme(surfaceTintColor: Color.fromRGBO(34, 34, 34, 1));
+
+    var additionalColors = _getAdditionalColors(forLightMode: false);
+    var dividerColors = _getDividerColors(forLightMode: false);
 
     return ThemeData(
       colorScheme: colorScheme,
@@ -50,25 +67,25 @@ class ThemeProvider {
     );
   }
 
-  AdditionalColors _getAdditionalColors(bool isLightMode) {
+  AdditionalColors _getAdditionalColors({required bool forLightMode}) {
     var additionalColors = AdditionalColors(
-      background1: isLightMode
+      background1: forLightMode
           ? const Color.fromRGBO(238, 238, 238, 1)
           : const Color.fromRGBO(43, 43, 43, 1),
       dotInactiveColor: const Color.fromRGBO(221, 221, 221, 1),
-      historyBarBackground: isLightMode
+      historyBarBackground: forLightMode
           ? const Color.fromRGBO(0, 133, 150, 1)
           : const Color.fromRGBO(25, 25, 25, 1),
     );
     return additionalColors;
   }
 
-  DividerColors _getDividerColors(bool isLightMode) {
+  DividerColors _getDividerColors({required bool forLightMode}) {
     var dividerColors = DividerColors(
-        keyboard: isLightMode
+        keyboard: forLightMode
             ? const Color.fromRGBO(144, 144, 144, 1)
             : const Color.fromRGBO(34, 34, 34, 1),
-        history: isLightMode
+        history: forLightMode
             ? const Color.fromRGBO(238, 238, 238, 1)
             : const Color.fromRGBO(25, 25, 25, 1),
         historyFirstSection: const Color.fromRGBO(144, 144, 144, 1),
