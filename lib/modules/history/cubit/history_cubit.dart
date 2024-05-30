@@ -65,7 +65,7 @@ class HistoryCubit extends Cubit<HistoryState> implements RepositoryObserver {
     var transactions = state.selectedCategories.isEmpty
         ? state.transactions
         : state.transactions
-            .where((e) => state.selectedCategories.contains(e.category.target!))
+            .where((e) => state.selectedCategories.contains(e.category.target))
             .toList();
 
     var sum = transactions
