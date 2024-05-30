@@ -1,18 +1,15 @@
 import "package:flutter/material.dart";
-import "package:intl/intl.dart";
 
 extension ConvenienceDateTime on DateTime {
   String get formattedDate {
-    var formater = NumberFormat("00");
-    var fDay = formater.format(day);
-    var fMonth = formater.format(month);
+    var fDay = day.toString().padLeft(2, "0");
+    var fMonth = month.toString().padLeft(2, "0");
     return "$fDay.$fMonth.$year";
   }
 
   String get formattedTime {
-    var formater = NumberFormat("00");
-    var fHour = formater.format(hour);
-    var fMinute = formater.format(minute);
+    var fHour = hour.toString().padLeft(2, "0");
+    var fMinute = minute.toString().padLeft(2, "0");
     return "$fHour:$fMinute";
   }
 
