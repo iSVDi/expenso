@@ -27,7 +27,9 @@ class _DoneButtonState extends State<DoneButton> {
       color: Colors.white,
     );
 
-    var ratio = widget.isLargeButton ? 0.235 : 0.106;
+    var ratio = widget.isLargeButton
+        ? _DoneButtonRatios.largeButtonRatio
+        : _DoneButtonRatios.smallButtonRatio;
     var sideSize = MediaQuery.of(context).size.width * ratio;
     var buttonStyleSize = Size(sideSize, sideSize);
 
@@ -51,4 +53,9 @@ class _DoneButtonState extends State<DoneButton> {
       child: button,
     );
   }
+}
+
+class _DoneButtonRatios {
+  static var largeButtonRatio = 0.235;
+  static var smallButtonRatio = 0.106;
 }

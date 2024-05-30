@@ -36,7 +36,8 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
       child: row,
     );
 
-    var height = MediaQuery.of(context).size.height * 0.123;
+    var height =
+        MediaQuery.of(context).size.height * _RequestCommentSheetRatios.height;
     var sizedBox = SizedBox(
       height: height,
       child: button,
@@ -74,4 +75,8 @@ class RequestCommentSheetState extends State<RequestCommentSheet> {
 
     return timer;
   }
+}
+
+class _RequestCommentSheetRatios {
+  static var height = 0.123;
 }

@@ -24,7 +24,9 @@ class SelectAppearance extends StatelessWidget {
     var cubit = _getCubit(context);
 
     var themeModes = cubit.getThemeModes(AppLocalizations.of(context)!);
-    var itemExtent = MediaQuery.of(context).size.height * 0.04;
+    var itemExtent =
+        MediaQuery.of(context).size.height * _SelectAppearanceRatios.itemExtent;
+    0.04;
 
     var selectedId = themeModes
         .indexWhere((element) => element.mode == cubit.state.themeMode);
@@ -47,7 +49,10 @@ class SelectAppearance extends StatelessWidget {
           var color = mode.mode == cubit.state.themeMode
               ? colorScheme.primary
               : colorScheme.background;
-          var width = MediaQuery.of(context).size.width * 0.9;
+          var width = MediaQuery.of(context).size.width *
+              _SelectAppearanceRatios.containerWidth;
+          var height = MediaQuery.of(context).size.height *
+              _SelectAppearanceRatios.containerHeight;
 
           var containter = Container(
             decoration: BoxDecoration(
@@ -57,7 +62,7 @@ class SelectAppearance extends StatelessWidget {
                 )),
             // color: color,
             width: width,
-            height: MediaQuery.of(context).size.height * 0.01,
+            height: height,
             child: text,
           );
 
@@ -74,11 +79,19 @@ class SelectAppearance extends StatelessWidget {
           return gestureDetector;
         }).toList());
 
-    var height = MediaQuery.of(context).size.height * 0.2;
+    var height =
+        MediaQuery.of(context).size.height * _SelectAppearanceRatios.listHeight;
     var sizedBox = SizedBox(
       height: height,
       child: list,
     );
     return sizedBox;
   }
+}
+
+class _SelectAppearanceRatios {
+  static var itemExtent = 0.04;
+  static var containerWidth = 0.9;
+  static var containerHeight = 0.01;
+  static var listHeight = 0.2;
 }

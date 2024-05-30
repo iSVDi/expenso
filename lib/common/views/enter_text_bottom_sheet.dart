@@ -56,7 +56,9 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
     );
 
     var mediaQuery = MediaQuery.of(context);
-    var height = mediaQuery.size.height * 0.123;
+    var height = mediaQuery.size.height *
+        _EnterTextBottomSheetrRatios
+            .height; 
     var container = SizedBox(height: height, child: row);
 
     return Padding(padding: padding, child: container);
@@ -69,4 +71,8 @@ class _EnterTextBottomSheetState extends State<EnterTextBottomSheet> {
       Navigator.pop(context);
     }
   }
+}
+
+class _EnterTextBottomSheetrRatios {
+  static var height = 0.123;
 }

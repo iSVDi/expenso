@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:expenso/theme/text_theme_provider.dart';
 
 class ThemeProvider {
-  ThemeData getTheme() {
+  static ThemeData getTheme() {
     var colorScheme = _getColorScheme();
     var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
 
@@ -24,7 +24,7 @@ class ThemeProvider {
     );
   }
 
-  ThemeData getDarkTheme() {
+  static ThemeData getDarkTheme() {
     var colorScheme = _getDarkColorScheme();
     var textTheme = AppTextThemeProvider(primaryColor: colorScheme.primary);
 
@@ -44,7 +44,7 @@ class ThemeProvider {
     );
   }
 
-  ColorScheme _getColorScheme() {
+  static ColorScheme _getColorScheme() {
     return const ColorScheme.light(
       primary: Color.fromRGBO(0, 133, 150, 1),
       onPrimary: Color.fromRGBO(120, 186, 195, 1),
@@ -54,7 +54,7 @@ class ThemeProvider {
     );
   }
 
-  ColorScheme _getDarkColorScheme() {
+  static ColorScheme _getDarkColorScheme() {
     return const ColorScheme.dark(
       primary: Color.fromRGBO(32, 220, 217, 1),
       onPrimary: Color.fromRGBO(0, 133, 150, 1),
@@ -65,7 +65,7 @@ class ThemeProvider {
     );
   }
 
-  AdditionalColors _getAdditionalColors({required bool forLightMode}) {
+  static AdditionalColors _getAdditionalColors({required bool forLightMode}) {
     var additionalColors = AdditionalColors(
       dotInactiveColor: const Color.fromRGBO(221, 221, 221, 1),
       historyBarBackground: forLightMode

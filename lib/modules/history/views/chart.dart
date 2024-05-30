@@ -132,7 +132,8 @@ class _ChartState extends State<Chart> {
     var chartName = widget.data.chartType == ChartType.bar
         ? Assets.barChartPlug
         : Assets.donutChartPlug;
-    var sideSize = MediaQuery.of(context).size.width * 0.595;
+    var sideSize =
+        MediaQuery.of(context).size.width * _ChartRatios.plugSideSize;
     var plug = chartName.image(width: sideSize, height: sideSize);
     var padding =
         Padding(padding: const EdgeInsets.symmetric(vertical: 30), child: plug);
@@ -243,4 +244,8 @@ class _ChartState extends State<Chart> {
     );
     return button;
   }
+}
+
+class _ChartRatios {
+  static var plugSideSize = 0.595;
 }

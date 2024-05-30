@@ -172,7 +172,8 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
 
     var menuHolder = FocusedMenuHolder(
       menuOffset: 10,
-      menuWidth: MediaQuery.of(context).size.width * 0.34,
+      menuWidth: MediaQuery.of(context).size.width *
+          _SelectCategoryListRatios.menuWidth,
       onPressed: () {
         if (!_interactor.isFromSettings) {
           _interactor.selectCategory(category);
@@ -218,4 +219,8 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
         context: context,
         builder: (builderContext) => enterTextBottomSheet(builderContext));
   }
+}
+
+class _SelectCategoryListRatios {
+  static var menuWidth = 0.34;
 }

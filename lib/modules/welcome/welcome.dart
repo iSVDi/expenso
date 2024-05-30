@@ -82,7 +82,8 @@ class _WelcomeState extends State<Welcome> {
         Text(model.title, style: titleStyle),
       ],
     );
-    var height = MediaQuery.of(context).size.height * 0.191;
+    var height = MediaQuery.of(context).size.height *
+        _WelcomeRatios.pageViewItemHeaderHeight;
     var sizedHeader = SizedBox(height: height, child: header);
 
     Widget body;
@@ -113,7 +114,8 @@ class _WelcomeState extends State<Welcome> {
       }),
     );
 
-    var listHeght = MediaQuery.of(context).size.height * 0.415;
+    var listHeght =
+        MediaQuery.of(context).size.height * _WelcomeRatios.listHeight;
     var column = Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -170,7 +172,8 @@ class _WelcomeState extends State<Welcome> {
       );
     }
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.0911,
+      height: MediaQuery.of(context).size.height *
+          _WelcomeRatios.selectingCategoriesHeaderHeight,
       width: double.maxFinite,
       child: header,
     );
@@ -254,4 +257,10 @@ class _WelcomeState extends State<Welcome> {
           }
         });
   }
+}
+
+class _WelcomeRatios {
+  static var pageViewItemHeaderHeight = 0.191;
+  static var listHeight = 0.415;
+  static var selectingCategoriesHeaderHeight = 0.0911;
 }

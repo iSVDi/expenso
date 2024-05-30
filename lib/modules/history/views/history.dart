@@ -129,7 +129,8 @@ class History extends StatelessWidget {
   }
 
   Widget _getListPlug(BuildContext context) {
-    var sideSize = MediaQuery.of(context).size.width * 0.595;
+    var sideSize =
+        MediaQuery.of(context).size.width * _HistoryRatios.plugSideSize;
     var plug = Assets.donutChartPlug.image(height: sideSize, width: sideSize);
     var textStyle = Theme.of(context)
         .textTheme
@@ -241,4 +242,8 @@ class History extends StatelessWidget {
 
     return padding;
   }
+}
+
+class _HistoryRatios {
+  static var plugSideSize = 0.595;
 }

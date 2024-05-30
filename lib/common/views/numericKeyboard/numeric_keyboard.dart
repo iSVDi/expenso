@@ -133,7 +133,8 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
     EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 32);
     return Container(
       padding: padding,
-      height: MediaQuery.of(context).size.height * 0.1,
+      height: MediaQuery.of(context).size.height *
+          _NumericKeyboardRatios.keyboardHeader,
       child: header,
     );
   }
@@ -259,4 +260,8 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
       updateAmount(type);
     });
   }
+}
+
+class _NumericKeyboardRatios {
+  static var keyboardHeader = 0.1;
 }

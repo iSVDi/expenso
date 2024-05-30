@@ -42,12 +42,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     var home = _getHomeWidget();
     var bloc = BlocBuilder<ThemeModeCubit, ThemeModeState>(
       builder: (builderContext, state) {
-        var themeProvider = ThemeProvider();
         var materialApp = MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          theme: themeProvider.getTheme(),
-          darkTheme: themeProvider.getDarkTheme(),
+          theme:ThemeProvider.getTheme(),
+          darkTheme: ThemeProvider.getDarkTheme(),
           themeMode: state.themeMode,
           home: home,
         );

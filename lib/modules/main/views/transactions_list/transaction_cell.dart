@@ -41,7 +41,7 @@ class TransactionCell extends StatelessWidget {
 
     var menuHolder = FocusedMenuHolder(
       menuOffset: 10,
-      menuWidth: MediaQuery.of(context).size.width * 0.34,
+      menuWidth: MediaQuery.of(context).size.width * _TransactionCellRatios.menuWidth, 
       onPressed: onTap,
       menuItems: menuItems,
       child: coloredListTile,
@@ -94,4 +94,8 @@ class TransactionCell extends StatelessWidget {
     }
     return categoryText;
   }
+}
+
+class _TransactionCellRatios {
+  static var menuWidth = 0.34;
 }

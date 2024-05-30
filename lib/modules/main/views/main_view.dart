@@ -67,7 +67,8 @@ class _MainViewState extends State<MainView> {
       child: appBar,
     );
 
-    var height = MediaQuery.of(context).size.height * 0.111;
+    var height =
+        MediaQuery.of(context).size.height * _MainViewRatios.appBarHeight;
     var preferredSize = PreferredSize(
       preferredSize: Size.fromHeight(height),
       child: SafeArea(child: padding),
@@ -131,14 +132,18 @@ class _MainViewState extends State<MainView> {
   }
 
   Widget _getKeyboard(BuildContext context) {
-    var keyboardHeightRatio = 0.398;
     var size = MediaQuery.of(context).size;
     var height = size.height - MediaQuery.of(context).padding.vertical;
     var bloc = BlocProvider(
         create: (context) => KeyboardCubit(),
         child: EnterTransactionData(
-          size: Size(size.width, height * keyboardHeightRatio),
+          size: Size(size.width, height * _MainViewRatios.keyboardHeight),
         ));
     return bloc;
   }
+}
+
+class _MainViewRatios {
+  static var keyboardHeight = 0.398;
+  static var appBarHeight = 0.111;
 }
