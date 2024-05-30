@@ -1,6 +1,6 @@
 import 'package:expenso/common/data_layer/category_title_provider.dart';
 import 'package:expenso/common/data_layer/models/category.dart';
-import 'package:expenso/extensions/int.dart';
+import 'package:expenso/extensions/amount_converter.dart';
 import 'package:expenso/gen/assets.gen.dart';
 import 'package:expenso/modules/history/cubit/history_state.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';

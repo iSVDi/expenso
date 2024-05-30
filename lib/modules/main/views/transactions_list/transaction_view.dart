@@ -8,9 +8,8 @@ import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
 import 'package:expenso/common/views/select_categories_list/select_categories_list.dart';
 import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
 import 'package:expenso/common/views/show_delete_alert.dart';
+import 'package:expenso/extensions/amount_converter.dart';
 import 'package:expenso/extensions/date_time.dart';
-import 'package:expenso/extensions/int.dart';
-import 'package:expenso/extensions/string.dart';
 import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 

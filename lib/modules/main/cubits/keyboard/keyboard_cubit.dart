@@ -2,8 +2,8 @@ import 'package:expenso/common/data_layer/models/category.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/data_layer/repositories/categories_repository.dart';
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
-import 'package:expenso/extensions/int.dart';
-import 'package:expenso/extensions/string.dart';
+import 'package:expenso/extensions/amount_converter.dart';
+
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'keyboard_states.dart';
 

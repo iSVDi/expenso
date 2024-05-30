@@ -1,7 +1,7 @@
 import 'package:expenso/common/data_layer/category_title_provider.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/extensions/date_time.dart';
-import 'package:expenso/extensions/int.dart';
+import 'package:expenso/extensions/amount_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';

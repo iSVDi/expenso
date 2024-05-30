@@ -2,7 +2,7 @@ import 'package:expenso/common/data_layer/category_title_provider.dart';
 import 'package:expenso/common/data_layer/models/transaction.dart';
 import 'package:expenso/common/views/common_focused_menu_item.dart';
 import 'package:expenso/common/views/show_delete_alert.dart';
-import 'package:expenso/extensions/int.dart';
+import 'package:expenso/extensions/amount_converter.dart';
 import 'package:expenso/gen/assets.gen.dart';
 import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/modules/history/cubit/history_cubit.dart';

@@ -1,6 +1,6 @@
 import 'package:expenso/common/data_layer/repositories/transactions_repository.dart';
 import 'package:expenso/common/views/numericKeyboard/numeric_keyboard.dart';
-import 'package:expenso/extensions/int.dart';
+import 'package:expenso/extensions/amount_converter.dart';
 
 class SpendTodayAmountProvider implements RepositoryObserver {
   final Function(String) _callback;

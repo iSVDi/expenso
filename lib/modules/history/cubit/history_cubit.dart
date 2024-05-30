@@ -1,4 +1,4 @@
-import 'package:expenso/extensions/int.dart';
+import 'package:expenso/extensions/amount_converter.dart';
 import 'package:expenso/modules/history/cubit/date_range_helper.dart';
 import 'package:expenso/modules/history/models/chart_model.dart';
 import 'package:flutter/material.dart';
