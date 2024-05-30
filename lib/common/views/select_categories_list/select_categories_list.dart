@@ -7,7 +7,7 @@ import 'package:expenso/common/views/select_categories_list/select_categories_li
 import 'package:expenso/common/views/show_common_modal_bottom_sheet.dart';
 import 'package:expenso/common/views/show_delete_alert.dart';
 import 'package:expenso/gen/l10n/app_localizations.dart';
-import 'package:expenso/theme/theme_extensions/divider_colors.dart';
+import 'package:expenso/theme/theme_extensions/additional_colors.dart';
 import "package:flutter/material.dart";
 import 'package:focused_menu/focused_menu.dart';
 
@@ -54,10 +54,10 @@ class SelectCategoriesListState extends State<SelectCategoriesList> {
   }
 
   Widget _getBody(BuildContext context) {
-    var dividerExtension = Theme.of(context).extension<DividerColors>()!;
+    var additionalColors = Theme.of(context).extension<AdditionalColors>()!;
     var dividerColor = widget.isManagingCategories
-        ? dividerExtension.history
-        : dividerExtension.keyboard;
+        ? additionalColors.history
+        : additionalColors.keyboard;
     var columnChildren = [
       _getHeader(context),
       Divider(height: 1, color: dividerColor),

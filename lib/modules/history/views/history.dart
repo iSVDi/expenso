@@ -11,7 +11,6 @@ import 'package:expenso/modules/history/views/chart.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_cell.dart';
 import 'package:expenso/modules/main/views/transactions_list/transaction_view.dart';
 import 'package:expenso/theme/theme_extensions/additional_colors.dart';
-import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_list_view/group_list_view.dart';
@@ -112,11 +111,10 @@ class History extends StatelessWidget {
       },
       sectionSeparatorBuilder: (context, section) {
         var isFirstSection = section == 0;
-        var dividerExtension = Theme.of(context).extension<DividerColors>()!;
-
+        var additionalColors = Theme.of(context).extension<AdditionalColors>()!;
         var dividerColor = isFirstSection
-            ? dividerExtension.historyFirstSection
-            : dividerExtension.history;
+            ? additionalColors.historyFirstSection
+            : additionalColors.history;
         var divider = Divider(thickness: 1, color: dividerColor);
 
         var padding = Padding(

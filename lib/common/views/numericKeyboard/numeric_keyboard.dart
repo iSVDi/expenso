@@ -1,12 +1,11 @@
-import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
-import 'package:expenso/extensions/string.dart';
-import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
 import 'package:expenso/common/views/date_time_picker.dart';
 import 'package:expenso/common/views/done_button.dart';
-import 'package:expenso/theme/theme_extensions/divider_colors.dart';
-import 'package:flutter/material.dart';
-
+import 'package:expenso/common/views/numericKeyboard/numeric_button.dart';
 import 'package:expenso/extensions/date_time.dart';
+import 'package:expenso/extensions/string.dart';
+import 'package:expenso/modules/main/cubits/keyboard/amount_string_updater.dart';
+import 'package:expenso/theme/theme_extensions/additional_colors.dart';
+import 'package:flutter/material.dart';
 
 enum NumericKeyboardButtonType {
   point("."),
@@ -85,7 +84,7 @@ class _NumericKeyboardState extends State<_NumericKeyboard> {
 
     var divider = Divider(
       height: 1,
-      color: Theme.of(context).extension<DividerColors>()!.keyboard,
+      color: Theme.of(context).extension<AdditionalColors>()!.keyboard,
     );
 
     var keyboardChildren = widget.dateTime == null

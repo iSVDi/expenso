@@ -4,21 +4,36 @@ import 'package:flutter/material.dart';
 class AdditionalColors extends ThemeExtension<AdditionalColors> {
   const AdditionalColors({
     required this.dotInactiveColor,
+    required this.keyboard,
+    required this.history,
+    required this.historyFirstSection,
     required this.historyBarBackground,
+    required this.welcome,
   });
 
   final Color dotInactiveColor;
+  final Color keyboard;
+  final Color history;
   final Color historyBarBackground;
+  final Color historyFirstSection;
+  final Color welcome;
 
   @override
   ThemeExtension<AdditionalColors> copyWith({
-    Color? background1,
     Color? dotInactiveColor,
+    Color? keyboard,
+    Color? history,
     Color? historyBarBackground,
+    Color? historyFirstSection,
+    Color? welcome,
   }) {
     return AdditionalColors(
       dotInactiveColor: dotInactiveColor ?? this.dotInactiveColor,
+      keyboard: keyboard ?? this.keyboard,
+      history: history ?? this.history,
+      historyFirstSection: historyFirstSection ?? this.historyFirstSection,
       historyBarBackground: historyBarBackground ?? this.historyBarBackground,
+      welcome: welcome ?? this.welcome,
     );
   }
 
@@ -32,9 +47,15 @@ class AdditionalColors extends ThemeExtension<AdditionalColors> {
       dotInactiveColor:
           Color.lerp(dotInactiveColor, other.dotInactiveColor, t) ??
               dotInactiveColor,
+      keyboard: Color.lerp(keyboard, other.keyboard, t) ?? keyboard,
+      history: Color.lerp(history, other.history, t) ?? history,
+      historyFirstSection:
+          Color.lerp(historyFirstSection, other.historyFirstSection, t) ??
+              historyFirstSection,
       historyBarBackground:
           Color.lerp(historyBarBackground, other.historyBarBackground, t) ??
               historyBarBackground,
+      welcome: Color.lerp(welcome, other.welcome, t) ?? welcome,
     );
   }
 }

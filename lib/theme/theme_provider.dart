@@ -1,6 +1,5 @@
 import 'package:expenso/gen/fonts.gen.dart';
 import 'package:expenso/theme/theme_extensions/additional_colors.dart';
-import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:expenso/theme/text_theme_provider.dart';
 
@@ -14,7 +13,6 @@ class ThemeProvider {
     var appBarTheme = const AppBarTheme(surfaceTintColor: Colors.white);
 
     var additionalColors = _getAdditionalColors(forLightMode: true);
-    var dividerColors = _getDividerColors(forLightMode: true);
 
     return ThemeData(
       colorScheme: colorScheme,
@@ -22,7 +20,7 @@ class ThemeProvider {
       bottomSheetTheme: bottomSheetThemeData,
       appBarTheme: appBarTheme,
       fontFamily: FontFamily.sFPro,
-      extensions: [additionalColors, dividerColors],
+      extensions: [additionalColors],
     );
   }
 
@@ -35,7 +33,6 @@ class ThemeProvider {
     var appBarTheme =
         const AppBarTheme(surfaceTintColor: Color.fromRGBO(34, 34, 34, 1));
     var additionalColors = _getAdditionalColors(forLightMode: false);
-    var dividerColors = _getDividerColors(forLightMode: false);
 
     return ThemeData(
       colorScheme: colorScheme,
@@ -43,7 +40,7 @@ class ThemeProvider {
       bottomSheetTheme: bottomSheetThemeData,
       appBarTheme: appBarTheme,
       fontFamily: FontFamily.sFPro,
-      extensions: [additionalColors, dividerColors],
+      extensions: [additionalColors],
     );
   }
 
@@ -74,20 +71,15 @@ class ThemeProvider {
       historyBarBackground: forLightMode
           ? const Color.fromRGBO(0, 133, 150, 1)
           : const Color.fromRGBO(25, 25, 25, 1),
+      keyboard: forLightMode
+          ? const Color.fromRGBO(144, 144, 144, 1)
+          : const Color.fromRGBO(34, 34, 34, 1),
+      history: forLightMode
+          ? const Color.fromRGBO(238, 238, 238, 1)
+          : const Color.fromRGBO(25, 25, 25, 1),
+      historyFirstSection: const Color.fromRGBO(144, 144, 144, 1),
+      welcome: const Color.fromRGBO(144, 144, 144, 1),
     );
     return additionalColors;
-  }
-
-  DividerColors _getDividerColors({required bool forLightMode}) {
-    var dividerColors = DividerColors(
-        keyboard: forLightMode
-            ? const Color.fromRGBO(144, 144, 144, 1)
-            : const Color.fromRGBO(34, 34, 34, 1),
-        history: forLightMode
-            ? const Color.fromRGBO(238, 238, 238, 1)
-            : const Color.fromRGBO(25, 25, 25, 1),
-        historyFirstSection: const Color.fromRGBO(144, 144, 144, 1),
-        welcome: const Color.fromRGBO(144, 144, 144, 1));
-    return dividerColors;
   }
 }

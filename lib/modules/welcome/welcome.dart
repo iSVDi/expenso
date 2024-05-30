@@ -5,7 +5,6 @@ import 'package:expenso/gen/l10n/app_localizations.dart';
 import 'package:expenso/modules/main/views/main_view.dart';
 import 'package:expenso/modules/welcome/welcome_cubit.dart';
 import 'package:expenso/theme/theme_extensions/additional_colors.dart';
-import 'package:expenso/theme/theme_extensions/divider_colors.dart';
 import 'package:expenso/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -102,7 +101,7 @@ class _WelcomeState extends State<Welcome> {
 
     var divider = Divider(
       height: 1,
-      color: Theme.of(context).extension<DividerColors>()!.welcome,
+      color: Theme.of(context).extension<AdditionalColors>()!.welcome,
     );
 
     var list = ListView.builder(
